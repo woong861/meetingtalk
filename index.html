@@ -396,6 +396,10 @@ textarea{resize:none;min-height:88px}
           </div>
         </div>
         <div class="field">
+          <label>이름 <span class="req">*</span></label>
+          <input type="text" name="name" placeholder="실명으로 적어주세요" required>
+        </div>
+        <div class="field">
           <label>어떤 만남을 원하세요? <span class="req">*</span></label>
           <select name="type" id="matchType" required>
             <option value="">선택해주세요</option>
@@ -466,7 +470,7 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="matchConsent" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 성별·학교·학과/학년·나이·휴대폰 번호·카카오톡 ID·인스타그램 아이디·MBTI·자기소개·이상형·입금 및 환불 계좌 정보 / 목적: 매칭 상대 연결 및 결제·환불 처리 / 보유기간: 매칭 종료 후 3개월 이내 파기.</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·학과/학년·나이·휴대폰 번호·카카오톡 ID·인스타그램 아이디·MBTI·자기소개·이상형·입금 및 환불 계좌 정보 / 목적: 매칭 상대 연결 및 결제·환불 처리 / 보유기간: 매칭 종료 후 3개월 이내 파기.</span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" style="margin-top:8px">매칭 신청하기</button>
@@ -510,6 +514,7 @@ const CONFIG = {
   MATCH_FORM_URL : 'https://docs.google.com/forms/d/e/1FAIpQLScvy2CTzvz8bKkYJ8ESJYmSaGJ8shiiJr8PRLmE3J2WyHRbNA/formResponse',
   MATCH_FIELD_IDS : {
     gender    : 'entry.2004092416',
+    name      : 'entry.1297184336',
     school    : 'entry.9804517',
     type      : 'entry.1931449200',
     major     : 'entry.1702340722',
@@ -646,6 +651,7 @@ $('applyForm').addEventListener('submit', function (e) {
   var data = {};
   new FormData(e.target).forEach(function (v, k) { data[k] = v; });
 
+  if (!data.mbti) data.mbti = '모름';   // 구글폼에서 MBTI가 필수라 빈 값 방지
   submitToForm(CONFIG.JOIN_FORM_URL, CONFIG.JOIN_FIELD_IDS, data, 'meetingtalk_apps');
 
   if (PAY.FEE > 0 && data.gender === '남자') {
