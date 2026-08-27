@@ -60,6 +60,9 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
 .s-approved{background:#d8f5e4;color:#0b7c41} .s-rejected{background:#f7dde3;color:#b32545}
 .s-pay{background:#fff3cd;color:#8a6100}
 .ch .ts{margin-left:auto;font-size:11.5px;color:#a695a2;font-weight:700}
+.wait{font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px;background:#eef1f6;color:var(--soft);letter-spacing:-.02em}
+.wait.warn{background:#fff3cd;color:#8a6100}
+.wait.late{background:#fdeaee;color:var(--no)}
 .meta{margin-top:7px;font-size:13.5px;color:var(--soft);font-weight:700;letter-spacing:-.02em}
 .intro{margin-top:8px;font-size:13.5px;font-weight:600;background:#faf8fa;border-radius:10px;padding:10px 12px;letter-spacing:-.02em;white-space:pre-wrap}
 .ids{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}
@@ -179,6 +182,16 @@ function renderStats(s) {
   el.className = 'ratio' + ((pm >= 75 || pm <= 25) ? ' warn' : '');
 }
 
+/* 신청 후 얼마나 기다렸는지 — 오래된 건이 눈에 띄게 */
+function waitLabel(it) {
+  if (it.status !== 'pending' || !it.tsRaw) return '';
+  var h = (Date.now() - it.tsRaw) / 3600000;
+  if (h < 1) return '<span class="wait">방금</span>';
+  var cls = h >= 24 ? ' late' : (h >= 12 ? ' warn' : '');
+  var txt = h < 24 ? Math.floor(h) + '시간 대기' : Math.floor(h / 24) + '일 대기';
+  return '<span class="wait' + cls + '">' + txt + '</span>';
+}
+
 function esc(s) {
   return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
@@ -213,7 +226,7 @@ function render() {
     return '<div class="card ' + it.status + '">'
       + '<div class="ch"><b>' + esc(it.name || '이름없음') + '</b>'
       + (gender ? '<span class="badge g-' + gender + '">' + esc(it.gender) + '</span>' : '')
-      + statusBadge
+      + statusBadge + waitLabel(it)
       + '<span class="ts">' + esc(it.ts) + '</span></div>'
       + (meta ? '<div class="meta">' + esc(meta) + '</div>' : '')
       + (it.intro ? '<div class="intro">' + esc(it.intro) + '</div>' : '')

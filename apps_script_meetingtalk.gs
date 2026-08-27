@@ -168,6 +168,7 @@ function mtList_() {
     items.push({
       row     : i + 2,
       ts      : row[0] instanceof Date ? Utilities.formatDate(row[0], 'Asia/Seoul', 'MM/dd HH:mm') : String(row[0]),
+      tsRaw   : row[0] instanceof Date ? row[0].getTime() : null,
       name    : mtPick_(row, c.name),
       gender  : gender,
       school  : mtPick_(row, c.school),
