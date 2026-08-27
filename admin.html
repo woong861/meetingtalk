@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>미팅단톡 승인 관리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ff3d87; --pink-soft:#ffd7e5; --bg:#f6f4f7;
+  --ink:#2b2030; --soft:#6f6076; --line:#e8e0e8;
+  --ok:#0fa958; --no:#d93a5c; --white:#fff;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Gothic A1',-apple-system,'Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;padding-bottom:40px}
+.wrap{max-width:660px;margin:0 auto;padding:0 16px}
+
+header{background:var(--ink);color:#fff;padding:20px 0}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+header h1{font-size:19px;font-weight:900;letter-spacing:-.04em}
+header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
+
+.setup{background:var(--white);border-radius:16px;padding:16px;margin-top:16px;border:1px solid var(--line)}
+.setup label{display:block;font-size:12.5px;font-weight:800;color:var(--soft);margin-bottom:5px;letter-spacing:-.02em}
+.setup input{width:100%;padding:11px 13px;border:2px solid var(--line);border-radius:10px;font-family:inherit;font-size:14px;font-weight:600;margin-bottom:10px}
+.setup input:focus{outline:none;border-color:var(--pink)}
+.row{display:flex;gap:8px}
+.btn{padding:11px 16px;border:none;border-radius:10px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;letter-spacing:-.02em;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.b-dark{background:var(--ink);color:#fff}
+.b-ok{background:var(--ok);color:#fff}
+.b-no{background:var(--white);color:var(--no);border:2px solid #f3d5dc}
+.b-gray{background:var(--white);color:var(--soft);border:2px solid var(--line)}
+.id.b-insta{background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);color:#fff}
+
+.stats{display:flex;gap:8px;margin-top:14px}
+.stat{flex:1;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:900;letter-spacing:-.03em}
+.stat s{display:block;font-size:11.5px;color:var(--soft);font-weight:700;text-decoration:none;margin-top:1px}
+.stat.f b{color:var(--pink)} .stat.m b{color:#3b7de0}
+.ratio{font-size:12px;color:var(--soft);font-weight:700;text-align:center;margin-top:8px;letter-spacing:-.02em}
+.ratio.warn{color:var(--no)}
+
+.tabs{display:flex;gap:6px;margin-top:16px;overflow-x:auto;padding-bottom:2px}
+.tab{flex:0 0 auto;padding:9px 15px;border-radius:999px;background:var(--white);border:1.5px solid var(--line);font-size:13.5px;font-weight:800;cursor:pointer;letter-spacing:-.02em}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:15px 16px}
+.card.approved{border-color:#bfe8d1;background:#f7fdfa}
+.card.rejected{opacity:.55}
+.ch{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ch b{font-size:17px;font-weight:900;letter-spacing:-.03em}
+.badge{font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:999px;letter-spacing:-.02em}
+.g-f{background:var(--pink-soft);color:#c22168} .g-m{background:#d9e8ff;color:#2c62b8}
+.s-approved{background:#d8f5e4;color:#0b7c41} .s-rejected{background:#f7dde3;color:#b32545}
+.ch .ts{margin-left:auto;font-size:11.5px;color:#a695a2;font-weight:700}
+.meta{margin-top:7px;font-size:13.5px;color:var(--soft);font-weight:700;letter-spacing:-.02em}
+.intro{margin-top:8px;font-size:13.5px;font-weight:600;background:#faf8fa;border-radius:10px;padding:10px 12px;letter-spacing:-.02em;white-space:pre-wrap}
+.ids{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}
+.id{font-size:12.5px;font-weight:800;background:#f4f1f5;border-radius:8px;padding:6px 10px;letter-spacing:-.02em;cursor:pointer;border:none;font-family:inherit;color:var(--ink)}
+.acts{margin-top:11px;display:flex;gap:7px}
+.acts .btn{flex:1;padding:10px}
+.sentline{margin-top:8px;font-size:12px;color:var(--ok);font-weight:800;letter-spacing:-.02em}
+
+.msg{margin-top:16px;padding:14px 16px;border-radius:12px;font-size:13.5px;font-weight:700;letter-spacing:-.02em;line-height:1.6}
+.msg.err{background:#fdeaee;color:#b32545}
+.msg.info{background:#eef1f6;color:var(--soft)}
+.empty{text-align:center;padding:44px 0;color:#a695a2;font-size:14px;font-weight:700}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>미팅단톡 승인 관리</h1>
+    <span class="st" id="conn">미연결</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="setup" id="setup">
+    <label>Apps Script 웹앱 주소 (/exec)</label>
+    <input type="url" id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec">
+    <label>관리 키</label>
+    <input type="text" id="adminKey" placeholder="meetingtalk-admin">
+    <div class="row">
+      <button class="btn b-dark" id="loadBtn" style="flex:1">불러오기</button>
+      <button class="btn b-gray" id="forgetBtn">저장 해제</button>
+    </div>
+  </div>
+
+  <div id="statsBox" style="display:none">
+    <div class="stats">
+      <div class="stat"><b id="sPending">0</b><s>대기중</s></div>
+      <div class="stat m"><b id="sMale">0</b><s>승인 남</s></div>
+      <div class="stat f"><b id="sFemale">0</b><s>승인 여</s></div>
+    </div>
+    <div class="ratio" id="ratio"></div>
+  </div>
+
+  <div class="tabs" id="tabs" style="display:none">
+    <div class="tab on" data-f="pending">대기중</div>
+    <div class="tab" data-f="approved">승인됨</div>
+    <div class="tab" data-f="rejected">거절됨</div>
+    <div class="tab" data-f="all">전체</div>
+  </div>
+
+  <div id="msg"></div>
+  <div class="list" id="list"></div>
+</div>
+
+<script>
+var $ = function(id){ return document.getElementById(id); };
+var STORE = 'meetingtalk_admin_cfg';
+var state = { items: [], filter: 'pending', busy: false };
+
+/* 저장된 설정 복원 */
+try {
+  var cfg = JSON.parse(localStorage.getItem(STORE) || '{}');
+  if (cfg.url) $('apiUrl').value = cfg.url;
+  $('adminKey').value = cfg.key || 'meetingtalk-admin';
+} catch (e) { $('adminKey').value = 'meetingtalk-admin'; }
+
+function showMsg(text, type) {
+  $('msg').innerHTML = text ? '<div class="msg ' + (type || 'info') + '">' + text + '</div>' : '';
+}
+
+function api(action, params) {
+  var url = $('apiUrl').value.trim();
+  var key = $('adminKey').value.trim();
+  if (!url) return Promise.reject(new Error('Apps Script 주소를 입력해주세요.'));
+  var qs = ['action=' + encodeURIComponent(action), 'key=' + encodeURIComponent(key)];
+  Object.keys(params || {}).forEach(function (k) {
+    qs.push(k + '=' + encodeURIComponent(params[k]));
+  });
+  return fetch(url + '?' + qs.join('&'), { cache: 'no-store', redirect: 'follow' })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (j.error) throw new Error(j.error === 'auth' ? '관리 키가 맞지 않아요.' : j.error);
+      return j;
+    });
+}
+
+function load() {
+  showMsg('불러오는 중…');
+  $('loadBtn').disabled = true;
+  api('list').then(function (res) {
+    state.items = res.items || [];
+    localStorage.setItem(STORE, JSON.stringify({ url: $('apiUrl').value.trim(), key: $('adminKey').value.trim() }));
+    $('conn').textContent = '연결됨 · ' + state.items.length + '건';
+    $('statsBox').style.display = '';
+    $('tabs').style.display = '';
+    renderStats(res.stats || {});
+    render();
+    showMsg('');
+  }).catch(function (err) {
+    showMsg('불러오지 못했어요: ' + err.message, 'err');
+    $('conn').textContent = '연결 실패';
+  }).then(function () { $('loadBtn').disabled = false; });
+}
+
+function renderStats(s) {
+  $('sPending').textContent = s.pending || 0;
+  $('sMale').textContent    = s.approvedM || 0;
+  $('sFemale').textContent  = s.approvedF || 0;
+  var m = s.approvedM || 0, f = s.approvedF || 0, tot = m + f;
+  var el = $('ratio');
+  if (!tot) { el.textContent = ''; el.className = 'ratio'; return; }
+  var pm = Math.round(m / tot * 100);
+  el.textContent = '승인 성비  남 ' + pm + '% : 여 ' + (100 - pm) + '%';
+  el.className = 'ratio' + ((pm >= 75 || pm <= 25) ? ' warn' : '');
+}
+
+function esc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+  });
+}
+
+function render() {
+  var f = state.filter;
+  var items = state.items.filter(function (it) { return f === 'all' || it.status === f; });
+  if (!items.length) {
+    $('list').innerHTML = '<div class="empty">해당하는 신청이 없어요</div>';
+    return;
+  }
+  $('list').innerHTML = items.map(function (it) {
+    var gender = it.gender.indexOf('여') !== -1 ? 'f' : (it.gender.indexOf('남') !== -1 ? 'm' : '');
+    var meta = [it.school, it.major, it.type].filter(Boolean).join(' · ');
+    var statusBadge = it.status === 'approved' ? '<span class="badge s-approved">승인됨</span>'
+                    : it.status === 'rejected' ? '<span class="badge s-rejected">거절</span>' : '';
+    var acts;
+    if (it.status === 'approved') {
+      acts = '<button class="btn b-gray" data-act="resend" data-row="' + it.row + '">문자 재발송</button>';
+    } else if (it.status === 'rejected') {
+      acts = '<button class="btn b-gray" data-act="approve" data-row="' + it.row + '">되돌려서 승인 &amp; 발송</button>';
+    } else {
+      acts = '<button class="btn b-ok" data-act="approve" data-row="' + it.row + '">승인 &amp; 문자발송</button>'
+           + '<button class="btn b-no" data-act="reject" data-row="' + it.row + '">거절</button>';
+    }
+
+    return '<div class="card ' + it.status + '">'
+      + '<div class="ch"><b>' + esc(it.name || '이름없음') + '</b>'
+      + (gender ? '<span class="badge g-' + gender + '">' + esc(it.gender) + '</span>' : '')
+      + statusBadge
+      + '<span class="ts">' + esc(it.ts) + '</span></div>'
+      + (meta ? '<div class="meta">' + esc(meta) + '</div>' : '')
+      + (it.intro ? '<div class="intro">' + esc(it.intro) + '</div>' : '')
+      + '<div class="ids">'
+      +   (it.insta ? '<a class="id b-insta" style="text-decoration:none" href="https://instagram.com/' + encodeURIComponent(it.insta) + '" target="_blank" rel="noopener">📷 @' + esc(it.insta) + '</a>' : '<span class="id" style="color:#c05">인스타 없음</span>')
+      +   (it.kakao ? '<button class="id" data-copy="' + esc(it.kakao) + '">💬 ' + esc(it.kakao) + '</button>' : '')
+      +   (it.phone ? '<button class="id" data-copy="' + esc(it.phone) + '">📱 ' + esc(it.phone) + '</button>' : '')
+      + '</div>'
+      + (it.sent ? '<div class="sentline">✓ ' + esc(it.sent) + ' 발송</div>' : '')
+      + '<div class="acts">' + acts + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+/* 탭 */
+$('tabs').addEventListener('click', function (e) {
+  var t = e.target.closest('.tab');
+  if (!t) return;
+  document.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('on'); });
+  t.classList.add('on');
+  state.filter = t.dataset.f;
+  render();
+});
+
+/* 카드 액션 */
+$('list').addEventListener('click', function (e) {
+  var copyBtn = e.target.closest('[data-copy]');
+  if (copyBtn) {
+    navigator.clipboard.writeText(copyBtn.dataset.copy).then(function () {
+      var old = copyBtn.textContent;
+      copyBtn.textContent = '복사됨!';
+      setTimeout(function () { copyBtn.textContent = old; }, 900);
+    });
+    return;
+  }
+
+  var btn = e.target.closest('[data-act]');
+  if (!btn || state.busy) return;
+  var act = btn.dataset.act, row = btn.dataset.row;
+  var it = state.items.filter(function (x) { return String(x.row) === String(row); })[0] || {};
+
+  if (act === 'approve' || act === 'resend') {
+    if (!confirm(it.name + '님(' + it.phone + ')에게\n오픈채팅 링크를 문자로 보낼까요?')) return;
+  } else if (act === 'reject') {
+    if (!confirm(it.name + '님을 거절 처리할까요?\n(문자는 발송되지 않아요)')) return;
+  }
+
+  state.busy = true;
+  btn.disabled = true;
+  btn.textContent = '처리 중…';
+  api(act, { row: row }).then(function (res) {
+    if (res.skipped) showMsg(res.message, 'info');
+    load();
+  }).catch(function (err) {
+    showMsg('실패: ' + err.message, 'err');
+    btn.disabled = false;
+    render();
+  }).then(function () { state.busy = false; });
+});
+
+$('loadBtn').addEventListener('click', load);
+$('forgetBtn').addEventListener('click', function () {
+  localStorage.removeItem(STORE);
+  $('apiUrl').value = '';
+  showMsg('저장된 설정을 지웠어요.');
+});
+
+/* 주소가 이미 저장돼 있으면 자동 로드 */
+if ($('apiUrl').value.trim()) load();
+</script>
+</body>
+</html>

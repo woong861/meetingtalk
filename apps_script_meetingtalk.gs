@@ -1,0 +1,292 @@
+// ================================================================
+// 전국대학 미팅단톡 — 승인·문자발송 백엔드 (Apps Script)
+// ================================================================
+// 【설치 방법】
+// 1) 미팅단톡 전용 구글폼의 "응답 시트"를 연다
+// 2) 확장 프로그램 → Apps Script → 파일 추가 → 이 내용 전체 붙여넣기
+// 3) ⚠️ 붙여넣은 뒤 전체를 다시 복사해서 원본과 같은지 확인할 것
+//    (예전에 cmd+V가 무시된 채 배포된 사고가 있었음)
+// 4) 아래 MT_OPENCHAT_URL / MT_JOIN_CODE 를 실제 값으로 채운다
+// 5) 프로젝트 설정 → 스크립트 속성에 아래 2개 추가
+//      SOLAPI_API_KEY    = 솔라피 API 키
+//      SOLAPI_API_SECRET = 솔라피 API 시크릿
+// 6) 배포 → 새 배포 → 웹 앱 → 실행: 나 / 액세스: 모든 사용자 → 배포
+// 7) 나온 /exec URL 을 admin.html 의 API_URL 에 넣는다
+//
+// ※ '승인상태' '발송시각' '메모' 컬럼은 시트 맨 끝에 자동으로 만들어진다.
+//   기존 폼 응답 컬럼은 절대 건드리지 않는다.
+// ================================================================
+
+const MT_ADMIN_KEY    = 'meetingtalk-admin';   // admin.html 의 관리 키와 같아야 함
+const MT_OPENCHAT_URL = '';                     // ★ 오픈채팅 링크
+const MT_JOIN_CODE    = '';                     // ★ 참여코드 (없으면 빈칸)
+const MT_SENDER       = '01057182024';          // 솔라피에 등록된 발신번호
+const MT_BRAND        = '전국대학 미팅단톡';
+
+const MT_COL_STATUS = '승인상태';
+const MT_COL_SENT   = '발송시각';
+const MT_COL_MEMO   = '메모';
+
+// ---------------- 라우터 ----------------
+function doGet(e) {
+  var out;
+  try {
+    var p = (e && e.parameter) || {};
+    var isAdmin = p.key === MT_ADMIN_KEY;
+    if (!isAdmin) throw new Error('auth');
+
+    switch (p.action) {
+      case 'list':    out = mtList_(); break;
+      case 'approve': out = mtDecide_(Number(p.row), true,  p.memo || ''); break;
+      case 'reject':  out = mtDecide_(Number(p.row), false, p.memo || ''); break;
+      case 'resend':  out = mtDecide_(Number(p.row), true,  p.memo || '', true); break;
+      case 'ping':    out = { ok: true, sheet: mtSheet_().getName() }; break;
+      default:        out = { error: 'unknown action' };
+    }
+  } catch (err) {
+    out = { error: String(err && err.message ? err.message : err) };
+  }
+  return ContentService.createTextOutput(JSON.stringify(out))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ---------------- 시트 ----------------
+function mtSheet_() {
+  return SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+}
+
+// 헤더 탐색: 완전일치 우선 → 부분일치. 오탐 후보는 반드시 제외.
+// (연애학개론에서 '추천인 이름 / 인스타 ID' 컬럼이 '이름'·'인스타'로 오탐된 적 있음)
+function mtFindCol_(headers, exacts, parts, excludes) {
+  excludes = excludes || [];
+  var bad = function (h) {
+    return excludes.some(function (x) { return h.indexOf(x) !== -1; });
+  };
+  var i;
+  for (i = 0; i < headers.length; i++) {
+    var h = String(headers[i]).trim();
+    if (bad(h)) continue;
+    if (exacts.indexOf(h) !== -1) return i;
+  }
+  for (i = 0; i < headers.length; i++) {
+    var h2 = String(headers[i]).trim();
+    if (bad(h2)) continue;
+    for (var j = 0; j < parts.length; j++) {
+      if (h2.indexOf(parts[j]) !== -1) return i;
+    }
+  }
+  return -1;
+}
+
+// 관리용 컬럼이 없으면 시트 맨 끝에 새로 만든다 (기존 컬럼 덮어쓰기 금지)
+function mtEnsureCol_(sh, headers, name) {
+  var idx = headers.indexOf(name);
+  if (idx !== -1) return idx;
+  var col = headers.length + 1;
+  sh.getRange(1, col).setValue(name);
+  headers.push(name);
+  return col - 1;
+}
+
+function mtCols_(sh) {
+  var lastCol = Math.max(sh.getLastColumn(), 1);
+  var headers = sh.getRange(1, 1, 1, lastCol).getValues()[0].map(function (h) {
+    return String(h).trim();
+  });
+  var c = {
+    name   : mtFindCol_(headers, ['이름'], ['성함'], ['추천', '인스타', '학교', '학과']),
+    gender : mtFindCol_(headers, ['성별'], ['성별'], []),
+    school : mtFindCol_(headers, ['재학중인 학교', '학교'], ['학교', '대학'], ['학과']),
+    major  : mtFindCol_(headers, ['학과/학년', '학과'], ['학과', '전공', '학번'], []),
+    phone  : mtFindCol_(headers, ['연락처', '휴대폰 번호'], ['연락처', '휴대폰', '전화'], []),
+    kakao  : mtFindCol_(headers, ['카카오톡', '카카오톡 ID'], ['카카오', '카톡'], ['추천']),
+    insta  : mtFindCol_(headers, ['인스타 ID', '인스타그램 아이디'], ['인스타'], ['추천']),
+    type   : mtFindCol_(headers, ['소개팅/미팅'], ['소개팅', '미팅', '만남'], []),
+    intro  : mtFindCol_(headers, ['한 줄 자기소개'], ['자기소개', '소개'], ['추천', '인스타'])
+  };
+  c.status = mtEnsureCol_(sh, headers, MT_COL_STATUS);
+  c.sent   = mtEnsureCol_(sh, headers, MT_COL_SENT);
+  c.memo   = mtEnsureCol_(sh, headers, MT_COL_MEMO);
+  c._headers = headers;
+  return c;
+}
+
+// 시트가 숫자로 저장해 앞 0이 사라진 번호 복원
+function mtFixPhone_(v) {
+  var s = String(v == null ? '' : v).replace(/[^0-9]/g, '');
+  if (!s) return '';
+  if (s.length === 9 || s.length === 10) {
+    if (s.charAt(0) !== '0') s = '0' + s;
+  }
+  return s;
+}
+
+function mtPick_(row, idx) {
+  return idx >= 0 && idx < row.length ? String(row[idx] == null ? '' : row[idx]).trim() : '';
+}
+
+// ---------------- 목록 ----------------
+function mtList_() {
+  var sh = mtSheet_();
+  var c = mtCols_(sh);
+  var last = sh.getLastRow();
+  if (last < 2) return { ok: true, items: [], stats: { pending: 0, approvedM: 0, approvedF: 0 } };
+
+  var values = sh.getRange(2, 1, last - 1, sh.getLastColumn()).getValues();
+  var items = [];
+  var stats = { pending: 0, approvedM: 0, approvedF: 0 };
+
+  values.forEach(function (row, i) {
+    // 타임스탬프 빈 행 = 운영자가 적어둔 메모 등 → 신청자 아님
+    if (!row[0]) return;
+
+    var status = mtPick_(row, c.status) || 'pending';
+    var gender = mtPick_(row, c.gender);
+    var insta  = mtPick_(row, c.insta).replace(/^@/, '').trim();
+
+    if (status === 'pending') stats.pending++;
+    if (status === 'approved') {
+      if (gender.indexOf('여') !== -1) stats.approvedF++;
+      else if (gender.indexOf('남') !== -1) stats.approvedM++;
+    }
+
+    items.push({
+      row     : i + 2,
+      ts      : row[0] instanceof Date ? Utilities.formatDate(row[0], 'Asia/Seoul', 'MM/dd HH:mm') : String(row[0]),
+      name    : mtPick_(row, c.name),
+      gender  : gender,
+      school  : mtPick_(row, c.school),
+      major   : mtPick_(row, c.major),
+      phone   : mtFixPhone_(mtPick_(row, c.phone)),
+      kakao   : mtPick_(row, c.kakao),
+      insta   : insta,
+      type    : mtPick_(row, c.type),
+      intro   : mtPick_(row, c.intro),
+      status  : status,
+      sent    : mtPick_(row, c.sent),
+      memo    : mtPick_(row, c.memo)
+    });
+  });
+
+  items.reverse();  // 최신 신청이 위로
+  return { ok: true, items: items, stats: stats };
+}
+
+// ---------------- 승인 / 거절 ----------------
+function mtDecide_(row, approve, memo, force) {
+  if (!row || row < 2) throw new Error('행 번호가 잘못됐어요.');
+  var sh = mtSheet_();
+  var c = mtCols_(sh);
+  var data = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues()[0];
+  if (!data[0]) throw new Error('빈 행이에요.');
+
+  var prev = mtPick_(data, c.status);
+  if (!approve) {
+    sh.getRange(row, c.status + 1).setValue('rejected');
+    if (memo) sh.getRange(row, c.memo + 1).setValue(memo);
+    return { ok: true, status: 'rejected' };
+  }
+
+  // 이미 발송된 건 중복 발송 방지 (resend 로만 강제)
+  if (prev === 'approved' && !force) {
+    return { ok: true, status: 'approved', skipped: true, message: '이미 발송된 신청이에요.' };
+  }
+
+  if (!MT_OPENCHAT_URL) throw new Error('MT_OPENCHAT_URL 이 비어 있어요. 스크립트 상단에 오픈채팅 링크를 넣어주세요.');
+
+  var phone = mtFixPhone_(mtPick_(data, c.phone));
+  if (!/^01[0-9]{8,9}$/.test(phone)) throw new Error('휴대폰 번호가 올바르지 않아요: ' + phone);
+
+  var name = mtPick_(data, c.name) || '신청자';
+  var text = mtBuildText_(name);
+  mtSendSms_(phone, text);
+
+  var now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
+  sh.getRange(row, c.status + 1).setValue('approved');
+  sh.getRange(row, c.sent + 1).setValue(now);
+  if (memo) sh.getRange(row, c.memo + 1).setValue(memo);
+
+  return { ok: true, status: 'approved', sent: now, to: phone };
+}
+
+function mtBuildText_(name) {
+  var lines = [];
+  lines.push('[' + MT_BRAND + ']');
+  lines.push(name + '님, 신청이 확인됐어요!');
+  lines.push('아래 링크로 입장해주세요.');
+  lines.push('');
+  lines.push(MT_OPENCHAT_URL);
+  if (MT_JOIN_CODE) lines.push('참여코드: ' + MT_JOIN_CODE);
+  lines.push('');
+  lines.push('※ 정치·종교 대화, 부적절한 언행 시 즉시 강퇴됩니다.');
+  return lines.join('\n');
+}
+
+// ---------------- 솔라피 발송 ----------------
+function mtSolapiAuth_() {
+  var props  = PropertiesService.getScriptProperties();
+  var key    = props.getProperty('SOLAPI_API_KEY');
+  var secret = props.getProperty('SOLAPI_API_SECRET');
+  if (!key || !secret) {
+    throw new Error('스크립트 속성에 SOLAPI_API_KEY / SOLAPI_API_SECRET 을 설정해주세요.');
+  }
+  var date = new Date().toISOString();
+  var salt = Utilities.getUuid().replace(/-/g, '');
+  var raw  = Utilities.computeHmacSha256Signature(date + salt, secret);
+  var sig  = raw.map(function (b) { return ('0' + (b & 0xFF).toString(16)).slice(-2); }).join('');
+  return 'HMAC-SHA256 apiKey=' + key + ', date=' + date + ', salt=' + salt + ', signature=' + sig;
+}
+
+function mtSendSms_(to, text) {
+  var payload = {
+    message: {
+      to      : to,
+      from    : MT_SENDER,
+      text    : text,
+      type    : 'LMS',
+      subject : MT_BRAND
+    }
+  };
+  var res = UrlFetchApp.fetch('https://api.solapi.com/messages/v4/send', {
+    method            : 'post',
+    contentType       : 'application/json',
+    headers           : { Authorization: mtSolapiAuth_() },
+    payload           : JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
+  var code = res.getResponseCode();
+  var body = res.getContentText();
+  if (code < 200 || code >= 300) {
+    throw new Error('솔라피 발송 실패 (' + code + '): ' + body);
+  }
+  var json = {};
+  try { json = JSON.parse(body); } catch (e) {}
+  if (json.statusCode && String(json.statusCode) !== '2000') {
+    throw new Error('솔라피 응답 오류: ' + body);
+  }
+  return json;
+}
+
+// ---------------- 설치 확인용 ----------------
+// 에디터에서 이 함수를 직접 실행하면 컬럼 인식 결과를 로그로 보여준다.
+function mtCheckSetup() {
+  var sh = mtSheet_();
+  var c = mtCols_(sh);
+  var headers = c._headers;
+  var label = {
+    name: '이름', gender: '성별', school: '학교', major: '학과',
+    phone: '연락처', kakao: '카톡', insta: '인스타', type: '희망유형', intro: '자기소개'
+  };
+  var lines = ['시트: ' + sh.getName(), '헤더: ' + headers.join(' | '), ''];
+  Object.keys(label).forEach(function (k) {
+    var i = c[k];
+    lines.push(label[k] + ' → ' + (i >= 0 ? ('[' + (i + 1) + '] ' + headers[i]) : '❌ 못 찾음'));
+  });
+  lines.push('');
+  lines.push('오픈채팅 링크: ' + (MT_OPENCHAT_URL || '❌ 비어 있음'));
+  var props = PropertiesService.getScriptProperties();
+  lines.push('솔라피 키: ' + (props.getProperty('SOLAPI_API_KEY') ? 'OK' : '❌ 없음'));
+  lines.push('솔라피 시크릿: ' + (props.getProperty('SOLAPI_API_SECRET') ? 'OK' : '❌ 없음'));
+  Logger.log(lines.join('\n'));
+  return lines.join('\n');
+}

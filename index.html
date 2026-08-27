@@ -318,6 +318,10 @@ textarea{resize:none;min-height:88px}
           <label>카카오톡 ID <span class="req">*</span></label>
           <input type="text" name="kakao" placeholder="연락드릴 카톡 아이디" required>
         </div>
+        <div class="field">
+          <label>인스타그램 아이디 <span class="req" id="instaReq" style="display:none">*</span></label>
+          <input type="text" name="instagram" id="instaInput" placeholder="@ 없이 아이디만 (예: hong_gildong)">
+        </div>
         <p class="note" id="privacyNote">번호와 카톡 ID는 운영자 연락용으로만 쓰고, 단톡방에는 절대 올라가지 않아요.</p>
         <div class="field">
           <label>어떤 만남을 찾으세요?</label>
@@ -338,7 +342,7 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="consentChk">
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·학과·휴대폰 번호·카카오톡 ID / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·학과·휴대폰 번호·카카오톡 ID·인스타그램 아이디 / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">신청서 제출하기</button>
@@ -389,6 +393,7 @@ const CONFIG = {
     gender     : 'entry.1385767725',
     phone      : 'entry.1423910806',
     kakao      : 'entry.2032933019',
+    instagram  : 'entry.182511457',
     intro      : 'entry.922392339'
   }
 };
@@ -431,6 +436,9 @@ if (GATED) {
 
   $('phoneInput').required = true;
   $('phoneReq').style.display = '';
+  $('instaInput').required = true;
+  $('instaReq').style.display = '';
+  $('instaInput').placeholder = '@ 없이 아이디만 · 확인용이라 꼭 필요해요';
   $('privacyNote').textContent = '입력하신 번호로 오픈채팅 링크를 보내드려요. 번호와 카톡 ID는 단톡방에 절대 올라가지 않아요.';
   $('consentBox').style.display = '';
   $('consentChk').required = true;
