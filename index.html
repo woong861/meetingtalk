@@ -211,7 +211,7 @@ textarea{resize:none;min-height:88px}
   <div class="cta-block">
     <button class="btn btn-primary" id="applyBtn" data-open-form>단톡방 입장하기</button>
     <span class="btn-sub">여학우 무료 · 남학우 5,000원 · 신청서 확인 후 문자로 링크 발송</span>
-    <a class="btn btn-ghost" id="matchBtn" href="#" target="_blank" rel="noopener">운영진 1:1 매칭 신청하기</a>
+    <button class="btn btn-ghost" id="matchBtn" data-open-match>운영진 1:1 매칭 신청하기</button>
     <span class="btn-sub">단톡방 말고, 운영진이 직접 상대를 찾아드려요</span>
   </div>
 
@@ -293,7 +293,7 @@ textarea{resize:none;min-height:88px}
 <!-- sticky -->
 <div class="sticky" id="sticky">
   <div class="sticky-in">
-    <a class="btn btn-ghost" id="matchBtn2" href="#" target="_blank" rel="noopener">1:1 매칭</a>
+    <button class="btn btn-ghost" id="matchBtn2" data-open-match>1:1 매칭</button>
     <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장하기</button>
   </div>
 </div>
@@ -380,6 +380,110 @@ textarea{resize:none;min-height:88px}
   </div>
 </div>
 
+<!-- 1:1 매칭 신청 모달 -->
+<div class="modal" id="matchModal">
+  <div class="modal-bg" data-close-match></div>
+  <div class="sheet">
+    <div class="grab"></div>
+    <div id="matchFormView">
+      <h3>운영진 1:1 매칭 신청</h3>
+      <p class="lead">단톡방 말고, 운영진이 직접 상대를 찾아드려요.<br>프로필을 받아 조건이 맞는 분과 연결해드립니다.</p>
+      <form id="matchForm">
+        <div class="field">
+          <label>성별 <span class="req">*</span></label>
+          <div class="seg">
+            <input type="radio" name="gender" id="mg-m" value="남자" required><label for="mg-m">남자</label>
+            <input type="radio" name="gender" id="mg-f" value="여자"><label for="mg-f">여자</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>어떤 만남을 원하세요? <span class="req">*</span></label>
+          <select name="type" id="matchType" required>
+            <option value="">선택해주세요</option>
+            <option value="소개팅">1:1 소개팅</option>
+            <option value="2대2미팅">2:2 미팅</option>
+            <option value="3대3미팅">3:3 미팅</option>
+            <option value="4대4미팅">4:4 미팅</option>
+          </select>
+        </div>
+
+        <div class="pay pay-m" id="matchPay">
+          <h4 id="matchFeeTitle">참가비 <span class="won">-</span></h4>
+          <p id="matchFeeDesc"></p>
+          <div class="acct">
+            <b id="matchAcct">카카오뱅크 3333241809842</b>
+            <button type="button" id="matchAcctCopy">복사</button>
+          </div>
+          <p>예금주 <b id="matchHolder">박*일</b> · <b>입금 후</b> 아래 입금 정보를 적어주세요.<br>매칭이 안 되면 전액 환불해드려요.</p>
+        </div>
+
+        <div class="field">
+          <label>학교 <span class="req">*</span></label>
+          <input type="text" name="school" placeholder="○○대학교" required>
+        </div>
+        <div class="field">
+          <label>학과 / 학년 <span class="req">*</span></label>
+          <input type="text" name="major" placeholder="예: 경영학과 2학년" required>
+        </div>
+        <div class="field">
+          <label>나이 <span class="req">*</span></label>
+          <input type="text" name="age" placeholder="예: 22" inputmode="numeric" maxlength="2" required>
+        </div>
+        <div class="field">
+          <label>휴대폰 번호 <span class="req">*</span></label>
+          <input type="tel" name="phone" id="matchPhone" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
+        </div>
+        <div class="field">
+          <label>카카오톡 ID <span class="req">*</span></label>
+          <input type="text" name="kakao" placeholder="연락드릴 카톡 아이디" required>
+        </div>
+        <div class="field">
+          <label>인스타그램 아이디 <span class="req">*</span></label>
+          <input type="text" name="instagram" id="matchInsta" placeholder="@ 없이 아이디만" required>
+        </div>
+        <p class="note">번호·카톡 ID·인스타는 <b>매칭이 성사된 상대에게만</b> 공개돼요.</p>
+        <div class="field">
+          <label>MBTI <span class="req">*</span></label>
+          <input type="text" name="mbti" placeholder="예: ENFP" maxlength="4" required>
+        </div>
+        <div class="field">
+          <label>한 줄 자기소개 <span class="req">*</span></label>
+          <textarea name="intro" placeholder="어떤 사람인지 편하게 적어주세요" required></textarea>
+        </div>
+        <div class="field">
+          <label>이상형 한 줄 <span class="req">*</span></label>
+          <textarea name="ideal" placeholder="어떤 분을 만나고 싶으세요?" required></textarea>
+        </div>
+        <div class="field">
+          <label>입금 정보 <span class="req">*</span></label>
+          <input type="text" name="payment" placeholder="입금자명 / 시간 / 금액" required>
+        </div>
+        <div class="field">
+          <label>환불받으실 계좌 <span class="req">*</span></label>
+          <input type="text" name="refund" placeholder="은행명 / 계좌번호" required>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" id="matchConsent" required>
+          <span>
+            <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
+            <span class="consent-d">수집 항목: 성별·학교·학과/학년·나이·휴대폰 번호·카카오톡 ID·인스타그램 아이디·MBTI·자기소개·이상형·입금 및 환불 계좌 정보 / 목적: 매칭 상대 연결 및 결제·환불 처리 / 보유기간: 매칭 종료 후 3개월 이내 파기.</span>
+          </span>
+        </label>
+        <button type="submit" class="btn btn-primary" style="margin-top:8px">매칭 신청하기</button>
+        <button type="button" class="btn btn-ghost" data-close-match style="margin-top:10px">닫기</button>
+      </form>
+    </div>
+    <div id="matchDoneView" style="display:none" class="done">
+      <div class="done-ic">💘</div>
+      <h3>매칭 신청이 접수됐어요</h3>
+      <p>입금 확인 후 매칭이 진행돼요.<br>상대가 정해지면 문자로 알려드릴게요.</p>
+      <button type="button" class="btn btn-primary" data-close-match style="margin-top:24px">확인</button>
+    </div>
+  </div>
+</div>
+
+
 <script>
 /* ══════════════════════════════════════════════════════════
    설정 — 이 부분만 바꾸면 됩니다
@@ -403,8 +507,31 @@ const CONFIG = {
     mbti      : 'entry.60215028'
   },
 
-  // ── ② 운영진 1:1 매칭 신청 (구글폼으로 바로 이동) ──
-  MATCH_FORM_URL : 'https://forms.gle/jAawSAboC9cjrgfL9',
+  // ── ② 운영진 1:1 매칭 신청 (구글폼 "✅ 미팅단톡 1대1 신청서 ✅") ──
+  MATCH_FORM_URL : 'https://docs.google.com/forms/d/e/1FAIpQLScvy2CTzvz8bKkYJ8ESJYmSaGJ8shiiJr8PRLmE3J2WyHRbNA/formResponse',
+  MATCH_FIELD_IDS : {
+    gender    : 'entry.2004092416',
+    school    : 'entry.9804517',
+    type      : 'entry.1931449200',
+    major     : 'entry.1702340722',
+    age       : 'entry.1200259938',
+    phone     : 'entry.302704857',
+    kakao     : 'entry.277052850',
+    instagram : 'entry.689872093',
+    mbti      : 'entry.726113571',
+    intro     : 'entry.85726408',
+    ideal     : 'entry.1481072605',
+    payment   : 'entry.1194534909',
+    refund    : 'entry.1759609749'
+  },
+
+  // 매칭 참가비 — [남자, 여자] 원
+  MATCH_PRICE : {
+    '소개팅'   : [18000, 0],
+    '2대2미팅' : [9000, 3000],
+    '3대3미팅' : [9000, 3000],
+    '4대4미팅' : [9000, 3000]
+  },
 
   // ── ③ 남학우 입장료 (성비 조절용) ──
   // FEE 를 0 으로 두면 결제 안내가 아예 안 나오고 남녀 모두 무료로 동작합니다.
@@ -421,19 +548,6 @@ var $ = function (id) { return document.getElementById(id); };
 
 $('liveCount').textContent = CONFIG.MEMBER_COUNT;
 
-/* 1:1 매칭 버튼 */
-[$('matchBtn'), $('matchBtn2')].forEach(function (a) {
-  if (CONFIG.MATCH_FORM_URL) {
-    a.href = CONFIG.MATCH_FORM_URL;
-  } else {
-    a.href = '#';
-    a.removeAttribute('target');
-    a.addEventListener('click', function (e) {
-      e.preventDefault();
-      alert('매칭 신청 폼이 아직 연결되지 않았어요.');
-    });
-  }
-});
 
 /* 성별에 따라 결제 안내 전환 */
 var PAY = CONFIG.PAY || {};
@@ -494,41 +608,46 @@ document.querySelectorAll('[data-open-form]').forEach(function (b) { b.addEventL
 document.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', closeModal); });
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
+/* 구글폼으로 조용히 POST (페이지 이동 없음). URL이 비면 localStorage 테스트 모드 */
+function submitToForm(url, fieldIds, data, storeKey) {
+  if (!url) {
+    var saved = JSON.parse(localStorage.getItem(storeKey) || '[]');
+    saved.push(data);
+    localStorage.setItem(storeKey, JSON.stringify(saved));
+    console.log('[테스트 모드] localStorage 저장', data);
+    return;
+  }
+  var frameName = 'gf_' + Math.floor(performance.now());
+  var frame = document.createElement('iframe');
+  frame.name = frameName;
+  frame.style.display = 'none';
+  document.body.appendChild(frame);
+
+  var f = document.createElement('form');
+  f.action = url;
+  f.method = 'POST';
+  f.target = frameName;
+  f.style.display = 'none';
+  Object.keys(data).forEach(function (key) {
+    if (!fieldIds[key]) return;
+    var i = document.createElement('input');
+    i.type = 'hidden';
+    i.name = fieldIds[key];
+    i.value = data[key];
+    f.appendChild(i);
+  });
+  document.body.appendChild(f);
+  f.submit();
+  setTimeout(function () { f.remove(); frame.remove(); }, 4000);
+}
+
 /* 신청서 제출 → 구글폼으로 조용히 POST */
 $('applyForm').addEventListener('submit', function (e) {
   e.preventDefault();
   var data = {};
   new FormData(e.target).forEach(function (v, k) { data[k] = v; });
 
-  if (CONFIG.JOIN_FORM_URL) {
-    var frameName = 'gf_' + Math.floor(performance.now());
-    var frame = document.createElement('iframe');
-    frame.name = frameName;
-    frame.style.display = 'none';
-    document.body.appendChild(frame);
-
-    var f = document.createElement('form');
-    f.action = CONFIG.JOIN_FORM_URL;
-    f.method = 'POST';
-    f.target = frameName;
-    f.style.display = 'none';
-    Object.keys(data).forEach(function (key) {
-      if (!CONFIG.JOIN_FIELD_IDS[key]) return;
-      var i = document.createElement('input');
-      i.type = 'hidden';
-      i.name = CONFIG.JOIN_FIELD_IDS[key];
-      i.value = data[key];
-      f.appendChild(i);
-    });
-    document.body.appendChild(f);
-    f.submit();
-    setTimeout(function () { f.remove(); frame.remove(); }, 4000);
-  } else {
-    var saved = JSON.parse(localStorage.getItem('meetingtalk_apps') || '[]');
-    saved.push(data);
-    localStorage.setItem('meetingtalk_apps', JSON.stringify(saved));
-    console.log('[테스트 모드] localStorage 저장', data);
-  }
+  submitToForm(CONFIG.JOIN_FORM_URL, CONFIG.JOIN_FIELD_IDS, data, 'meetingtalk_apps');
 
   if (PAY.FEE > 0 && data.gender === '남자') {
     $('doneText').innerHTML = '입금까지 확인되면<br>보통 하루 안에 문자로 링크를 보내드릴게요.';
@@ -540,6 +659,81 @@ $('applyForm').addEventListener('submit', function (e) {
   $('doneView').style.display = '';
   $('payMale').classList.remove('on');
   $('payFemale').classList.remove('on');
+  e.target.reset();
+});
+
+/* ══════════════ 운영진 1:1 매칭 모달 ══════════════ */
+var matchModal = $('matchModal');
+function openMatch() {
+  $('matchFormView').style.display = '';
+  $('matchDoneView').style.display = 'none';
+  matchModal.classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeMatch() {
+  matchModal.classList.remove('on');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('[data-open-match]').forEach(function (b) { b.addEventListener('click', openMatch); });
+document.querySelectorAll('[data-close-match]').forEach(function (b) { b.addEventListener('click', closeMatch); });
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMatch(); });
+
+/* 성별 + 유형에 따라 참가비 자동 계산 */
+$('matchAcct').textContent = PAY.BANK + ' ' + PAY.ACCOUNT;
+$('matchHolder').textContent = PAY.HOLDER;
+$('matchAcctCopy').addEventListener('click', function () {
+  navigator.clipboard.writeText(PAY.ACCOUNT).then(function () {
+    $('matchAcctCopy').textContent = '복사됨!';
+    setTimeout(function () { $('matchAcctCopy').textContent = '복사'; }, 1200);
+  });
+});
+
+function syncMatchFee() {
+  var gv = (document.querySelector('#matchForm input[name="gender"]:checked') || {}).value;
+  var tv = $('matchType').value;
+  var box = $('matchPay');
+  if (!gv || !tv) { box.classList.remove('on'); return; }
+
+  var price = (CONFIG.MATCH_PRICE || {})[tv];
+  var fee = price ? (gv === '여자' ? price[1] : price[0]) : null;
+  if (fee === null) { box.classList.remove('on'); return; }
+
+  box.classList.add('on');
+  var label = tv === '소개팅' ? '1:1 소개팅' : tv.replace('대', ':').replace('미팅', ' 미팅');
+  if (fee === 0) {
+    box.className = 'pay pay-f on';
+    $('matchFeeTitle').innerHTML = label + ' — 여학우 <span class="won">무료</span>';
+    $('matchFeeDesc').textContent = '따로 입금하실 필요 없어요. 아래 입금 정보란에는 "무료"라고 적어주세요.';
+  } else {
+    box.className = 'pay pay-m on';
+    $('matchFeeTitle').innerHTML = label + ' 참가비 <span class="won">' + fee.toLocaleString() + '원</span>';
+    $('matchFeeDesc').textContent = '입금 확인 후 매칭이 진행돼요.';
+  }
+}
+document.querySelectorAll('#matchForm input[name="gender"]').forEach(function (r) {
+  r.addEventListener('change', syncMatchFee);
+});
+$('matchType').addEventListener('change', syncMatchFee);
+
+/* 번호 하이픈 · 인스타 @ 제거 */
+$('matchPhone').addEventListener('input', function (e) {
+  var v = e.target.value.replace(/[^0-9]/g, '').slice(0, 11);
+  if (v.length > 7)      v = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7);
+  else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+  e.target.value = v;
+});
+$('matchInsta').addEventListener('input', function (e) {
+  e.target.value = e.target.value.replace(/[@\s]/g, '');
+});
+
+$('matchForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var data = {};
+  new FormData(e.target).forEach(function (v, k) { data[k] = v; });
+  submitToForm(CONFIG.MATCH_FORM_URL, CONFIG.MATCH_FIELD_IDS, data, 'meetingtalk_match');
+  $('matchFormView').style.display = 'none';
+  $('matchDoneView').style.display = '';
+  $('matchPay').classList.remove('on');
   e.target.reset();
 });
 </script>
