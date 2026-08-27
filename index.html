@@ -162,6 +162,10 @@ textarea{resize:none;min-height:88px}
 }
 .seg input:checked+label{background:var(--pink);border-color:var(--pink);color:#fff}
 .note{font-size:13px;color:var(--ink-soft);font-weight:600;letter-spacing:-.02em;margin-top:-6px;margin-bottom:16px;line-height:1.5}
+.consent{display:flex;gap:11px;align-items:flex-start;background:var(--white);border:2px solid #f0dbe5;border-radius:14px;padding:15px 16px;margin-bottom:16px;cursor:pointer}
+.consent input{width:21px;height:21px;flex:0 0 auto;margin:1px 0 0;accent-color:var(--pink)}
+.consent-t{display:block;font-size:13.5px;font-weight:800;letter-spacing:-.025em;line-height:1.5}
+.consent-d{display:block;font-size:12.5px;color:var(--ink-soft);font-weight:600;letter-spacing:-.02em;line-height:1.55;margin-top:4px}
 .done{text-align:center;padding:32px 0 12px}
 .done-ic{font-size:52px}
 .done h3{margin-top:14px}
@@ -195,8 +199,8 @@ textarea{resize:none;min-height:88px}
 
   <div class="cta-block">
     <a class="btn btn-primary" id="joinBtn" href="#" target="_blank" rel="noopener">단톡방 바로 입장하기</a>
-    <button class="btn btn-ghost" data-open-form>단톡방은 부담돼요 → 조용히 신청만</button>
-    <span class="btn-sub">신청서만 남기면 운영자가 따로 연결해드려요</span>
+    <button class="btn btn-ghost" id="applyBtn" data-open-form>단톡방은 부담돼요 → 조용히 신청만</button>
+    <span class="btn-sub" id="ctaSub">신청서만 남기면 운영자가 따로 연결해드려요</span>
   </div>
 
   <section>
@@ -234,7 +238,7 @@ textarea{resize:none;min-height:88px}
         <div class="code-v" id="joinCode">778899</div>
       </div>
       <div class="code-div"></div>
-      <div class="code-r">입장할 때<br>코드를 <span class="em">입력</span>하세요</div>
+      <div class="code-r" id="codeText">입장할 때<br>코드를 <span class="em">입력</span>하세요</div>
     </div>
   </section>
 
@@ -254,6 +258,10 @@ textarea{resize:none;min-height:88px}
         <p>닉네임을 실명으로 안 하셔도 돼요. 그리고 같은 학교끼리는 매칭에서 제외해달라고 운영자에게 말씀해주시면 빼드려요.</p>
       </details>
       <details>
+        <summary>단톡방이 안 들어가져요 / 방이 없어졌어요</summary>
+        <p>가끔 방이 새로 열리는 경우가 있어요. 그럴 땐 <b>이 페이지에 항상 최신 링크가 올라가</b>니까, 여기를 다시 확인해주시면 돼요. 즐겨찾기 해두시면 편해요.</p>
+      </details>
+      <details>
         <summary>단톡방 말고 다른 방법은 없나요?</summary>
         <p>위의 "조용히 신청만" 버튼으로 신청서를 남겨주시면, 단톡방에 들어오지 않아도 운영자가 조건 맞는 분을 따로 연결해드려요.</p>
       </details>
@@ -269,7 +277,7 @@ textarea{resize:none;min-height:88px}
 <!-- sticky -->
 <div class="sticky" id="sticky">
   <div class="sticky-in">
-    <button class="btn btn-ghost" data-open-form>신청만</button>
+    <button class="btn btn-ghost" id="applyBtn2" data-open-form>신청만</button>
     <a class="btn btn-primary" id="joinBtn2" href="#" target="_blank" rel="noopener">단톡방 입장하기</a>
   </div>
 </div>
@@ -280,8 +288,8 @@ textarea{resize:none;min-height:88px}
   <div class="sheet">
     <div class="grab"></div>
     <div id="formView">
-      <h3>조용히 신청만 할게요</h3>
-      <p class="lead">단톡방에 들어오지 않아도 괜찮아요.<br>남겨주시면 운영자가 조건 맞는 분을 찾아 연락드려요.</p>
+      <h3 id="formTitle">조용히 신청만 할게요</h3>
+      <p class="lead" id="formLead">단톡방에 들어오지 않아도 괜찮아요.<br>남겨주시면 운영자가 조건 맞는 분을 찾아 연락드려요.</p>
       <form id="applyForm">
         <div class="field">
           <label>이름 <span class="req">*</span></label>
@@ -303,10 +311,14 @@ textarea{resize:none;min-height:88px}
           <input type="text" name="major" placeholder="예: 경영학과 22학번">
         </div>
         <div class="field">
+          <label>휴대폰 번호 <span class="req" id="phoneReq" style="display:none">*</span></label>
+          <input type="tel" name="phone" id="phoneInput" placeholder="010-0000-0000" inputmode="numeric" maxlength="13">
+        </div>
+        <div class="field">
           <label>카카오톡 ID <span class="req">*</span></label>
           <input type="text" name="kakao" placeholder="연락드릴 카톡 아이디" required>
         </div>
-        <p class="note">카톡 ID는 매칭이 성사된 상대에게만 공개돼요. 단톡방에는 절대 올라가지 않아요.</p>
+        <p class="note" id="privacyNote">번호와 카톡 ID는 운영자 연락용으로만 쓰고, 단톡방에는 절대 올라가지 않아요.</p>
         <div class="field">
           <label>어떤 만남을 찾으세요?</label>
           <select name="event_type">
@@ -322,14 +334,21 @@ textarea{resize:none;min-height:88px}
           <label>한 줄 소개</label>
           <textarea name="intro" placeholder="어떤 사람인지, 어떤 사람을 만나고 싶은지 편하게 적어주세요"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" style="margin-top:8px">신청서 제출하기</button>
+        <label class="consent" id="consentBox" style="display:none">
+          <input type="checkbox" id="consentChk">
+          <span>
+            <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·학과·휴대폰 번호·카카오톡 ID / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
+          </span>
+        </label>
+        <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">신청서 제출하기</button>
         <button type="button" class="btn btn-ghost" data-close style="margin-top:10px">닫기</button>
       </form>
     </div>
     <div id="doneView" style="display:none" class="done">
       <div class="done-ic">💌</div>
-      <h3>신청이 접수됐어요</h3>
-      <p>조건에 맞는 분이 나타나면<br>카톡으로 먼저 연락드릴게요.</p>
+      <h3 id="doneTitle">신청이 접수됐어요</h3>
+      <p id="doneText">조건에 맞는 분이 나타나면<br>카톡으로 먼저 연락드릴게요.</p>
       <button type="button" class="btn btn-primary" data-close style="margin-top:24px">확인</button>
     </div>
   </div>
@@ -349,6 +368,15 @@ const CONFIG = {
   // 표시용 인원수 (실제 방 인원에 맞춰 조정)
   MEMBER_COUNT : 137,
 
+  // ── 승인제(게이팅) 스위치 ──────────────────────────────
+  // false : 오픈채팅 링크를 바로 공개 (마찰 0 · 모수 확보용)
+  // true  : 링크를 감추고, 신청서를 받아 운영자가 확인 후 문자로 링크 발송
+  //         → 방이 100명쯤 되고 활성화된 뒤에 켜는 걸 권장
+  GATED_MODE  : false,
+
+  // 게이팅 모드에서 안내할 검토 소요시간 (기대치 관리용)
+  REVIEW_TIME : '보통 하루 안에',
+
   // 신청서를 받을 구글폼 — 반드시 "새 폼"을 만들어 넣으세요.
   // ⚠️ 연애학개론/쪽지팅 폼을 그대로 쓰면 신청자 명단이 섞입니다.
   //    비워두면 제출 내용이 브라우저에만 저장되는 테스트 모드로 동작합니다.
@@ -359,6 +387,7 @@ const CONFIG = {
     event_type : 'entry.664976439',
     major      : 'entry.2115899897',
     gender     : 'entry.1385767725',
+    phone      : 'entry.1423910806',
     kakao      : 'entry.2032933019',
     intro      : 'entry.922392339'
   }
@@ -368,7 +397,13 @@ const CONFIG = {
 /* 설정 반영 */
 document.getElementById('joinCode').textContent = CONFIG.JOIN_CODE;
 document.getElementById('liveCount').textContent = CONFIG.MEMBER_COUNT;
-[document.getElementById('joinBtn'), document.getElementById('joinBtn2')].forEach(function(a){
+
+var $ = function(id){ return document.getElementById(id); };
+var GATED = !!CONFIG.GATED_MODE;
+
+/* ── 입장 버튼: 게이팅이 꺼져 있을 때만 노출 ───────────────── */
+[$('joinBtn'), $('joinBtn2')].forEach(function(a){
+  if (GATED) { a.style.display = 'none'; return; }
   if (CONFIG.OPENCHAT_URL) {
     a.href = CONFIG.OPENCHAT_URL;
   } else {
@@ -379,6 +414,40 @@ document.getElementById('liveCount').textContent = CONFIG.MEMBER_COUNT;
       alert('오픈채팅 링크가 아직 연결되지 않았어요.\n\nindex.html 의 CONFIG.OPENCHAT_URL 에\n카카오 오픈채팅 링크를 넣어주세요.');
     });
   }
+});
+
+/* ── 게이팅 모드 문구·필수값 전환 ─────────────────────────── */
+if (GATED) {
+  $('applyBtn').className  = 'btn btn-primary';
+  $('applyBtn').textContent = '입장 신청하기';
+  $('applyBtn2').className = 'btn btn-primary';
+  $('applyBtn2').textContent = '입장 신청하기';
+  $('applyBtn2').style.flex = '1 1 auto';
+  $('ctaSub').textContent  = '신청서를 확인한 뒤 문자로 오픈채팅 링크를 보내드려요';
+
+  $('formTitle').textContent = '단톡방 입장 신청';
+  $('formLead').innerHTML    = '아무나 들어올 수 없는 방이에요.<br>신청서를 확인한 뒤 문자로 링크를 보내드려요.';
+  $('submitBtn').textContent = '입장 신청하기';
+
+  $('phoneInput').required = true;
+  $('phoneReq').style.display = '';
+  $('privacyNote').textContent = '입력하신 번호로 오픈채팅 링크를 보내드려요. 번호와 카톡 ID는 단톡방에 절대 올라가지 않아요.';
+  $('consentBox').style.display = '';
+  $('consentChk').required = true;
+
+  $('codeText').innerHTML = '문자로 받은 링크로<br>입장할 때 <span class="em">입력</span>하세요';
+
+  $('doneTitle').textContent = '입장 신청이 접수됐어요';
+  $('doneText').innerHTML =
+    '신청서를 확인한 뒤<br>' + CONFIG.REVIEW_TIME + ' 문자로 링크를 보내드릴게요.';
+}
+
+/* 휴대폰 번호 자동 하이픈 */
+$('phoneInput').addEventListener('input', function(e){
+  var v = e.target.value.replace(/[^0-9]/g, '').slice(0, 11);
+  if (v.length > 7)      v = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7);
+  else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+  e.target.value = v;
 });
 
 /* 스티키 CTA — 히어로 CTA가 화면 위로 사라지면 등장 */
