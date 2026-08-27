@@ -6,10 +6,13 @@
 // 2) 확장 프로그램 → Apps Script → 파일 추가 → 이 내용 전체 붙여넣기
 // 3) ⚠️ 붙여넣은 뒤 전체를 다시 복사해서 원본과 같은지 확인할 것
 //    (예전에 cmd+V가 무시된 채 배포된 사고가 있었음)
-// 4) 아래 MT_OPENCHAT_URL / MT_JOIN_CODE 를 실제 값으로 채운다
-// 5) 프로젝트 설정 → 스크립트 속성에 아래 2개 추가
+// 4) 프로젝트 설정 → 스크립트 속성에 아래 4개 추가
 //      SOLAPI_API_KEY    = 솔라피 API 키
 //      SOLAPI_API_SECRET = 솔라피 API 시크릿
+//      OPENCHAT_URL_M    = 남자방 오픈채팅 링크
+//      OPENCHAT_URL_F    = 여자방 오픈채팅 링크
+//    ⚠️ 오픈채팅 링크는 코드에 직접 적지 말 것.
+//       (레포가 public이라 링크가 새면 승인제가 무의미해짐)
 // 6) 배포 → 새 배포 → 웹 앱 → 실행: 나 / 액세스: 모든 사용자 → 배포
 // 7) 나온 /exec URL 을 admin.html 의 API_URL 에 넣는다
 //
@@ -17,11 +20,21 @@
 //   기존 폼 응답 컬럼은 절대 건드리지 않는다.
 // ================================================================
 
-const MT_ADMIN_KEY    = 'meetingtalk-admin';   // admin.html 의 관리 키와 같아야 함
-const MT_OPENCHAT_URL = '';                     // ★ 오픈채팅 링크
-const MT_JOIN_CODE    = '';                     // ★ 참여코드 (없으면 빈칸)
-const MT_SENDER       = '01057182024';          // 솔라피에 등록된 발신번호
-const MT_BRAND        = '전국대학 미팅단톡';
+const MT_ADMIN_KEY = 'meetingtalk-admin';   // admin.html 의 관리 키와 같아야 함
+const MT_JOIN_CODE = '';                     // 참여코드 (안 쓰면 빈칸)
+const MT_SENDER    = '01057182024';          // 솔라피에 등록된 발신번호
+const MT_BRAND     = '전국대학 미팅단톡';
+
+// 오픈채팅 링크는 스크립트 속성에서 읽는다 (코드에 하드코딩 금지)
+function mtOpenChatUrl_(gender) {
+  var props = PropertiesService.getScriptProperties();
+  var isF = String(gender).indexOf('여') !== -1;
+  var isM = String(gender).indexOf('남') !== -1;
+  if (!isF && !isM) throw new Error('성별을 알 수 없어 어느 방으로 보낼지 정할 수 없어요: "' + gender + '"');
+  var url = props.getProperty(isF ? 'OPENCHAT_URL_F' : 'OPENCHAT_URL_M');
+  if (!url) throw new Error('스크립트 속성에 ' + (isF ? 'OPENCHAT_URL_F' : 'OPENCHAT_URL_M') + ' 를 설정해주세요.');
+  return { url: url, room: isF ? '여자방' : '남자방' };
+}
 
 const MT_COL_STATUS = '승인상태';
 const MT_COL_SENT   = '발송시각';
@@ -192,13 +205,13 @@ function mtDecide_(row, approve, memo, force) {
     return { ok: true, status: 'approved', skipped: true, message: '이미 발송된 신청이에요.' };
   }
 
-  if (!MT_OPENCHAT_URL) throw new Error('MT_OPENCHAT_URL 이 비어 있어요. 스크립트 상단에 오픈채팅 링크를 넣어주세요.');
+  var target = mtOpenChatUrl_(mtPick_(data, c.gender));
 
   var phone = mtFixPhone_(mtPick_(data, c.phone));
   if (!/^01[0-9]{8,9}$/.test(phone)) throw new Error('휴대폰 번호가 올바르지 않아요: ' + phone);
 
   var name = mtPick_(data, c.name) || '신청자';
-  var text = mtBuildText_(name);
+  var text = mtBuildText_(name, target);
   mtSendSms_(phone, text);
 
   var now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
@@ -206,16 +219,16 @@ function mtDecide_(row, approve, memo, force) {
   sh.getRange(row, c.sent + 1).setValue(now);
   if (memo) sh.getRange(row, c.memo + 1).setValue(memo);
 
-  return { ok: true, status: 'approved', sent: now, to: phone };
+  return { ok: true, status: 'approved', sent: now, to: phone, room: target.room };
 }
 
-function mtBuildText_(name) {
+function mtBuildText_(name, target) {
   var lines = [];
   lines.push('[' + MT_BRAND + ']');
   lines.push(name + '님, 신청이 확인됐어요!');
-  lines.push('아래 링크로 입장해주세요.');
+  lines.push('아래 ' + target.room + ' 링크로 입장해주세요.');
   lines.push('');
-  lines.push(MT_OPENCHAT_URL);
+  lines.push(target.url);
   if (MT_JOIN_CODE) lines.push('참여코드: ' + MT_JOIN_CODE);
   lines.push('');
   lines.push('※ 정치·종교 대화, 부적절한 언행 시 즉시 강퇴됩니다.');
@@ -283,8 +296,9 @@ function mtCheckSetup() {
     lines.push(label[k] + ' → ' + (i >= 0 ? ('[' + (i + 1) + '] ' + headers[i]) : '❌ 못 찾음'));
   });
   lines.push('');
-  lines.push('오픈채팅 링크: ' + (MT_OPENCHAT_URL || '❌ 비어 있음'));
   var props = PropertiesService.getScriptProperties();
+  lines.push('남자방 링크: ' + (props.getProperty('OPENCHAT_URL_M') ? 'OK' : '❌ 없음'));
+  lines.push('여자방 링크: ' + (props.getProperty('OPENCHAT_URL_F') ? 'OK' : '❌ 없음'));
   lines.push('솔라피 키: ' + (props.getProperty('SOLAPI_API_KEY') ? 'OK' : '❌ 없음'));
   lines.push('솔라피 시크릿: ' + (props.getProperty('SOLAPI_API_SECRET') ? 'OK' : '❌ 없음'));
   Logger.log(lines.join('\n'));
