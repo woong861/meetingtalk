@@ -20,6 +20,9 @@
 //   기존 폼 응답 컬럼은 절대 건드리지 않는다.
 // ================================================================
 
+// 응답 시트 ID. 비워두면 "이 스크립트가 붙어 있는 시트"를 쓴다.
+// (독립 프로젝트로 만든 경우엔 반드시 채워야 동작함)
+const MT_SHEET_ID  = '1S39xHyfjHMwNch28dNotveEQ8NGAai5OTxESGStApkM';
 const MT_ADMIN_KEY = 'meetingtalk-admin';   // admin.html 의 관리 키와 같아야 함
 const MT_JOIN_CODE = '';                     // 참여코드 (안 쓰면 빈칸)
 const MT_SENDER    = '01057182024';          // 솔라피에 등록된 발신번호
@@ -65,7 +68,11 @@ function doGet(e) {
 
 // ---------------- 시트 ----------------
 function mtSheet_() {
-  return SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  var ss = MT_SHEET_ID
+    ? SpreadsheetApp.openById(MT_SHEET_ID)
+    : SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss) throw new Error('응답 시트를 열지 못했어요. MT_SHEET_ID 를 확인해주세요.');
+  return ss.getSheets()[0];
 }
 
 // 헤더 탐색: 완전일치 우선 → 부분일치. 오탐 후보는 반드시 제외.
