@@ -162,6 +162,17 @@ textarea{resize:none;min-height:88px}
 }
 .seg input:checked+label{background:var(--pink);border-color:var(--pink);color:#fff}
 .note{font-size:13px;color:var(--ink-soft);font-weight:600;letter-spacing:-.02em;margin-top:-6px;margin-bottom:16px;line-height:1.5}
+.pay{display:none;border-radius:16px;padding:16px 17px;margin-bottom:16px}
+.pay.on{display:block}
+.pay-m{background:var(--ink);color:#fff}
+.pay-f{background:#eafaf1;border:2px solid #c3ecd5}
+.pay h4{font-size:15.5px;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:7px}
+.pay-m h4 .won{color:var(--yellow)}
+.pay-f h4{color:#0b7c41}
+.pay p{font-size:13px;font-weight:600;letter-spacing:-.02em;line-height:1.6;margin-top:7px;opacity:.9}
+.acct{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.13);border-radius:11px;padding:12px 14px;margin-top:11px}
+.acct b{font-size:15px;font-weight:900;letter-spacing:-.01em;font-variant-numeric:tabular-nums;flex:1}
+.acct button{background:var(--yellow);color:var(--ink);border:none;border-radius:8px;padding:8px 13px;font-family:inherit;font-size:12.5px;font-weight:900;cursor:pointer;flex:0 0 auto}
 .consent{display:flex;gap:11px;align-items:flex-start;background:var(--white);border:2px solid #f0dbe5;border-radius:14px;padding:15px 16px;margin-bottom:16px;cursor:pointer}
 .consent input{width:21px;height:21px;flex:0 0 auto;margin:1px 0 0;accent-color:var(--pink)}
 .consent-t{display:block;font-size:13.5px;font-weight:800;letter-spacing:-.025em;line-height:1.5}
@@ -199,7 +210,7 @@ textarea{resize:none;min-height:88px}
 
   <div class="cta-block">
     <button class="btn btn-primary" id="applyBtn" data-open-form>단톡방 입장하기</button>
-    <span class="btn-sub">간단한 신청서를 확인한 뒤 문자로 링크를 보내드려요</span>
+    <span class="btn-sub">여학우 무료 · 남학우 5,000원 · 신청서 확인 후 문자로 링크 발송</span>
     <a class="btn btn-ghost" id="matchBtn" href="#" target="_blank" rel="noopener">운영진 1:1 매칭 신청하기</a>
     <span class="btn-sub">단톡방 말고, 운영진이 직접 상대를 찾아드려요</span>
   </div>
@@ -247,8 +258,12 @@ textarea{resize:none;min-height:88px}
     <h2>자주 묻는 질문</h2>
     <div class="faq">
       <details>
-        <summary>진짜 무료인가요?</summary>
-        <p>네, 단톡방 입장과 구인글 작성은 전부 무료예요. 별도로 운영자가 1:1로 연결해드리는 매칭 서비스만 유료로 운영하고 있어요.</p>
+        <summary>입장료가 있나요?</summary>
+        <p><b>여학우는 무료</b>예요. 남학우는 5,000원을 받고 있어요. 단톡방은 성비가 맞아야 미팅이 성사되는데, 한쪽으로 쏠리면 방이 금방 죽어버려서 최소한의 장치로 두고 있어요. 승인이 안 되면 전액 환불해드려요.</p>
+      </details>
+      <details>
+        <summary>신청하면 바로 들어갈 수 있나요?</summary>
+        <p>신청서를 확인한 뒤 문자로 링크를 보내드려요. 보통 하루 안에 발송돼요. 남녀 방이 따로 운영돼서, 성별에 맞는 방 링크가 문자로 가요.</p>
       </details>
       <details>
         <summary>혼자여도 들어갈 수 있나요?</summary>
@@ -332,6 +347,19 @@ textarea{resize:none;min-height:88px}
           <label>MBTI</label>
           <input type="text" name="mbti" placeholder="예: ENFP (몰라도 괜찮아요)" maxlength="4">
         </div>
+        <div class="pay pay-m" id="payMale">
+          <h4>남학우 입장료 <span class="won">5,000원</span></h4>
+          <p>성비를 맞추기 위해 남학우만 받고 있어요.<br><b>입금 후 신청</b>해주시면 확인하고 링크를 보내드려요.</p>
+          <div class="acct">
+            <b id="acctText">카카오뱅크 3333241809842</b>
+            <button type="button" id="acctCopy">복사</button>
+          </div>
+          <p>예금주 <b id="acctHolder">박*일</b> · <b>입금자명은 위에 적은 이름과 같게</b> 해주세요.<br>승인이 안 되면 전액 환불해드려요.</p>
+        </div>
+        <div class="pay pay-f" id="payFemale">
+          <h4>여학우는 무료예요 🎀</h4>
+          <p>따로 입금하실 필요 없어요. 신청서만 남겨주시면 확인 후 링크를 보내드릴게요.</p>
+        </div>
         <label class="consent" id="consentBox">
           <input type="checkbox" id="consentChk" required>
           <span>
@@ -376,7 +404,16 @@ const CONFIG = {
   },
 
   // ── ② 운영진 1:1 매칭 신청 (구글폼으로 바로 이동) ──
-  MATCH_FORM_URL : 'https://forms.gle/jAawSAboC9cjrgfL9'
+  MATCH_FORM_URL : 'https://forms.gle/jAawSAboC9cjrgfL9',
+
+  // ── ③ 남학우 입장료 (성비 조절용) ──
+  // FEE 를 0 으로 두면 결제 안내가 아예 안 나오고 남녀 모두 무료로 동작합니다.
+  PAY : {
+    FEE     : 5000,
+    BANK    : '카카오뱅크',
+    ACCOUNT : '3333241809842',
+    HOLDER  : '박*일'
+  }
 };
 /* ══════════════════════════════════════════════════════════ */
 
@@ -397,6 +434,26 @@ $('liveCount').textContent = CONFIG.MEMBER_COUNT;
     });
   }
 });
+
+/* 성별에 따라 결제 안내 전환 */
+var PAY = CONFIG.PAY || {};
+if (PAY.FEE > 0) {
+  $('acctText').textContent = PAY.BANK + ' ' + PAY.ACCOUNT;
+  $('acctHolder').textContent = PAY.HOLDER;
+  document.querySelector('#payMale .won').textContent = PAY.FEE.toLocaleString() + '원';
+  $('acctCopy').addEventListener('click', function () {
+    navigator.clipboard.writeText(PAY.ACCOUNT).then(function () {
+      $('acctCopy').textContent = '복사됨!';
+      setTimeout(function () { $('acctCopy').textContent = '복사'; }, 1200);
+    });
+  });
+  document.querySelectorAll('input[name="gender"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      $('payMale').classList.toggle('on', r.value === '남자' && r.checked);
+      $('payFemale').classList.toggle('on', r.value === '여자' && r.checked);
+    });
+  });
+}
 
 /* 휴대폰 번호 자동 하이픈 */
 $('phoneInput').addEventListener('input', function (e) {
@@ -473,8 +530,16 @@ $('applyForm').addEventListener('submit', function (e) {
     console.log('[테스트 모드] localStorage 저장', data);
   }
 
+  if (PAY.FEE > 0 && data.gender === '남자') {
+    $('doneText').innerHTML = '입금까지 확인되면<br>보통 하루 안에 문자로 링크를 보내드릴게요.';
+  } else {
+    $('doneText').innerHTML = '신청서를 확인한 뒤<br>보통 하루 안에 문자로 링크를 보내드릴게요.';
+  }
+
   $('formView').style.display = 'none';
   $('doneView').style.display = '';
+  $('payMale').classList.remove('on');
+  $('payFemale').classList.remove('on');
   e.target.reset();
 });
 </script>
