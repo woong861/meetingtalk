@@ -192,7 +192,7 @@ function render() {
   }
   $('list').innerHTML = items.map(function (it) {
     var gender = it.gender.indexOf('여') !== -1 ? 'f' : (it.gender.indexOf('남') !== -1 ? 'm' : '');
-    var meta = [it.school, it.major, it.type].filter(Boolean).join(' · ');
+    var meta = [it.school, it.major, it.age ? it.age + '세' : '', it.mbti, it.type].filter(Boolean).join(' · ');
     var statusBadge = it.status === 'approved' ? '<span class="badge s-approved">승인됨</span>'
                     : it.status === 'rejected' ? '<span class="badge s-rejected">거절</span>' : '';
     var acts;

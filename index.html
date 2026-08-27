@@ -127,7 +127,7 @@ footer{margin-top:56px;padding:28px 0 20px;text-align:center;font-size:13px;colo
 .sticky.on{transform:translateY(0)}
 .sticky-in{max-width:var(--max);margin:0 auto;display:flex;gap:10px}
 .sticky .btn{padding:16px;font-size:16.5px}
-.sticky .btn-ghost{flex:0 0 38%}
+.sticky .btn-ghost{flex:0 0 34%;text-decoration:none}
 
 /* ── modal ── */
 .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center}
@@ -198,9 +198,10 @@ textarea{resize:none;min-height:88px}
   </div>
 
   <div class="cta-block">
-    <a class="btn btn-primary" id="joinBtn" href="#" target="_blank" rel="noopener">단톡방 바로 입장하기</a>
-    <button class="btn btn-ghost" id="applyBtn" data-open-form>단톡방은 부담돼요 → 조용히 신청만</button>
-    <span class="btn-sub" id="ctaSub">신청서만 남기면 운영자가 따로 연결해드려요</span>
+    <button class="btn btn-primary" id="applyBtn" data-open-form>단톡방 입장하기</button>
+    <span class="btn-sub">간단한 신청서를 확인한 뒤 문자로 링크를 보내드려요</span>
+    <a class="btn btn-ghost" id="matchBtn" href="#" target="_blank" rel="noopener">운영진 1:1 매칭 신청하기</a>
+    <span class="btn-sub">단톡방 말고, 운영진이 직접 상대를 찾아드려요</span>
   </div>
 
   <section>
@@ -234,11 +235,11 @@ textarea{resize:none;min-height:88px}
 
     <div class="code-card">
       <div class="code-l">
-        <div class="code-lab">참여코드</div>
-        <div class="code-v" id="joinCode">778899</div>
+        <div class="code-lab">입장 방법</div>
+        <div class="code-v" style="font-size:26px">문자로<br>링크 발송</div>
       </div>
       <div class="code-div"></div>
-      <div class="code-r" id="codeText">입장할 때<br>코드를 <span class="em">입력</span>하세요</div>
+      <div class="code-r" id="codeText">신청서를 확인한 뒤<br><span class="em">남녀 각각의 방</span> 링크를<br>문자로 보내드려요</div>
     </div>
   </section>
 
@@ -277,8 +278,8 @@ textarea{resize:none;min-height:88px}
 <!-- sticky -->
 <div class="sticky" id="sticky">
   <div class="sticky-in">
-    <button class="btn btn-ghost" id="applyBtn2" data-open-form>신청만</button>
-    <a class="btn btn-primary" id="joinBtn2" href="#" target="_blank" rel="noopener">단톡방 입장하기</a>
+    <a class="btn btn-ghost" id="matchBtn2" href="#" target="_blank" rel="noopener">1:1 매칭</a>
+    <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장하기</button>
   </div>
 </div>
 
@@ -288,8 +289,8 @@ textarea{resize:none;min-height:88px}
   <div class="sheet">
     <div class="grab"></div>
     <div id="formView">
-      <h3 id="formTitle">조용히 신청만 할게요</h3>
-      <p class="lead" id="formLead">단톡방에 들어오지 않아도 괜찮아요.<br>남겨주시면 운영자가 조건 맞는 분을 찾아 연락드려요.</p>
+      <h3 id="formTitle">단톡방 입장 신청</h3>
+      <p class="lead" id="formLead">아무나 들어올 수 없는 방이에요.<br>신청서를 확인한 뒤 문자로 링크를 보내드려요.</p>
       <form id="applyForm">
         <div class="field">
           <label>이름 <span class="req">*</span></label>
@@ -307,52 +308,45 @@ textarea{resize:none;min-height:88px}
           <input type="text" name="school" placeholder="○○대학교" required>
         </div>
         <div class="field">
-          <label>학과 / 학번</label>
-          <input type="text" name="major" placeholder="예: 경영학과 22학번">
+          <label>학과 / 학년 <span class="req">*</span></label>
+          <input type="text" name="major" placeholder="예: 경영학과 2학년" required>
         </div>
         <div class="field">
-          <label>휴대폰 번호 <span class="req" id="phoneReq" style="display:none">*</span></label>
-          <input type="tel" name="phone" id="phoneInput" placeholder="010-0000-0000" inputmode="numeric" maxlength="13">
+          <label>나이 <span class="req">*</span></label>
+          <input type="text" name="age" placeholder="예: 22" inputmode="numeric" maxlength="2" required>
+        </div>
+        <div class="field">
+          <label>휴대폰 번호 <span class="req">*</span></label>
+          <input type="tel" name="phone" id="phoneInput" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
         </div>
         <div class="field">
           <label>카카오톡 ID <span class="req">*</span></label>
           <input type="text" name="kakao" placeholder="연락드릴 카톡 아이디" required>
         </div>
         <div class="field">
-          <label>인스타그램 아이디 <span class="req" id="instaReq" style="display:none">*</span></label>
-          <input type="text" name="instagram" id="instaInput" placeholder="@ 없이 아이디만 (예: hong_gildong)">
+          <label>인스타그램 아이디 <span class="req">*</span></label>
+          <input type="text" name="instagram" id="instaInput" placeholder="@ 없이 아이디만 · 확인용이라 꼭 필요해요" required>
         </div>
-        <p class="note" id="privacyNote">번호와 카톡 ID는 운영자 연락용으로만 쓰고, 단톡방에는 절대 올라가지 않아요.</p>
+        <p class="note" id="privacyNote">입력하신 번호로 단톡방 링크를 보내드려요. 번호·카톡 ID·인스타는 단톡방에 절대 올라가지 않아요.</p>
         <div class="field">
-          <label>어떤 만남을 찾으세요?</label>
-          <select name="event_type">
-            <option value="">선택해주세요</option>
-            <option>1:1 소개팅</option>
-            <option>2:2 미팅</option>
-            <option>3:3 이상 단체 미팅</option>
-            <option>과팅</option>
-            <option>아직 잘 모르겠어요</option>
-          </select>
+          <label>MBTI</label>
+          <input type="text" name="mbti" placeholder="예: ENFP (몰라도 괜찮아요)" maxlength="4">
         </div>
-        <div class="field">
-          <label>한 줄 소개</label>
-          <textarea name="intro" placeholder="어떤 사람인지, 어떤 사람을 만나고 싶은지 편하게 적어주세요"></textarea>
-        </div>
-        <label class="consent" id="consentBox" style="display:none">
-          <input type="checkbox" id="consentChk">
+        <label class="consent" id="consentBox">
+          <input type="checkbox" id="consentChk" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·학과·휴대폰 번호·카카오톡 ID·인스타그램 아이디 / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·학과/학년·나이·휴대폰 번호·카카오톡 ID·인스타그램 아이디·MBTI / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
           </span>
         </label>
-        <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">신청서 제출하기</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">입장 신청하기</button>
         <button type="button" class="btn btn-ghost" data-close style="margin-top:10px">닫기</button>
       </form>
     </div>
     <div id="doneView" style="display:none" class="done">
       <div class="done-ic">💌</div>
-      <h3 id="doneTitle">신청이 접수됐어요</h3>
-      <p id="doneText">조건에 맞는 분이 나타나면<br>카톡으로 먼저 연락드릴게요.</p>
+      <h3 id="doneTitle">입장 신청이 접수됐어요</h3>
+      <p id="doneText">신청서를 확인한 뒤<br>보통 하루 안에 문자로 링크를 보내드릴게요.</p>
       <button type="button" class="btn btn-primary" data-close style="margin-top:24px">확인</button>
     </div>
   </div>
@@ -363,136 +357,93 @@ textarea{resize:none;min-height:88px}
    설정 — 이 부분만 바꾸면 됩니다
    ══════════════════════════════════════════════════════════ */
 const CONFIG = {
-  // 카카오 오픈채팅 링크 (필수 — 아직 비어있음)
-  OPENCHAT_URL : '',
-
-  // 오픈채팅 입장 참여코드
-  JOIN_CODE    : '778899',
-
   // 표시용 인원수 (실제 방 인원에 맞춰 조정)
   MEMBER_COUNT : 137,
 
-  // ── 승인제(게이팅) 스위치 ──────────────────────────────
-  // false : 오픈채팅 링크를 바로 공개 (마찰 0 · 모수 확보용)
-  // true  : 링크를 감추고, 신청서를 받아 운영자가 확인 후 문자로 링크 발송
-  //         → 방이 100명쯤 되고 활성화된 뒤에 켜는 걸 권장
-  GATED_MODE  : false,
+  // ── ① 단톡방 입장 신청 (구글폼 "✅ 전국 대학 미팅단톡 ✅") ──
+  // 이 페이지의 신청서가 아래 구글폼으로 조용히 제출됩니다.
+  JOIN_FORM_URL : 'https://docs.google.com/forms/d/e/1FAIpQLSeIo2cThxxxPmyXDPr0UP-jD_Mc-mX2KE-MW4ZLTOGlCjKD2g/formResponse',
+  JOIN_FIELD_IDS : {
+    gender    : 'entry.1673705470',
+    name      : 'entry.36462127',
+    school    : 'entry.875223748',
+    major     : 'entry.990433814',
+    age       : 'entry.1560830201',
+    phone     : 'entry.1842828426',
+    kakao     : 'entry.93356708',
+    instagram : 'entry.1762284157',
+    mbti      : 'entry.60215028'
+  },
 
-  // 게이팅 모드에서 안내할 검토 소요시간 (기대치 관리용)
-  REVIEW_TIME : '보통 하루 안에',
-
-  // 신청서를 받을 구글폼 — 반드시 "새 폼"을 만들어 넣으세요.
-  // ⚠️ 연애학개론/쪽지팅 폼을 그대로 쓰면 신청자 명단이 섞입니다.
-  //    비워두면 제출 내용이 브라우저에만 저장되는 테스트 모드로 동작합니다.
-  GOOGLE_FORM_URL : '',
-  FIELD_IDS : {
-    name       : 'entry.553539159',
-    school     : 'entry.270231493',
-    event_type : 'entry.664976439',
-    major      : 'entry.2115899897',
-    gender     : 'entry.1385767725',
-    phone      : 'entry.1423910806',
-    kakao      : 'entry.2032933019',
-    instagram  : 'entry.182511457',
-    intro      : 'entry.922392339'
-  }
+  // ── ② 운영진 1:1 매칭 신청 (구글폼으로 바로 이동) ──
+  MATCH_FORM_URL : 'https://forms.gle/jAawSAboC9cjrgfL9'
 };
 /* ══════════════════════════════════════════════════════════ */
 
-/* 설정 반영 */
-document.getElementById('joinCode').textContent = CONFIG.JOIN_CODE;
-document.getElementById('liveCount').textContent = CONFIG.MEMBER_COUNT;
+var $ = function (id) { return document.getElementById(id); };
 
-var $ = function(id){ return document.getElementById(id); };
-var GATED = !!CONFIG.GATED_MODE;
+$('liveCount').textContent = CONFIG.MEMBER_COUNT;
 
-/* ── 입장 버튼: 게이팅이 꺼져 있을 때만 노출 ───────────────── */
-[$('joinBtn'), $('joinBtn2')].forEach(function(a){
-  if (GATED) { a.style.display = 'none'; return; }
-  if (CONFIG.OPENCHAT_URL) {
-    a.href = CONFIG.OPENCHAT_URL;
+/* 1:1 매칭 버튼 */
+[$('matchBtn'), $('matchBtn2')].forEach(function (a) {
+  if (CONFIG.MATCH_FORM_URL) {
+    a.href = CONFIG.MATCH_FORM_URL;
   } else {
     a.href = '#';
     a.removeAttribute('target');
-    a.addEventListener('click', function(e){
+    a.addEventListener('click', function (e) {
       e.preventDefault();
-      alert('오픈채팅 링크가 아직 연결되지 않았어요.\n\nindex.html 의 CONFIG.OPENCHAT_URL 에\n카카오 오픈채팅 링크를 넣어주세요.');
+      alert('매칭 신청 폼이 아직 연결되지 않았어요.');
     });
   }
 });
 
-/* ── 게이팅 모드 문구·필수값 전환 ─────────────────────────── */
-if (GATED) {
-  $('applyBtn').className  = 'btn btn-primary';
-  $('applyBtn').textContent = '입장 신청하기';
-  $('applyBtn2').className = 'btn btn-primary';
-  $('applyBtn2').textContent = '입장 신청하기';
-  $('applyBtn2').style.flex = '1 1 auto';
-  $('ctaSub').textContent  = '신청서를 확인한 뒤 문자로 오픈채팅 링크를 보내드려요';
-
-  $('formTitle').textContent = '단톡방 입장 신청';
-  $('formLead').innerHTML    = '아무나 들어올 수 없는 방이에요.<br>신청서를 확인한 뒤 문자로 링크를 보내드려요.';
-  $('submitBtn').textContent = '입장 신청하기';
-
-  $('phoneInput').required = true;
-  $('phoneReq').style.display = '';
-  $('instaInput').required = true;
-  $('instaReq').style.display = '';
-  $('instaInput').placeholder = '@ 없이 아이디만 · 확인용이라 꼭 필요해요';
-  $('privacyNote').textContent = '입력하신 번호로 오픈채팅 링크를 보내드려요. 번호와 카톡 ID는 단톡방에 절대 올라가지 않아요.';
-  $('consentBox').style.display = '';
-  $('consentChk').required = true;
-
-  $('codeText').innerHTML = '문자로 받은 링크로<br>입장할 때 <span class="em">입력</span>하세요';
-
-  $('doneTitle').textContent = '입장 신청이 접수됐어요';
-  $('doneText').innerHTML =
-    '신청서를 확인한 뒤<br>' + CONFIG.REVIEW_TIME + ' 문자로 링크를 보내드릴게요.';
-}
-
 /* 휴대폰 번호 자동 하이픈 */
-$('phoneInput').addEventListener('input', function(e){
+$('phoneInput').addEventListener('input', function (e) {
   var v = e.target.value.replace(/[^0-9]/g, '').slice(0, 11);
   if (v.length > 7)      v = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7);
   else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
   e.target.value = v;
 });
 
+/* 인스타 아이디에서 @ 자동 제거 */
+$('instaInput').addEventListener('input', function (e) {
+  e.target.value = e.target.value.replace(/[@\s]/g, '');
+});
+
 /* 스티키 CTA — 히어로 CTA가 화면 위로 사라지면 등장 */
-var sticky = document.getElementById('sticky');
+var sticky = $('sticky');
 var anchor = document.querySelector('.cta-block');
-function syncSticky(){
-  var bottom = anchor.getBoundingClientRect().bottom;
-  sticky.classList.toggle('on', bottom < 60);
+function syncSticky() {
+  sticky.classList.toggle('on', anchor.getBoundingClientRect().bottom < 60);
 }
 window.addEventListener('scroll', syncSticky, { passive: true });
 window.addEventListener('resize', syncSticky);
 syncSticky();
 
 /* 모달 */
-var modal = document.getElementById('modal');
-function openModal(){
-  document.getElementById('formView').style.display = '';
-  document.getElementById('doneView').style.display = 'none';
+var modal = $('modal');
+function openModal() {
+  $('formView').style.display = '';
+  $('doneView').style.display = 'none';
   modal.classList.add('on');
   document.body.style.overflow = 'hidden';
 }
-function closeModal(){
+function closeModal() {
   modal.classList.remove('on');
   document.body.style.overflow = '';
 }
-document.querySelectorAll('[data-open-form]').forEach(function(b){ b.addEventListener('click', openModal); });
-document.querySelectorAll('[data-close]').forEach(function(b){ b.addEventListener('click', closeModal); });
-document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+document.querySelectorAll('[data-open-form]').forEach(function (b) { b.addEventListener('click', openModal); });
+document.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', closeModal); });
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
 
-/* 신청서 제출 */
-document.getElementById('applyForm').addEventListener('submit', function(e){
+/* 신청서 제출 → 구글폼으로 조용히 POST */
+$('applyForm').addEventListener('submit', function (e) {
   e.preventDefault();
   var data = {};
-  new FormData(e.target).forEach(function(v, k){ data[k] = v; });
+  new FormData(e.target).forEach(function (v, k) { data[k] = v; });
 
-  if (CONFIG.GOOGLE_FORM_URL) {
-    /* 구글폼으로 조용히 POST (iframe 방식 — 페이지 이동 없음) */
+  if (CONFIG.JOIN_FORM_URL) {
     var frameName = 'gf_' + Math.floor(performance.now());
     var frame = document.createElement('iframe');
     frame.name = frameName;
@@ -500,31 +451,30 @@ document.getElementById('applyForm').addEventListener('submit', function(e){
     document.body.appendChild(frame);
 
     var f = document.createElement('form');
-    f.action = CONFIG.GOOGLE_FORM_URL;
+    f.action = CONFIG.JOIN_FORM_URL;
     f.method = 'POST';
     f.target = frameName;
     f.style.display = 'none';
-    Object.keys(data).forEach(function(key){
-      if (!CONFIG.FIELD_IDS[key]) return;
+    Object.keys(data).forEach(function (key) {
+      if (!CONFIG.JOIN_FIELD_IDS[key]) return;
       var i = document.createElement('input');
       i.type = 'hidden';
-      i.name = CONFIG.FIELD_IDS[key];
+      i.name = CONFIG.JOIN_FIELD_IDS[key];
       i.value = data[key];
       f.appendChild(i);
     });
     document.body.appendChild(f);
     f.submit();
-    setTimeout(function(){ f.remove(); frame.remove(); }, 4000);
+    setTimeout(function () { f.remove(); frame.remove(); }, 4000);
   } else {
-    /* 테스트 모드 — 로컬에만 저장 */
     var saved = JSON.parse(localStorage.getItem('meetingtalk_apps') || '[]');
     saved.push(data);
     localStorage.setItem('meetingtalk_apps', JSON.stringify(saved));
-    console.log('[테스트 모드] 신청 내용이 localStorage에만 저장됐습니다.', data);
+    console.log('[테스트 모드] localStorage 저장', data);
   }
 
-  document.getElementById('formView').style.display = 'none';
-  document.getElementById('doneView').style.display = '';
+  $('formView').style.display = 'none';
+  $('doneView').style.display = '';
   e.target.reset();
 });
 </script>

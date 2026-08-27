@@ -111,6 +111,8 @@ function mtCols_(sh) {
     gender : mtFindCol_(headers, ['성별'], ['성별'], []),
     school : mtFindCol_(headers, ['재학중인 학교', '학교'], ['학교', '대학'], ['학과']),
     major  : mtFindCol_(headers, ['학과/학년', '학과'], ['학과', '전공', '학번'], []),
+    age    : mtFindCol_(headers, ['나이'], ['나이'], []),
+    mbti   : mtFindCol_(headers, ['MBTI'], ['MBTI', 'mbti'], []),
     phone  : mtFindCol_(headers, ['연락처', '휴대폰 번호'], ['연락처', '휴대폰', '전화'], []),
     kakao  : mtFindCol_(headers, ['카카오톡', '카카오톡 ID'], ['카카오', '카톡'], ['추천']),
     insta  : mtFindCol_(headers, ['인스타 ID', '인스타그램 아이디'], ['인스타'], ['추천']),
@@ -173,6 +175,8 @@ function mtList_() {
       phone   : mtFixPhone_(mtPick_(row, c.phone)),
       kakao   : mtPick_(row, c.kakao),
       insta   : insta,
+      age     : mtPick_(row, c.age),
+      mbti    : mtPick_(row, c.mbti),
       type    : mtPick_(row, c.type),
       intro   : mtPick_(row, c.intro),
       status  : status,
@@ -287,8 +291,9 @@ function mtCheckSetup() {
   var c = mtCols_(sh);
   var headers = c._headers;
   var label = {
-    name: '이름', gender: '성별', school: '학교', major: '학과',
-    phone: '연락처', kakao: '카톡', insta: '인스타', type: '희망유형', intro: '자기소개'
+    name: '이름', gender: '성별', school: '학교', major: '학과', age: '나이',
+    phone: '연락처', kakao: '카톡', insta: '인스타', mbti: 'MBTI',
+    type: '희망유형(단톡방 폼엔 없어도 됨)', intro: '자기소개(단톡방 폼엔 없어도 됨)'
   };
   var lines = ['시트: ' + sh.getName(), '헤더: ' + headers.join(' | '), ''];
   Object.keys(label).forEach(function (k) {
