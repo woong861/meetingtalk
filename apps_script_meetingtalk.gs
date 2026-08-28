@@ -147,6 +147,14 @@ function mtPick_(row, idx) {
   return idx >= 0 && idx < row.length ? String(row[idx] == null ? '' : row[idx]).trim() : '';
 }
 
+// 시트가 '2026-08-28 13:39' 를 날짜로 자동 변환하는 경우가 있어 다시 포맷해준다
+function mtPickTime_(row, idx) {
+  if (idx < 0 || idx >= row.length) return '';
+  var v = row[idx];
+  if (v instanceof Date) return Utilities.formatDate(v, 'Asia/Seoul', 'MM/dd HH:mm');
+  return String(v == null ? '' : v).trim();
+}
+
 // ---------------- 목록 ----------------
 function mtList_() {
   var sh = mtSheet_();
@@ -188,7 +196,7 @@ function mtList_() {
       type    : mtPick_(row, c.type),
       intro   : mtPick_(row, c.intro),
       status  : status,
-      sent    : mtPick_(row, c.sent),
+      sent    : mtPickTime_(row, c.sent),
       memo    : mtPick_(row, c.memo)
     });
   });
