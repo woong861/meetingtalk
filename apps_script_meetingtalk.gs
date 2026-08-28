@@ -11,6 +11,7 @@
 //      SOLAPI_API_SECRET = 솔라피 API 시크릿
 //      OPENCHAT_URL_M    = 남자방 오픈채팅 링크
 //      OPENCHAT_URL_F    = 여자방 오픈채팅 링크
+//      ADMIN_KEY         = 관리 키 (admin.html 에 입력하는 값과 동일)
 //    ⚠️ 오픈채팅 링크는 코드에 직접 적지 말 것.
 //       (레포가 public이라 링크가 새면 승인제가 무의미해짐)
 // 6) 배포 → 새 배포 → 웹 앱 → 실행: 나 / 액세스: 모든 사용자 → 배포
@@ -23,7 +24,12 @@
 // 응답 시트 ID. 비워두면 "이 스크립트가 붙어 있는 시트"를 쓴다.
 // (독립 프로젝트로 만든 경우엔 반드시 채워야 동작함)
 const MT_SHEET_ID  = '1S39xHyfjHMwNch28dNotveEQ8NGAai5OTxESGStApkM';
-const MT_ADMIN_KEY = 'meetingtalk-admin';   // admin.html 의 관리 키와 같아야 함
+// 관리 키는 스크립트 속성 ADMIN_KEY 에 넣는다 (코드에 적으면 GitHub에 공개됨).
+// 속성이 없을 때만 아래 기본값이 쓰인다.
+const MT_ADMIN_KEY_FALLBACK = 'meetingtalk-admin';
+function mtAdminKey_() {
+  return PropertiesService.getScriptProperties().getProperty('ADMIN_KEY') || MT_ADMIN_KEY_FALLBACK;
+}
 const MT_JOIN_CODE = '';                     // 참여코드 (안 쓰면 빈칸)
 const MT_SENDER    = '01057182024';          // 솔라피에 등록된 발신번호
 const MT_BRAND     = '전국대학 미팅단톡';
@@ -48,7 +54,7 @@ function doGet(e) {
   var out;
   try {
     var p = (e && e.parameter) || {};
-    var isAdmin = p.key === MT_ADMIN_KEY;
+    var isAdmin = p.key === mtAdminKey_();
     if (!isAdmin) throw new Error('auth');
 
     switch (p.action) {
