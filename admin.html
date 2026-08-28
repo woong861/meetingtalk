@@ -132,6 +132,22 @@ try {
   $('adminKey').value = cfg.key || 'meetingtalk-admin';
 } catch (e) { $('adminKey').value = 'meetingtalk-admin'; }
 
+/* 주소창 # 뒤로 접속 정보를 받는다 (북마크용).
+   #은 서버로 전송되지 않아 접속 기록에 남지 않는다.
+   예: admin.html#api=https://.../exec&key=내관리키 */
+(function () {
+  var h = location.hash.replace(/^#/, '');
+  if (!h) return;
+  var p = new URLSearchParams(h);
+  var api = p.get('api'), key = p.get('key');
+  if (api) $('apiUrl').value = api;
+  if (key) $('adminKey').value = key;
+  if (api || key) {
+    // 화면에 키가 계속 노출되지 않도록 주소창에서는 지운다 (북마크에는 남음)
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  }
+})();
+
 function showMsg(text, type) {
   $('msg').innerHTML = text ? '<div class="msg ' + (type || 'info') + '">' + text + '</div>' : '';
 }
