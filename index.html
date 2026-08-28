@@ -525,8 +525,9 @@ textarea{resize:none;min-height:88px}
    설정 — 이 부분만 바꾸면 됩니다
    ══════════════════════════════════════════════════════════ */
 const CONFIG = {
-  // 표시용 인원수 (실제 방 인원에 맞춰 조정)
-  MEMBER_COUNT : 137,
+  // 목업에 표시할 인원수. 0 이면 숫자를 아예 감춘다.
+  // 실제로 사람이 어느 정도 차면 그때 실제 숫자를 넣을 것 (부풀리면 들어와서 바로 들킨다)
+  MEMBER_COUNT : 0,
 
   // ── ① 단톡방 입장 신청 (구글폼 "✅ 전국 대학 미팅단톡 ✅") ──
   // 이 페이지의 신청서가 아래 구글폼으로 조용히 제출됩니다.
@@ -583,7 +584,11 @@ const CONFIG = {
 
 var $ = function (id) { return document.getElementById(id); };
 
-$('liveCount').textContent = CONFIG.MEMBER_COUNT;
+if (CONFIG.MEMBER_COUNT > 0) {
+  $('liveCount').textContent = CONFIG.MEMBER_COUNT;
+} else {
+  $('liveCount').style.display = 'none';
+}
 
 
 /* 성별에 따라 결제 안내 전환 */
