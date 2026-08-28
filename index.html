@@ -8,9 +8,20 @@
 <meta property="og:title" content="전국대학 미팅단톡">
 <meta property="og:description" content="과팅·미팅 품앗이 단톡방 열었어요. 한 명 대타 급할 때도 여기로!">
 <meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<meta property="og:url" content="https://meetingtalk.cloud/">
+<meta property="og:image" content="https://meetingtalk.cloud/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="전국대학 미팅단톡">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="전국대학 미팅단톡">
+<meta name="twitter:description" content="과팅·미팅 품앗이 단톡방 열었어요. 한 명 대타 급할 때도 여기로!">
+<meta name="twitter:image" content="https://meetingtalk.cloud/og.png">
+<meta name="theme-color" content="#ff3d87">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff3d87'/%3E%3Cpath d='M16 25c-.4 0-.8-.15-1.1-.42C10.6 20.7 8 18.3 8 15.1 8 12.6 9.9 10.8 12.2 10.8c1.4 0 2.8.68 3.8 1.9 1-1.22 2.4-1.9 3.8-1.9 2.3 0 4.2 1.8 4.2 4.3 0 3.2-2.6 5.6-6.9 9.48-.3.27-.7.42-1.1.42z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
 <style>
 :root{
   --pink:#ff3d87; --pink-deep:#e02870; --pink-soft:#ffd7e5; --pink-bg:#fdeaf1;
@@ -21,8 +32,12 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
+/* 스크롤하면 살짝 올라오며 나타남 */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.8,.3,1)}
+.reveal.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 body{
-  font-family:'Gothic A1',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
   background:var(--pink-bg); color:var(--ink);
   line-height:1.6; overflow-x:hidden; padding-bottom:118px;
 }
@@ -60,6 +75,7 @@ h1 .l2{color:var(--pink);display:block}
 .av{width:38px;height:38px;border-radius:13px;flex:0 0 auto}
 .av-p{background:var(--pink-soft)}.av-b{background:var(--blue)}
 .bub{background:#f1edf1;border-radius:16px;padding:11px 17px;font-size:16px;font-weight:600;letter-spacing:-.03em}
+.time{font-size:11px;color:#b3a3b0;font-weight:600;align-self:flex-end;margin-bottom:2px;letter-spacing:-.02em;flex:0 0 auto}
 .msg-me{justify-content:flex-end;margin-top:20px}
 .bub-me{background:var(--yellow);font-weight:800}
 
@@ -72,6 +88,12 @@ h1 .l2{color:var(--pink);display:block}
   transition:transform .12s ease,box-shadow .12s ease;text-decoration:none;
 }
 .btn:active{transform:scale(.975)}
+.btn-primary:hover{box-shadow:0 10px 26px rgba(255,61,135,.42)}
+.btn-ghost:hover{border-color:#e7c3d4}
+.step{transition:transform .18s ease,box-shadow .18s ease}
+.step:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(180,60,110,.11)}
+.tag{transition:transform .15s ease}
+.tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
 .btn-sub{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);text-align:center;margin-top:-4px;letter-spacing:-.02em}
@@ -203,9 +225,9 @@ textarea{resize:none;min-height:88px}
       <span class="mock-title">전국대학 미팅단톡</span>
       <span class="mock-count" id="liveCount">137</span>
     </div>
-    <div class="msg"><div class="av av-p"></div><div class="bub">2:2 오늘 저녁 가능한 분?</div></div>
-    <div class="msg"><div class="av av-b"></div><div class="bub">저희과 3명 대기중이요!</div></div>
-    <div class="msg msg-me"><div class="bub bub-me">한 명만 대타 구해요 🙏</div></div>
+    <div class="msg"><div class="av av-p"></div><div class="bub">2:2 오늘 저녁 가능한 분?</div><span class="time">오후 7:32</span></div>
+    <div class="msg"><div class="av av-b"></div><div class="bub">저희과 3명 대기중이요!</div><span class="time">7:33</span></div>
+    <div class="msg msg-me"><span class="time">7:35</span><div class="bub bub-me">한 명만 대타 구해요 🙏</div></div>
   </div>
 
   <div class="cta-block">
@@ -596,6 +618,34 @@ $('phoneInput').addEventListener('input', function (e) {
 $('instaInput').addEventListener('input', function (e) {
   e.target.value = e.target.value.replace(/[@\s]/g, '');
 });
+
+/* 스크롤 등장 효과 — 첫 화면에 보이는 요소는 건드리지 않는다 */
+(function () {
+  var targets = document.querySelectorAll('.steps .step, .code-card, .faq details, .tags');
+  if (!('IntersectionObserver' in window)) return;
+
+  var below = [];
+  targets.forEach(function (el, i) {
+    // 이미 화면에 들어와 있으면 효과 없이 그대로 보여준다
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.95) return;
+    el.classList.add('reveal');
+    el.style.transitionDelay = Math.min(i % 4, 3) * 60 + 'ms';
+    below.push(el);
+  });
+  if (!below.length) return;
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('on'); io.unobserve(en.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+  below.forEach(function (el) { io.observe(el); });
+
+  // 안전장치: 어떤 이유로든 관찰이 동작하지 않으면 2초 뒤 모두 노출
+  setTimeout(function () {
+    below.forEach(function (el) { el.classList.add('on'); });
+  }, 2000);
+})();
 
 /* 스티키 CTA — 히어로 CTA가 화면 위로 사라지면 등장 */
 var sticky = $('sticky');
