@@ -33,6 +33,7 @@ function mtAdminKey_() {
 const MT_JOIN_CODE = '';                     // 참여코드 (안 쓰면 빈칸)
 const MT_SENDER    = '01057182024';          // 솔라피에 등록된 발신번호
 const MT_BRAND     = '전국대학 미팅단톡';
+const MT_PAY_FORM  = 'https://forms.gle/14sji6FuT4gU9WWS7';  // 입장료 입금 확인 폼 (남학우)
 
 // 오픈채팅 링크는 스크립트 속성에서 읽는다 (코드에 하드코딩 금지)
 function mtOpenChatUrl_(gender) {
@@ -48,6 +49,7 @@ function mtOpenChatUrl_(gender) {
 const MT_COL_STATUS = '승인상태';
 const MT_COL_SENT   = '발송시각';
 const MT_COL_MEMO   = '메모';
+const MT_COL_PAYSENT = '입금안내발송';
 
 // ---------------- 라우터 ----------------
 function doGet(e) {
@@ -62,6 +64,7 @@ function doGet(e) {
       case 'approve': out = mtDecide_(Number(p.row), true,  p.memo || ''); break;
       case 'reject':  out = mtDecide_(Number(p.row), false, p.memo || ''); break;
       case 'resend':  out = mtDecide_(Number(p.row), true,  p.memo || '', true); break;
+      case 'payinfo': out = mtSendPayInfo_(Number(p.row)); break;
       case 'ping':    out = { ok: true, sheet: mtSheet_().getName() }; break;
       default:        out = { error: 'unknown action' };
     }
@@ -135,6 +138,7 @@ function mtCols_(sh) {
   c.status = mtEnsureCol_(sh, headers, MT_COL_STATUS);
   c.sent   = mtEnsureCol_(sh, headers, MT_COL_SENT);
   c.memo   = mtEnsureCol_(sh, headers, MT_COL_MEMO);
+  c.paysent = mtEnsureCol_(sh, headers, MT_COL_PAYSENT);
   c._headers = headers;
   return c;
 }
@@ -203,7 +207,8 @@ function mtList_() {
       intro   : mtPick_(row, c.intro),
       status  : status,
       sent    : mtPickTime_(row, c.sent),
-      memo    : mtPick_(row, c.memo)
+      memo    : mtPick_(row, c.memo),
+      paysent : mtPickTime_(row, c.paysent)
     });
   });
 
@@ -248,6 +253,28 @@ function mtDecide_(row, approve, memo, force) {
   return { ok: true, status: 'approved', sent: now, to: phone, room: target.room };
 }
 
+// 남학우에게 입장료 입금 안내 SMS (90바이트 이내 단문)
+function mtSendPayInfo_(row) {
+  if (!row || row < 2) throw new Error('행 번호가 잘못됐어요.');
+  var sh = mtSheet_();
+  var c = mtCols_(sh);
+  var data = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues()[0];
+  if (!data[0]) throw new Error('빈 행이에요.');
+
+  var gender = mtPick_(data, c.gender);
+  if (gender.indexOf('남') === -1) throw new Error('입장료 안내는 남학우에게만 보냅니다.');
+
+  var phone = mtFixPhone_(mtPick_(data, c.phone));
+  if (!/^01[0-9]{8,9}$/.test(phone)) throw new Error('휴대폰 번호가 올바르지 않아요: ' + phone);
+
+  var text = '[미팅단톡] 신청 확인! 입장료 5천원 입금 후 폼 제출 ' + MT_PAY_FORM;
+  mtSendSms_(phone, text, 'SMS');
+
+  var now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
+  sh.getRange(row, c.paysent + 1).setValue(now);
+  return { ok: true, sent: now, to: phone, kind: 'payinfo' };
+}
+
 function mtBuildText_(name, target) {
   var lines = [];
   lines.push('[' + MT_BRAND + ']');
@@ -276,16 +303,15 @@ function mtSolapiAuth_() {
   return 'HMAC-SHA256 apiKey=' + key + ', date=' + date + ', salt=' + salt + ', signature=' + sig;
 }
 
-function mtSendSms_(to, text) {
-  var payload = {
-    message: {
-      to      : to,
-      from    : MT_SENDER,
-      text    : text,
-      type    : 'LMS',
-      subject : MT_BRAND
-    }
-  };
+function mtSendSms_(to, text, type) {
+  var msg = { to: to, from: MT_SENDER, text: text };
+  if (type === 'SMS') {
+    msg.type = 'SMS';          // 90바이트 이내 단문 (약 11원)
+  } else {
+    msg.type = 'LMS';          // 장문 (약 33원)
+    msg.subject = MT_BRAND;
+  }
+  var payload = { message: msg };
   var res = UrlFetchApp.fetch('https://api.solapi.com/messages/v4/send', {
     method            : 'post',
     contentType       : 'application/json',
@@ -304,6 +330,41 @@ function mtSendSms_(to, text) {
     throw new Error('솔라피 응답 오류: ' + body);
   }
   return json;
+}
+
+// ---------------- 신청 즉시 자동 발송 (남학우 입장료 안내) ----------------
+// 폼 제출이 시트에 들어오면 실행된다. 남학우면 입장료 안내 SMS를 자동 발송.
+// ※ mtInstallTrigger() 를 에디터에서 한 번 실행해야 작동한다.
+function mtOnFormSubmit(e) {
+  try {
+    var sh = mtSheet_();
+    var row = sh.getLastRow();
+    // 트리거 이벤트에 행 정보가 있으면 그걸 우선 사용
+    if (e && e.range && e.range.getRow) row = e.range.getRow();
+    if (row < 2) return;
+
+    var c = mtCols_(sh);
+    var data = sh.getRange(row, 1, 1, sh.getLastColumn()).getValues()[0];
+    if (!data[0]) return;
+    if (mtPick_(data, c.gender).indexOf('남') === -1) return;   // 여학우는 발송 안 함
+    if (mtPick_(data, c.paysent)) return;                       // 이미 보냈으면 재발송 안 함
+
+    mtSendPayInfo_(row);
+  } catch (err) {
+    Logger.log('자동 입장료 안내 실패: ' + err);
+  }
+}
+
+// 트리거 설치 (에디터에서 한 번만 실행)
+function mtInstallTrigger() {
+  var ss = SpreadsheetApp.openById(MT_SHEET_ID);
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'mtOnFormSubmit') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('mtOnFormSubmit').forSpreadsheet(ss).onFormSubmit().create();
+  var msg = '설치 완료: 남학우 신청 시 입장료 안내가 자동 발송됩니다.';
+  Logger.log(msg);
+  return msg;
 }
 
 // ---------------- 설치 확인용 ----------------

@@ -36,6 +36,7 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
 .b-no{background:var(--white);color:var(--no);border:2px solid #f3d5dc}
 .b-gray{background:var(--white);color:var(--soft);border:2px solid var(--line)}
 .id.b-insta{background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);color:#fff}
+.b-pay{background:#fff8e1;color:#8a6100;border:2px solid #ffe08a}
 
 .stats{display:flex;gap:8px;margin-top:14px}
 .stat{flex:1;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center}
@@ -230,6 +231,13 @@ function render() {
     var needPay = PAY_FEE > 0 && gender === 'm' && it.status === 'pending';
     if (needPay) statusBadge += '<span class="badge s-pay">입금확인 필요</span>';
     var acts;
+    // 남학우 대기중이면 입장료 안내 문자 버튼을 따로 둔다
+    var payRow = '';
+    if (needPay) {
+      payRow = '<div class="acts"><button class="btn b-pay" data-act="payinfo" data-row="' + it.row + '">'
+             + (it.paysent ? '입장료 안내 재발송' : '입장료 안내 문자 보내기')
+             + '</button></div>';
+    }
     if (it.status === 'approved') {
       acts = '<button class="btn b-gray" data-act="resend" data-row="' + it.row + '">문자 재발송</button>';
     } else if (it.status === 'rejected') {
@@ -251,7 +259,9 @@ function render() {
       +   (it.kakao ? '<button class="id" data-copy="' + esc(it.kakao) + '">💬 ' + esc(it.kakao) + '</button>' : '')
       +   (it.phone ? '<button class="id" data-copy="' + esc(it.phone) + '">📱 ' + esc(it.phone) + '</button>' : '')
       + '</div>'
-      + (it.sent ? '<div class="sentline">✓ ' + esc(it.sent) + ' 발송</div>' : '')
+      + (it.paysent ? '<div class="sentline" style="color:#8a6100">💰 ' + esc(it.paysent) + ' 입장료 안내 발송</div>' : '')
+      + (it.sent ? '<div class="sentline">✓ ' + esc(it.sent) + ' 링크 발송</div>' : '')
+      + payRow
       + '<div class="acts">' + acts + '</div>'
       + '</div>';
   }).join('');
@@ -294,6 +304,8 @@ $('list').addEventListener('click', function (e) {
         + '입금자명: ' + it.name + '\n\n확인됐다면 남자방 링크를 발송합니다.';
     }
     if (!confirm(q)) return;
+  } else if (act === 'payinfo') {
+    if (!confirm(it.name + '님(' + it.phone + ')에게\n입장료 5,000원 안내 문자를 보낼까요?')) return;
   } else if (act === 'reject') {
     if (!confirm(it.name + '님을 거절 처리할까요?\n(문자는 발송되지 않아요)')) return;
   }
@@ -303,6 +315,7 @@ $('list').addEventListener('click', function (e) {
   btn.textContent = '처리 중…';
   api(act, { row: row }).then(function (res) {
     if (res.skipped) showMsg(res.message, 'info');
+    else if (res.kind === 'payinfo') showMsg('💰 입장료 안내 문자를 ' + (res.to || '') + ' 로 보냈어요.', 'info');
     else if (res.room) showMsg('✓ ' + res.room + ' 링크를 ' + (res.to || '') + ' 로 발송했어요.', 'info');
     load();
   }).catch(function (err) {
