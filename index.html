@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>전국대학 미팅단톡 | 과팅·미팅 품앗이 단톡방</title>
-<meta name="description" content="전국 대학생 과팅·미팅 품앗이 단톡방. 2:2, 3:3, 한 명 대타까지. 재학생 인증 후 입장.">
-<meta property="og:title" content="전국대학 미팅단톡">
-<meta property="og:description" content="과팅·미팅 품앗이 단톡방 열었어요. 한 명 대타 급할 때도 여기로!">
+<title>전국대학 미팅·과팅 | 소개팅·미팅 상대 찾아드려요</title>
+<meta name="description" content="전국 대학생 소개팅·미팅 매칭. 조건 맞는 상대를 운영진이 직접 찾아드려요. 여학우 무료.">
+<meta property="og:title" content="전국대학 미팅·과팅">
+<meta property="og:description" content="소개팅·미팅 상대를 운영진이 찾아드려요. 여학우 무료.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://meetingtalk.cloud/">
 <meta property="og:image" content="https://meetingtalk.cloud/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:site_name" content="전국대학 미팅단톡">
+<meta property="og:site_name" content="전국대학 미팅·과팅">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="전국대학 미팅단톡">
-<meta name="twitter:description" content="과팅·미팅 품앗이 단톡방 열었어요. 한 명 대타 급할 때도 여기로!">
+<meta name="twitter:title" content="전국대학 미팅·과팅">
+<meta name="twitter:description" content="소개팅·미팅 상대를 운영진이 찾아드려요. 여학우 무료.">
 <meta name="twitter:image" content="https://meetingtalk.cloud/og.png">
 <meta name="theme-color" content="#ff3d87">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff3d87'/%3E%3Cpath d='M16 25c-.4 0-.8-.15-1.1-.42C10.6 20.7 8 18.3 8 15.1 8 12.6 9.9 10.8 12.2 10.8c1.4 0 2.8.68 3.8 1.9 1-1.22 2.4-1.9 3.8-1.9 2.3 0 4.2 1.8 4.2 4.3 0 3.2-2.6 5.6-6.9 9.48-.3.27-.7.42-1.1.42z' fill='%23fff'/%3E%3C/svg%3E">
@@ -219,7 +219,7 @@ textarea{resize:none;min-height:88px}
 
   <header class="hero">
     <div class="badge"><span class="dot"></span>전국 대학생 누구나</div>
-    <h1>전국대학<span class="l2">미팅단톡</span></h1>
+    <h1>전국대학<span class="l2">미팅·과팅</span></h1>
     <p class="sub">
       조건 맞는 상대를 <span class="hl">운영진이 찾아드려요</span><br>
       1:1 소개팅 · 2:2 · 3:3 미팅
@@ -287,7 +287,7 @@ textarea{resize:none;min-height:88px}
       <details>
         <summary>얼마인가요?</summary>
         <p><b>단톡방 입장은 남녀 모두 무료</b>예요.</p>
-        <p>운영진이 상대를 찾아드리는 매칭만 유료예요.<br>· 1:1 소개팅 — 남 18,000원 / 여 무료<br>· 2:2 · 3:3 미팅 — 남 9,000원 / 여 3,000원</p>
+        <p>운영진이 상대를 찾아드리는 매칭만 유료예요.<br>· 1:1 소개팅 — 남 16,000원 / 여 무료<br>· 2:2 · 3:3 미팅 — 남 8,000원 / 여 무료</p>
         <p>매칭이 안 되면 전액 환불해드려요.</p>
       </details>
       <details>
@@ -318,7 +318,7 @@ textarea{resize:none;min-height:88px}
   </section>
 
   <footer>
-    전국대학 미팅단톡<br>
+    전국대학 미팅·과팅<br>
     문의는 단톡방 운영자에게 남겨주세요
   </footer>
 </div>
@@ -437,11 +437,11 @@ textarea{resize:none;min-height:88px}
         <div class="pay pay-m" id="matchPay">
           <h4 id="matchFeeTitle">참가비 <span class="won">-</span></h4>
           <p id="matchFeeDesc"></p>
-          <div class="acct">
+          <div class="acct" id="matchAcctBox">
             <b id="matchAcct">카카오뱅크 3333241809842</b>
             <button type="button" id="matchAcctCopy">복사</button>
           </div>
-          <p>예금주 <b id="matchHolder">박*일</b> · <b>입금 후</b> 아래 입금 정보를 적어주세요.<br>매칭이 안 되면 전액 환불해드려요.</p>
+          <p id="matchAcctNote">예금주 <b id="matchHolder">박*일</b> · <b>입금 후</b> 아래 입금 정보를 적어주세요.<br>매칭이 안 되면 전액 환불해드려요.</p>
         </div>
 
         <div class="field">
@@ -544,10 +544,10 @@ const CONFIG = {
 
   // 매칭 참가비 — [남자, 여자] 원
   MATCH_PRICE : {
-    '소개팅'   : [18000, 0],
-    '2대2미팅' : [9000, 3000],
-    '3대3미팅' : [9000, 3000],
-    '4대4미팅' : [9000, 3000]
+    '소개팅'   : [16000, 0],
+    '2대2미팅' : [8000, 0],
+    '3대3미팅' : [8000, 0],
+    '4대4미팅' : [8000, 0]
   },
 
   // ── ③ 남학우 입장료 (성비 조절용) ──
@@ -755,10 +755,14 @@ function syncMatchFee() {
 
   box.classList.add('on');
   var label = tv === '소개팅' ? '1:1 소개팅' : tv.replace('대', ':').replace('미팅', ' 미팅');
-  if (fee === 0) {
+  var free = (fee === 0);
+  // 무료면 계좌 안내를 숨긴다
+  $('matchAcctBox').style.display = free ? 'none' : '';
+  $('matchAcctNote').style.display = free ? 'none' : '';
+  if (free) {
     box.className = 'pay pay-f on';
-    $('matchFeeTitle').innerHTML = label + ' — 여학우 <span class="won">무료</span>';
-    $('matchFeeDesc').textContent = '따로 입금하실 필요 없어요. 아래 입금 정보란에는 "무료"라고 적어주세요.';
+    $('matchFeeTitle').innerHTML = label + ' — <span class="won">무료</span>';
+    $('matchFeeDesc').textContent = '입금하실 필요 없어요. 아래 입금 정보란에는 "무료"라고 적어주세요.';
   } else {
     box.className = 'pay pay-m on';
     $('matchFeeTitle').innerHTML = label + ' 참가비 <span class="won">' + fee.toLocaleString() + '원</span>';
