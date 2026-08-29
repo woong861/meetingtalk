@@ -426,7 +426,7 @@ textarea{resize:none;min-height:88px}
         <div class="field">
           <label>어떤 만남을 원하세요? <span class="req">*</span></label>
           <select name="type" id="matchType" required>
-            <option value="">선택해주세요</option>
+            <option value="">선택하면 참가비가 표시돼요</option>
             <option value="소개팅">1:1 소개팅</option>
             <option value="2대2미팅">2:2 미팅</option>
             <option value="3대3미팅">3:3 미팅</option>
@@ -448,9 +448,23 @@ textarea{resize:none;min-height:88px}
           <label>학교 <span class="req">*</span></label>
           <input type="text" name="school" placeholder="○○대학교" required>
         </div>
+        <div class="row2">
+          <div class="field">
+            <label>학과 / 학년 <span class="req">*</span></label>
+            <input type="text" name="major" placeholder="예: 경영학과 2학년" required>
+          </div>
+          <div class="field narrow">
+            <label>나이 <span class="req">*</span></label>
+            <input type="text" name="age" placeholder="22" inputmode="numeric" maxlength="2" required>
+          </div>
+        </div>
         <div class="field">
           <label>휴대폰 번호 <span class="req">*</span></label>
           <input type="tel" name="phone" id="matchPhone" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
+        </div>
+        <div class="field">
+          <label>카카오톡 ID <span class="req">*</span></label>
+          <input type="text" name="kakao" placeholder="매칭되면 상대에게 전달돼요" required>
         </div>
         <div class="field">
           <label>인스타그램 아이디 <span class="req">*</span></label>
@@ -491,9 +505,20 @@ textarea{resize:none;min-height:88px}
     </div>
     <div id="matchDoneView" style="display:none" class="done">
       <div class="done-ic">💘</div>
-      <h3>매칭 신청이 접수됐어요</h3>
-      <p>입금 확인 후 매칭이 진행돼요.<br>상대가 정해지면 문자로 알려드릴게요.</p>
-      <button type="button" class="btn btn-primary" data-close-match style="margin-top:24px">확인</button>
+      <h3 id="matchDoneTitle">매칭 신청이 접수됐어요</h3>
+      <p id="matchDoneText">상대가 정해지면 문자로 알려드릴게요.</p>
+
+      <div class="pay pay-m" id="matchDonePay" style="text-align:left;margin-top:22px">
+        <h4>입금하시면 매칭이 시작돼요</h4>
+        <p id="matchDoneFee"></p>
+        <div class="acct">
+          <b id="matchDoneAcct">카카오뱅크 3333241809842</b>
+          <button type="button" id="matchDoneCopy">복사</button>
+        </div>
+        <p>예금주 <b id="matchDoneHolder">박*일</b> · <b>입금자명은 신청서에 적은 이름</b>으로 해주세요.<br>매칭이 안 되면 전액 환불해드려요.</p>
+      </div>
+
+      <button type="button" class="btn btn-primary" data-close-match style="margin-top:22px">확인</button>
     </div>
   </div>
 </div>
@@ -785,11 +810,35 @@ $('matchInsta').addEventListener('input', function (e) {
   e.target.value = e.target.value.replace(/[@\s]/g, '');
 });
 
+$('matchDoneAcct').textContent = PAY.BANK + ' ' + PAY.ACCOUNT;
+$('matchDoneHolder').textContent = PAY.HOLDER;
+$('matchDoneCopy').addEventListener('click', function () {
+  navigator.clipboard.writeText(PAY.ACCOUNT).then(function () {
+    $('matchDoneCopy').textContent = '복사됨!';
+    setTimeout(function () { $('matchDoneCopy').textContent = '복사'; }, 1200);
+  });
+});
+
 $('matchForm').addEventListener('submit', function (e) {
   e.preventDefault();
   var data = {};
   new FormData(e.target).forEach(function (v, k) { data[k] = v; });
   submitToForm(CONFIG.MATCH_FORM_URL, CONFIG.MATCH_FIELD_IDS, data, 'meetingtalk_match');
+
+  // 완료 화면에 본인 참가비와 계좌를 다시 한 번 보여준다
+  var price = (CONFIG.MATCH_PRICE || {})[data.type];
+  var fee = price ? (data.gender === '여자' ? price[1] : price[0]) : 0;
+  var label = data.type === '소개팅' ? '1:1 소개팅'
+            : (data.type || '').replace('대', ':').replace('미팅', ' 미팅');
+  if (fee > 0) {
+    $('matchDonePay').style.display = 'block';
+    $('matchDoneFee').innerHTML = label + ' <b>' + fee.toLocaleString() + '원</b>';
+    $('matchDoneText').innerHTML = '입금이 확인되면 매칭을 시작해요.<br>상대가 정해지면 문자로 알려드릴게요.';
+  } else {
+    $('matchDonePay').style.display = 'none';
+    $('matchDoneText').innerHTML = '여학우는 무료예요.<br>상대가 정해지면 문자로 알려드릴게요.';
+  }
+
   $('matchFormView').style.display = 'none';
   $('matchDoneView').style.display = '';
   $('matchPay').classList.remove('on');
