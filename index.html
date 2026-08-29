@@ -164,11 +164,17 @@ footer{margin-top:56px;padding:28px 0 20px;text-align:center;font-size:13px;colo
 .grab{width:42px;height:5px;border-radius:99px;background:#e3cbd8;margin:0 auto 18px}
 .sheet h3{font-size:23px;font-weight:900;letter-spacing:-.04em;line-height:1.3}
 .sheet .lead{margin-top:8px;margin-bottom:20px}
-.field{margin-bottom:15px}
-label{display:block;font-size:14px;font-weight:800;letter-spacing:-.025em;margin-bottom:7px}
+.field{margin-bottom:13px}
+.feechip{display:flex;align-items:center;gap:12px;justify-content:center;background:#fff;border:2px solid #f3dde7;border-radius:14px;padding:11px;margin:-6px 0 18px;font-size:14px;font-weight:800;letter-spacing:-.03em}
+.feechip .f{color:#0aa35a}.feechip .m{color:var(--pink-deep)}
+.feechip .d{width:1px;height:14px;background:#e8d5df}
+.row2{display:flex;gap:10px}
+.row2 .field{flex:1;margin-bottom:13px}
+.row2 .field.narrow{flex:0 0 32%}
+label{display:block;font-size:13.5px;font-weight:800;letter-spacing:-.025em;margin-bottom:6px}
 label .req{color:var(--pink)}
 input,select,textarea{
-  width:100%;padding:15px 16px;border:2px solid #f0dbe5;border-radius:14px;background:var(--white);
+  width:100%;padding:13px 15px;border:2px solid #f0dbe5;border-radius:14px;background:var(--white);
   font-family:inherit;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:-.02em;
   transition:border-color .15s ease;
 }
@@ -179,7 +185,7 @@ textarea{resize:none;min-height:88px}
 .seg{display:flex;gap:9px}
 .seg input{display:none}
 .seg label{
-  flex:1;margin:0;padding:15px;text-align:center;background:var(--white);border:2px solid #f0dbe5;
+  flex:1;margin:0;padding:13px;text-align:center;background:var(--white);border:2px solid #f0dbe5;
   border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;transition:all .15s ease;
 }
 .seg input:checked+label{background:var(--pink);border-color:var(--pink);color:#fff}
@@ -242,7 +248,7 @@ textarea{resize:none;min-height:88px}
     <div class="steps">
       <div class="step">
         <div class="step-n">1</div>
-        <div><div class="step-t">신청서 작성</div><div class="step-d">30초면 끝나요. 이름·학교·번호·인스타만 받아요.</div></div>
+        <div><div class="step-t">신청서 작성</div><div class="step-d">1분이면 끝나요. 이름·성별·학교·나이·번호·인스타만 받아요.</div></div>
       </div>
       <div class="step">
         <div class="step-n">2</div>
@@ -336,12 +342,13 @@ textarea{resize:none;min-height:88px}
   <div class="sheet">
     <div class="grab"></div>
     <div id="formView">
-      <h3 id="formTitle">단톡방 입장 신청</h3>
-      <p class="lead" id="formLead">아무나 들어올 수 없는 방이에요.<br>신청서를 확인한 뒤 문자로 링크를 보내드려요.<br><b style="color:var(--ink)">여학우 무료 · 남학우 5,000원</b></p>
+      <h3 id="formTitle">1분이면 끝나요</h3>
+      <p class="lead" id="formLead">아래 항목만 적으면 끝!<br>확인되는 대로 <b style="color:var(--ink)">바로 문자로 링크</b>를 보내드려요.</p>
+      <div class="feechip"><span class="f">여학우 무료</span><span class="d"></span><span class="m">남학우 5,000원</span></div>
       <form id="applyForm">
         <div class="field">
           <label>이름 <span class="req">*</span></label>
-          <input type="text" name="name" placeholder="실명으로 적어주세요" required>
+          <input type="text" name="name" placeholder="홍길동" required>
         </div>
         <div class="field">
           <label>성별 <span class="req">*</span></label>
@@ -350,9 +357,15 @@ textarea{resize:none;min-height:88px}
             <input type="radio" name="gender" id="g-f" value="여자"><label for="g-f">여자</label>
           </div>
         </div>
-        <div class="field">
-          <label>학교 <span class="req">*</span></label>
-          <input type="text" name="school" placeholder="○○대학교" required>
+        <div class="row2">
+          <div class="field">
+            <label>학교 <span class="req">*</span></label>
+            <input type="text" name="school" placeholder="○○대학교" required>
+          </div>
+          <div class="field narrow">
+            <label>나이 <span class="req">*</span></label>
+            <input type="text" name="age" placeholder="22" inputmode="numeric" maxlength="2" required>
+          </div>
         </div>
         <div class="field">
           <label>휴대폰 번호 <span class="req">*</span></label>
@@ -380,7 +393,7 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="consentChk" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·휴대폰 번호·인스타그램 아이디 / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·나이·휴대폰 번호·인스타그램 아이디 / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">입장 신청하기</button>
@@ -414,7 +427,7 @@ textarea{resize:none;min-height:88px}
         </div>
         <div class="field">
           <label>이름 <span class="req">*</span></label>
-          <input type="text" name="name" placeholder="실명으로 적어주세요" required>
+          <input type="text" name="name" placeholder="홍길동" required>
         </div>
         <div class="field">
           <label>어떤 만남을 원하세요? <span class="req">*</span></label>
@@ -691,7 +704,7 @@ $('applyForm').addEventListener('submit', function (e) {
 
   // 구글폼 쪽에 아직 필수로 남아 있는 항목들은 자동으로 채워 보낸다.
   // (사용자에게는 묻지 않는 항목 — 폼에서 필수 해제하면 이 줄은 지워도 된다)
-  ['major', 'age', 'kakao', 'mbti'].forEach(function (k) { if (!data[k]) data[k] = '-'; });
+  ['major', 'kakao', 'mbti'].forEach(function (k) { if (!data[k]) data[k] = '-'; });
 
   submitToForm(CONFIG.JOIN_FORM_URL, CONFIG.JOIN_FIELD_IDS, data, 'meetingtalk_apps');
 
