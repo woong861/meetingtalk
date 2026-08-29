@@ -242,11 +242,11 @@ textarea{resize:none;min-height:88px}
     <div class="steps">
       <div class="step">
         <div class="step-n">1</div>
-        <div><div class="step-t">신청서 작성</div><div class="step-d">1분이면 끝나요. 여학우는 무료, 남학우는 입장료 5,000원이에요.</div></div>
+        <div><div class="step-t">신청서 작성</div><div class="step-d">30초면 끝나요. 이름·학교·번호·인스타만 받아요.</div></div>
       </div>
       <div class="step">
         <div class="step-n">2</div>
-        <div><div class="step-t">문자로 링크 받기</div><div class="step-d">확인 후 보통 하루 안에, 성별에 맞는 방 링크를 문자로 보내드려요.</div></div>
+        <div><div class="step-t">문자로 링크 받기</div><div class="step-d">확인되는 대로 바로 보내드려요. 성별에 맞는 방으로 안내해드려요.</div></div>
       </div>
       <div class="step">
         <div class="step-n">3</div>
@@ -295,7 +295,7 @@ textarea{resize:none;min-height:88px}
       </details>
       <details>
         <summary>신청하면 바로 들어갈 수 있나요?</summary>
-        <p>신청서를 확인한 뒤 문자로 링크를 보내드려요. 보통 하루 안에 발송돼요. 남녀 방이 따로 운영돼서, 성별에 맞는 방 링크가 문자로 가요.</p>
+        <p>신청서를 확인하는 대로 문자로 링크를 보내드려요. 남녀 방이 따로 운영돼서, 성별에 맞는 방 링크가 문자로 가요.</p>
       </details>
       <details>
         <summary>혼자여도 들어갈 수 있나요?</summary>
@@ -355,30 +355,14 @@ textarea{resize:none;min-height:88px}
           <input type="text" name="school" placeholder="○○대학교" required>
         </div>
         <div class="field">
-          <label>학과 / 학년 <span class="req">*</span></label>
-          <input type="text" name="major" placeholder="예: 경영학과 2학년" required>
-        </div>
-        <div class="field">
-          <label>나이 <span class="req">*</span></label>
-          <input type="text" name="age" placeholder="예: 22" inputmode="numeric" maxlength="2" required>
-        </div>
-        <div class="field">
           <label>휴대폰 번호 <span class="req">*</span></label>
           <input type="tel" name="phone" id="phoneInput" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
         </div>
         <div class="field">
-          <label>카카오톡 ID <span class="req">*</span></label>
-          <input type="text" name="kakao" placeholder="연락드릴 카톡 아이디" required>
-        </div>
-        <div class="field">
           <label>인스타그램 아이디 <span class="req">*</span></label>
-          <input type="text" name="instagram" id="instaInput" placeholder="@ 없이 아이디만 · 확인용이라 꼭 필요해요" required>
+          <input type="text" name="instagram" id="instaInput" placeholder="@ 없이 아이디만" required>
         </div>
-        <p class="note" id="privacyNote">입력하신 번호로 단톡방 링크를 보내드려요. 번호·카톡 ID·인스타는 단톡방에 절대 올라가지 않아요.</p>
-        <div class="field">
-          <label>MBTI</label>
-          <input type="text" name="mbti" placeholder="예: ENFP (몰라도 괜찮아요)" maxlength="4">
-        </div>
+        <p class="note" id="privacyNote">입력하신 번호로 단톡방 링크를 보내드려요.<br>번호·인스타는 단톡방에 절대 올라가지 않아요.</p>
         <div class="pay pay-m" id="payMale">
           <h4>남학우 입장료 <span class="won">5,000원</span></h4>
           <p>이 금액은 <b>단톡방 입장료</b>예요.<br>미팅 성사를 보장하는 금액이 아닙니다.<br>성비를 맞추기 위해 남학우만 받고 있어요.</p>
@@ -396,7 +380,7 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="consentChk" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·학과/학년·나이·휴대폰 번호·카카오톡 ID·인스타그램 아이디·MBTI / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·휴대폰 번호·인스타그램 아이디 / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">입장 신청하기</button>
@@ -406,7 +390,7 @@ textarea{resize:none;min-height:88px}
     <div id="doneView" style="display:none" class="done">
       <div class="done-ic">💌</div>
       <h3 id="doneTitle">입장 신청이 접수됐어요</h3>
-      <p id="doneText">신청서를 확인한 뒤<br>보통 하루 안에 문자로 링크를 보내드릴게요.</p>
+      <p id="doneText">확인되는 대로<br>문자로 링크를 보내드릴게요.</p>
       <button type="button" class="btn btn-primary" data-close style="margin-top:24px">확인</button>
     </div>
   </div>
@@ -458,20 +442,8 @@ textarea{resize:none;min-height:88px}
           <input type="text" name="school" placeholder="○○대학교" required>
         </div>
         <div class="field">
-          <label>학과 / 학년 <span class="req">*</span></label>
-          <input type="text" name="major" placeholder="예: 경영학과 2학년" required>
-        </div>
-        <div class="field">
-          <label>나이 <span class="req">*</span></label>
-          <input type="text" name="age" placeholder="예: 22" inputmode="numeric" maxlength="2" required>
-        </div>
-        <div class="field">
           <label>휴대폰 번호 <span class="req">*</span></label>
           <input type="tel" name="phone" id="matchPhone" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
-        </div>
-        <div class="field">
-          <label>카카오톡 ID <span class="req">*</span></label>
-          <input type="text" name="kakao" placeholder="연락드릴 카톡 아이디" required>
         </div>
         <div class="field">
           <label>인스타그램 아이디 <span class="req">*</span></label>
@@ -717,13 +689,16 @@ $('applyForm').addEventListener('submit', function (e) {
   var data = {};
   new FormData(e.target).forEach(function (v, k) { data[k] = v; });
 
-  if (!data.mbti) data.mbti = '모름';   // 구글폼에서 MBTI가 필수라 빈 값 방지
+  // 구글폼 쪽에 아직 필수로 남아 있는 항목들은 자동으로 채워 보낸다.
+  // (사용자에게는 묻지 않는 항목 — 폼에서 필수 해제하면 이 줄은 지워도 된다)
+  ['major', 'age', 'kakao', 'mbti'].forEach(function (k) { if (!data[k]) data[k] = '-'; });
+
   submitToForm(CONFIG.JOIN_FORM_URL, CONFIG.JOIN_FIELD_IDS, data, 'meetingtalk_apps');
 
   if (PAY.FEE > 0 && data.gender === '남자') {
-    $('doneText').innerHTML = '입금까지 확인되면<br>보통 하루 안에 문자로 링크를 보내드릴게요.';
+    $('doneText').innerHTML = '곧 입금 안내 문자를 보내드려요.<br>입금 확인되면 링크를 보내드릴게요.';
   } else {
-    $('doneText').innerHTML = '신청서를 확인한 뒤<br>보통 하루 안에 문자로 링크를 보내드릴게요.';
+    $('doneText').innerHTML = '확인되는 대로<br>문자로 링크를 보내드릴게요.';
   }
 
   $('formView').style.display = 'none';

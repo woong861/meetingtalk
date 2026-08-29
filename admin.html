@@ -225,7 +225,10 @@ function render() {
   }
   $('list').innerHTML = items.map(function (it) {
     var gender = it.gender.indexOf('여') !== -1 ? 'f' : (it.gender.indexOf('남') !== -1 ? 'm' : '');
-    var meta = [it.school, it.major, it.age ? it.age + '세' : '', it.mbti, it.type].filter(Boolean).join(' · ');
+    var clean = function (v) { return (!v || v === '-') ? '' : v; };
+    var meta = [clean(it.school), clean(it.major),
+                clean(it.age) ? clean(it.age) + '세' : '',
+                clean(it.mbti), clean(it.type)].filter(Boolean).join(' · ');
     var statusBadge = it.status === 'approved' ? '<span class="badge s-approved">승인됨</span>'
                     : it.status === 'rejected' ? '<span class="badge s-rejected">거절</span>' : '';
     // 남자 신청자는 입금 확인이 필요 (여자는 무료)
@@ -257,7 +260,7 @@ function render() {
       + (it.intro ? '<div class="intro">' + esc(it.intro) + '</div>' : '')
       + '<div class="ids">'
       +   (it.insta ? '<a class="id b-insta" style="text-decoration:none" href="https://instagram.com/' + encodeURIComponent(it.insta) + '" target="_blank" rel="noopener">📷 @' + esc(it.insta) + '</a>' : '<span class="id" style="color:#c05">인스타 없음</span>')
-      +   (it.kakao ? '<button class="id" data-copy="' + esc(it.kakao) + '">💬 ' + esc(it.kakao) + '</button>' : '')
+      +   (clean(it.kakao) ? '<button class="id" data-copy="' + esc(it.kakao) + '">💬 ' + esc(it.kakao) + '</button>' : '')
       +   (it.phone ? '<button class="id" data-copy="' + esc(it.phone) + '">📱 ' + esc(it.phone) + '</button>' : '')
       + '</div>'
       + (it.paysent ? '<div class="sentline" style="color:#8a6100">💰 ' + esc(it.paysent) + ' 입장료 안내 발송</div>' : '')

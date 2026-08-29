@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--pink:#ff2d7e;--deep:#e0186a;--yellow:#ffd93d;--ink:#241a2b;--soft:#ffd9e6;--blue:#cfe2ff}
+html,body{width:1080px;height:1080px;overflow:hidden}
+body{
+  font-family:Pretendard,'Apple SD Gothic Neo',sans-serif;
+  background:linear-gradient(150deg,#ff4f92 0%,#ff2d7e 45%,#e0186a 100%);
+  color:#fff;position:relative;padding:46px 50px;display:flex;flex-direction:column;
+}
+.dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 2px,transparent 2px);background-size:26px 26px}
+.glow{position:absolute;border-radius:50%;filter:blur(2px)}
+.g1{width:420px;height:420px;background:rgba(255,255,255,.13);top:-160px;right:-120px}
+.g2{width:300px;height:300px;background:rgba(255,217,61,.22);bottom:-120px;left:-90px}
+.z{position:relative;z-index:2;display:flex;flex-direction:column;height:100%}
+
+.badge{
+  align-self:flex-start;display:inline-flex;align-items:center;gap:13px;
+  background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.45);
+  padding:11px 26px;border-radius:999px;font-size:27px;font-weight:800;letter-spacing:-.03em;
+}
+.badge i{width:12px;height:12px;border-radius:50%;background:#7dfcb0;display:block}
+
+h1{margin-top:20px;font-size:108px;font-weight:900;letter-spacing:-.06em;line-height:.98;text-shadow:0 6px 24px rgba(120,10,60,.28)}
+h1 .y{color:var(--yellow)}
+.sub{margin-top:18px;font-size:35px;font-weight:800;letter-spacing:-.04em;line-height:1.4}
+.sub .u{border-bottom:4px solid var(--yellow);padding-bottom:3px}
+
+.mock{
+  margin-top:26px;background:#fff;color:var(--ink);border-radius:34px;
+  padding:24px 26px 26px;box-shadow:0 26px 54px rgba(120,10,60,.3);
+}
+.msg{display:flex;gap:14px;align-items:center;margin-top:15px}
+.msg:first-child{margin-top:0}
+.av{width:52px;height:52px;border-radius:17px;flex:0 0 auto}
+.ap{background:var(--soft)}.ab{background:var(--blue)}
+.bub{background:#f2eef2;border-radius:24px;padding:14px 25px;font-size:31px;font-weight:700;letter-spacing:-.04em}
+.me{justify-content:flex-end}
+.bme{background:var(--yellow);font-weight:900}
+
+.spacer{flex:1;min-height:18px}
+
+.fee{
+  background:#fff;color:var(--ink);border-radius:26px;padding:20px 30px;
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  font-size:34px;font-weight:900;letter-spacing:-.04em;
+}
+.fee .f{color:#0aa35a}
+.fee .m{color:var(--deep)}
+.fee .bar{width:3px;height:32px;background:#e8dfe6}
+
+.url{
+  margin-top:16px;text-align:center;font-size:38px;font-weight:900;letter-spacing:-.02em;
+  background:var(--ink);border-radius:20px;padding:20px;
+}
+.url .p{color:var(--yellow)}
+</style>
+</head>
+<body>
+<div class="dots"></div><div class="glow g1"></div><div class="glow g2"></div>
+<div class="z">
+  <div class="badge"><i></i>전국 대학생 누구나</div>
+  <h1>전국대학<br><span class="y">미팅단톡</span></h1>
+  <p class="sub"><span class="u">과팅·미팅 품앗이 단톡방</span><br>한 명 대타 급할 때도 여기로!</p>
+
+  <div class="mock">
+    <div class="msg"><div class="av ap"></div><div class="bub">2:2 오늘 저녁 가능한 분?</div></div>
+    <div class="msg"><div class="av ab"></div><div class="bub">저희과 3명 대기중이요!</div></div>
+    <div class="msg me"><div class="bub bme">한 명만 대타 구해요 🙏</div></div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="fee">
+    <span class="f">여학우 무료</span><span class="bar"></span><span class="m">남학우 5,000원</span>
+  </div>
+  <div class="url">meetingtalk<span class="p">.cloud</span></div>
+</div>
+</body>
+</html>
