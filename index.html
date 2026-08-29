@@ -51,7 +51,7 @@ body::before{
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 
 /* ── hero ── */
-.hero{padding:44px 0 8px}
+.hero{padding:38px 0 6px}
 .badge{
   display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;
   padding:9px 18px;border-radius:999px;font-size:14px;font-weight:700;letter-spacing:-.02em;
@@ -60,12 +60,20 @@ body::before{
 @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
 h1{margin:20px 0 0;font-size:clamp(46px,13.5vw,64px);font-weight:900;letter-spacing:-.045em;line-height:1.02}
 h1 .l2{color:var(--pink);display:block}
-.sub{margin-top:20px;font-size:clamp(18px,4.8vw,21px);font-weight:700;letter-spacing:-.03em;line-height:1.5}
+.sub{margin-top:18px;font-size:clamp(17px,4.5vw,20px);font-weight:700;letter-spacing:-.03em;line-height:1.5}
 .sub .hl{background:linear-gradient(transparent 58%,var(--pink-soft) 58%);padding:0 3px}
 
 /* ── kakao mock ── */
+.freerow{display:flex;align-items:center;gap:11px;margin-top:20px;flex-wrap:wrap}
+.freebadge{
+  background:linear-gradient(135deg,#0aa35a,#0b8f50);color:#fff;
+  padding:11px 20px;border-radius:999px;font-size:16px;font-weight:900;letter-spacing:-.03em;
+  box-shadow:0 6px 16px rgba(10,163,90,.28);
+}
+.freesub{font-size:14px;font-weight:700;color:var(--ink-soft);letter-spacing:-.03em}
+
 .mock{
-  margin-top:30px;background:var(--white);border-radius:var(--radius);
+  margin-top:26px;background:var(--white);border-radius:var(--radius);
   padding:24px 22px 26px;box-shadow:var(--shadow);
 }
 .mock-head{display:flex;align-items:baseline;gap:10px;padding-bottom:14px;border-bottom:1px solid #f0e6ec}
@@ -80,11 +88,11 @@ h1 .l2{color:var(--pink);display:block}
 .bub-me{background:var(--yellow);font-weight:800}
 
 /* ── cta ── */
-.cta-block{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+.cta-block{margin-top:24px;display:flex;flex-direction:column;gap:12px}
 .btn{
   display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
-  padding:19px 20px;border:none;border-radius:18px;font-family:inherit;
-  font-size:18px;font-weight:800;letter-spacing:-.03em;cursor:pointer;
+  padding:20px;border:none;border-radius:18px;font-family:inherit;
+  font-size:18.5px;font-weight:900;letter-spacing:-.035em;cursor:pointer;
   transition:transform .12s ease,box-shadow .12s ease;text-decoration:none;
 }
 .btn:active{transform:scale(.975)}
@@ -94,7 +102,7 @@ h1 .l2{color:var(--pink);display:block}
 .step:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(180,60,110,.11)}
 .tag{transition:transform .15s ease}
 .tag:hover{transform:translateY(-1px)}
-.btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
+.btn-primary{background:linear-gradient(135deg,#ff4f92,#ff2d7e);color:#fff;box-shadow:0 10px 26px rgba(255,45,126,.38)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
 .btn-sub{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);text-align:center;margin-top:-4px;letter-spacing:-.02em}
 
@@ -112,6 +120,19 @@ h2 .em{color:var(--pink)}
 }
 .step-t{font-size:17px;font-weight:800;letter-spacing:-.03em}
 .step-d{font-size:14.5px;color:var(--ink-soft);font-weight:600;letter-spacing:-.02em;margin-top:3px}
+
+.prices{margin-top:20px;display:flex;flex-direction:column;gap:11px}
+.pc{background:var(--white);border-radius:18px;padding:19px 21px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 4px 14px rgba(180,60,110,.07)}
+.pc.free{background:#eafaf1;box-shadow:none;border:2px solid #c9edd9}
+.pc-t{font-size:16.5px;font-weight:800;letter-spacing:-.035em}
+.pc-r{font-size:15px;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:9px;white-space:nowrap}
+.pc-r .w{color:#0aa35a}
+.pc-r .m{color:var(--pink-deep)}
+.pc-r .dot{width:3px;height:3px;border-radius:50%;background:#d8c8d2}
+
+.trust{margin-top:14px;display:flex;gap:9px}
+.tr{flex:1;background:var(--white);border:2px solid #f2e4ec;border-radius:15px;padding:14px 10px;text-align:center;font-size:12.5px;font-weight:600;color:var(--ink-soft);letter-spacing:-.03em;line-height:1.5}
+.tr b{color:var(--ink);font-weight:800}
 
 .tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
 .tag{background:var(--white);border:1.5px solid #f2dde6;border-radius:999px;padding:11px 17px;font-size:14.5px;font-weight:700;letter-spacing:-.025em}
@@ -224,7 +245,18 @@ textarea{resize:none;min-height:88px}
       조건 맞는 상대를 <span class="hl">운영진이 찾아드려요</span><br>
       1:1 소개팅 · 2:2 · 3:3 미팅
     </p>
+    <div class="freerow">
+      <span class="freebadge">여학우 전부 무료</span>
+      <span class="freesub">단톡방은 남녀 모두 무료</span>
+    </div>
   </header>
+
+
+  <div class="cta-block">
+    <button class="btn btn-primary" id="matchBtn" data-open-match>소개팅 · 미팅 신청하기</button>
+    <span class="btn-sub">신청하면 <b>전국 미팅 단톡방도 무료</b>로 들어가실 수 있어요</span>
+    <button class="btn btn-ghost" id="applyBtn" data-open-form>단톡방만 무료로 입장하기</button>
+  </div>
 
   <div class="mock">
     <div class="mock-head">
@@ -234,12 +266,6 @@ textarea{resize:none;min-height:88px}
     <div class="msg"><div class="av av-p"></div><div class="bub">2:2 오늘 저녁 가능한 분?</div><span class="time">오후 7:32</span></div>
     <div class="msg"><div class="av av-b"></div><div class="bub">저희과 3명 대기중이요!</div><span class="time">7:33</span></div>
     <div class="msg msg-me"><span class="time">7:35</span><div class="bub bub-me">한 명만 대타 구해요 🙏</div></div>
-  </div>
-
-  <div class="cta-block">
-    <button class="btn btn-primary" id="matchBtn" data-open-match>소개팅 · 미팅 신청하기</button>
-    <span class="btn-sub">신청하면 <b>전국 미팅 단톡방도 무료</b>로 들어가실 수 있어요</span>
-    <button class="btn btn-ghost" id="applyBtn" data-open-form>단톡방만 무료로 입장하기</button>
   </div>
 
   <section>
@@ -262,7 +288,31 @@ textarea{resize:none;min-height:88px}
   </section>
 
   <section>
-    <h2>입장 <span class="em">전에</span> 확인해주세요</h2>
+    <h2>요금은 <span class="em">이렇게</span> 돼요</h2>
+    <p class="lead">여학우는 전부 무료예요.</p>
+    <div class="prices">
+      <div class="pc">
+        <div class="pc-t">1:1 소개팅</div>
+        <div class="pc-r"><span class="w">여 무료</span><span class="dot"></span><span class="m">남 16,000원</span></div>
+      </div>
+      <div class="pc">
+        <div class="pc-t">2:2 · 3:3 미팅</div>
+        <div class="pc-r"><span class="w">여 무료</span><span class="dot"></span><span class="m">남 8,000원</span></div>
+      </div>
+      <div class="pc free">
+        <div class="pc-t">전국 미팅 단톡방</div>
+        <div class="pc-r"><span class="w">남녀 모두 무료</span></div>
+      </div>
+    </div>
+    <div class="trust">
+      <div class="tr"><b>매칭 안 되면</b><br>전액 환불</div>
+      <div class="tr"><b>연락처는</b><br>상대에게만 공개</div>
+      <div class="tr"><b>같은 학교</b><br>매칭 제외 가능</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>이건 <span class="em">지켜주세요</span></h2>
     <div class="tags">
       <span class="tag">재학생·졸업생만</span>
       <span class="tag no">정치·종교 관련 X</span>
