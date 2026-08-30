@@ -150,7 +150,6 @@ footer{margin-top:56px;padding:28px 0 20px;text-align:center;font-size:13px;colo
 .sticky-in{max-width:var(--max);margin:0 auto;display:flex;gap:10px}
 .sticky .btn{padding:16px;font-size:16.5px}
 .sticky .btn-ghost{flex:0 0 34%;text-decoration:none}
-.sticky .btn-primary{flex:1}
 
 /* ── modal ── */
 .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center}
@@ -239,7 +238,8 @@ textarea{resize:none;min-height:88px}
 
   <div class="cta-block">
     <button class="btn btn-primary" id="matchBtn" data-open-match>소개팅 · 미팅 신청하기</button>
-    <span class="btn-sub">신청하시면 <b>전국 미팅 단톡방도 무료로 입장</b>하실 수 있어요</span>
+    <span class="btn-sub">신청하면 <b>전국 미팅 단톡방도 무료</b>로 들어가실 수 있어요</span>
+    <button class="btn btn-ghost" id="applyBtn" data-open-form>단톡방만 무료로 입장하기</button>
   </div>
 
   <section>
@@ -326,7 +326,8 @@ textarea{resize:none;min-height:88px}
 <!-- sticky -->
 <div class="sticky" id="sticky">
   <div class="sticky-in">
-    <button class="btn btn-primary" id="matchBtn2" data-open-match>소개팅 · 미팅 신청하기</button>
+    <button class="btn btn-ghost" id="applyBtn2" data-open-form>단톡방</button>
+    <button class="btn btn-primary" id="matchBtn2" data-open-match>소개팅 · 미팅 신청</button>
   </div>
 </div>
 
@@ -410,10 +411,6 @@ textarea{resize:none;min-height:88px}
     <div id="matchFormView">
       <h3>소개팅 · 미팅 신청</h3>
       <p class="lead">직접 구하지 않으셔도 돼요.<br>프로필을 받아 조건이 맞는 분과 연결해드려요.</p>
-      <div class="feechip">
-        <span class="f">여학우 전부 무료</span><span class="d"></span>
-        <span class="m">남학우 소개팅 16,000 · 미팅 8,000</span>
-      </div>
       <form id="matchForm">
         <div class="field">
           <label>성별 <span class="req">*</span></label>
@@ -429,11 +426,11 @@ textarea{resize:none;min-height:88px}
         <div class="field">
           <label>어떤 만남을 원하세요? <span class="req">*</span></label>
           <select name="type" id="matchType" required>
-            <option value="">선택해주세요</option>
-            <option value="소개팅">1:1 소개팅 · 여 무료 / 남 16,000원</option>
-            <option value="2대2미팅">2:2 미팅 · 여 무료 / 남 8,000원</option>
-            <option value="3대3미팅">3:3 미팅 · 여 무료 / 남 8,000원</option>
-            <option value="4대4미팅">4:4 미팅 · 여 무료 / 남 8,000원</option>
+            <option value="">선택하면 참가비가 표시돼요</option>
+            <option value="소개팅">1:1 소개팅</option>
+            <option value="2대2미팅">2:2 미팅</option>
+            <option value="3대3미팅">3:3 미팅</option>
+            <option value="4대4미팅">4:4 미팅</option>
           </select>
         </div>
 
