@@ -96,6 +96,9 @@ h1 .l2{color:var(--pink);display:block}
 .tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
+.btn-match{flex-direction:column;gap:4px;padding:16px 20px;border-color:#e9c9db;position:relative}
+.btn-match .mlabel{font-size:17px;font-weight:900;letter-spacing:-.035em;color:var(--pink-deep)}
+.btn-match .mtext{font-size:13px;font-weight:700;letter-spacing:-.03em;color:var(--ink-soft)}
 .btn-sub{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);text-align:center;margin-top:-4px;letter-spacing:-.02em}
 
 /* ── sections ── */
@@ -239,7 +242,11 @@ textarea{resize:none;min-height:88px}
   <div class="cta-block">
     <button class="btn btn-primary" id="applyBtn" data-open-form>단톡방 입장하기</button>
     <span class="btn-sub">여학우 무료 · 남학우 5,000원 · 확인 후 문자로 링크 발송</span>
-    <button class="btn btn-ghost" id="matchBtn" data-open-match>운영진에게 매칭 받고 싶어요</button>
+    <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match>
+      <span class="mlabel">1:1 맞춤 매칭</span>
+      <span class="mtext">조건 맞는 사람만 골라드려요</span>
+    </button>
+    <span class="btn-sub">직접 구하기 귀찮다면 · <b>여학우 무료</b></span>
   </div>
 
   <section>
@@ -296,8 +303,8 @@ textarea{resize:none;min-height:88px}
         <p>미팅은 방 안에서 직접 구하시는 거예요. 운영진이 상대를 찾아드리는 건 별도의 '매칭 신청' 쪽이에요.</p>
       </details>
       <details>
-        <summary>운영진 매칭은 뭔가요?</summary>
-        <p>직접 구하지 않고 <b>운영진이 조건 맞는 상대를 찾아서 연결</b>해드리는 서비스예요.</p>
+        <summary>1:1 맞춤 매칭은 뭔가요?</summary>
+        <p>단톡방에서 직접 구하지 않고, <b>운영진이 프로필을 보고 조건 맞는 상대만 골라서 연결</b>해드리는 서비스예요. 학교·나이·이상형을 보고 매칭해요.</p>
         <p>· 1:1 소개팅 — 남 16,000원 / 여 무료<br>· 2:2 · 3:3 미팅 — 남 8,000원 / 여 무료</p>
         <p>매칭이 안 되면 전액 환불해드려요.</p>
       </details>
@@ -329,7 +336,7 @@ textarea{resize:none;min-height:88px}
 <!-- sticky -->
 <div class="sticky" id="sticky">
   <div class="sticky-in">
-    <button class="btn btn-ghost" id="matchBtn2" data-open-match>매칭</button>
+    <button class="btn btn-ghost" id="matchBtn2" data-open-match>1:1 매칭</button>
     <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장하기</button>
   </div>
 </div>
@@ -412,8 +419,8 @@ textarea{resize:none;min-height:88px}
   <div class="sheet">
     <div class="grab"></div>
     <div id="matchFormView">
-      <h3>소개팅 · 미팅 신청</h3>
-      <p class="lead">직접 구하지 않으셔도 돼요.<br>프로필을 받아 조건이 맞는 분과 연결해드려요.</p>
+      <h3>1:1 맞춤 매칭 신청</h3>
+      <p class="lead">단톡방에서 직접 구하지 않으셔도 돼요.<br>프로필을 보고 <b style="color:var(--ink)">조건 맞는 분만 골라서</b> 연결해드려요.</p>
       <form id="matchForm">
         <div class="field">
           <label>성별 <span class="req">*</span></label>
