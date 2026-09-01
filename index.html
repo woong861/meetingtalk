@@ -96,9 +96,17 @@ h1 .l2{color:var(--pink);display:block}
 .tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
-.btn-match{flex-direction:column;gap:4px;padding:16px 20px;border-color:#e9c9db;position:relative}
+.btn-free{display:inline-flex;align-items:center;background:rgba(255,255,255,.24);color:#fff;font-size:12.5px;font-weight:900;padding:4px 10px;border-radius:99px;letter-spacing:-.02em}
+.btn-match{flex-direction:column;align-items:stretch;gap:0;padding:0;border-color:#eccadb;overflow:hidden}
+.btn-match .m-top{display:flex;align-items:center;gap:12px;padding:15px 17px 14px;text-align:left}
+.btn-match .m-body{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
 .btn-match .mlabel{font-size:17px;font-weight:900;letter-spacing:-.035em;color:var(--pink-deep)}
-.btn-match .mtext{font-size:13px;font-weight:700;letter-spacing:-.03em;color:var(--ink-soft)}
+.btn-match .mtext{font-size:13px;font-weight:700;letter-spacing:-.03em;color:var(--ink-soft);line-height:1.45}
+.btn-match .mtext b{color:var(--ink);font-weight:800}
+.btn-match .marrow{flex:none;font-size:19px;font-weight:900;color:var(--pink);transition:transform .15s ease}
+.btn-match:hover .marrow{transform:translateX(3px)}
+.btn-match .m-foot{display:block;padding:10px 14px;background:#fdf1f6;border-top:2px solid #f7e3ed;font-size:12.5px;font-weight:700;color:var(--ink-soft);letter-spacing:-.03em;text-align:center}
+.btn-match .m-foot b{color:var(--pink-deep);font-weight:900}
 .btn-sub{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);text-align:center;margin-top:-4px;letter-spacing:-.02em}
 
 /* ── sections ── */
@@ -260,13 +268,21 @@ textarea{resize:none;min-height:88px}
   </div>
 
   <div class="cta-block">
-    <button class="btn btn-primary" id="applyBtn" data-open-form>단톡방 입장하기</button>
-    <span class="btn-sub">신청서 1분 · <b>남녀 모두 무료</b></span>
-    <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match>
-      <span class="mlabel">1:1 맞춤 매칭</span>
-      <span class="mtext">조건 맞는 사람만 골라드려요</span>
+    <button class="btn btn-primary" id="applyBtn" data-open-form>
+      단톡방 입장하기<span class="btn-free">무료</span>
     </button>
-    <span class="btn-sub">직접 구하기 귀찮다면 · <b>여학우 무료</b></span>
+    <span class="btn-sub">신청서 1분 · 확인되면 <b>바로 링크 발송</b></span>
+
+    <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match>
+      <span class="m-top">
+        <span class="m-body">
+          <span class="mlabel">1:1 맞춤 매칭</span>
+          <span class="mtext">학교·나이·이상형 보고 <b>직접 골라드려요</b></span>
+        </span>
+        <span class="marrow" aria-hidden="true">→</span>
+      </span>
+      <span class="m-foot">여학우 무료 · 남학우 8,000원부터 · <b>안 되면 전액 환불</b></span>
+    </button>
   </div>
 
   <section>
