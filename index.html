@@ -206,12 +206,22 @@ textarea{resize:none;min-height:88px}
 .acct button{background:var(--yellow);color:var(--ink);border:none;border-radius:8px;padding:8px 13px;font-family:inherit;font-size:12.5px;font-weight:900;cursor:pointer;flex:0 0 auto}
 .teamnote{background:#fff8e1;border:2px solid #ffe08a;border-radius:15px;padding:15px 17px;margin-bottom:16px;font-size:13.5px;font-weight:600;color:#7a5a00;letter-spacing:-.03em;line-height:1.6}
 .teamnote b{color:#5c4300;font-weight:900}
+.mtag{display:inline-block;background:var(--ink);color:#fff;font-size:11.5px;font-weight:800;letter-spacing:-.02em;padding:6px 12px;border-radius:99px;margin-bottom:12px}
+.sheet h3 em{color:var(--pink);font-style:normal}
+.perks{list-style:none;margin:15px 0 21px;padding:14px 15px;background:#fff;border:2px solid var(--line);border-radius:16px;display:flex;flex-direction:column;gap:10px}
+.perks li{position:relative;padding-left:26px;font-size:13.5px;font-weight:600;color:var(--ink-soft);letter-spacing:-.03em;line-height:1.5}
+.perks li b{color:var(--ink);font-weight:800}
+.perks li::before{content:'✓';position:absolute;left:0;top:1px;width:18px;height:18px;border-radius:50%;background:var(--pink);color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
 .tmbox{background:#fff;border:2px solid var(--line);border-radius:16px;padding:15px 15px 13px;margin-bottom:16px}
 .tm-h{font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.03em;margin-bottom:11px}
-.tm-row{display:grid;grid-template-columns:22px 1fr 1fr 52px;gap:7px;align-items:center;margin-bottom:8px}
-.tm-row .tm-i{font-size:12px;font-weight:900;color:var(--pink);text-align:center}
-.tm-row input{width:100%;padding:11px 10px;border:2px solid var(--line);border-radius:11px;font:inherit;font-size:13.5px;font-weight:600;background:#fff;letter-spacing:-.03em}
-.tm-row input:focus{outline:none;border-color:var(--pink)}
+.tm-card{border:2px solid var(--line);border-radius:13px;padding:11px 11px 3px;margin-bottom:9px;background:#fdfbfc}
+.tm-cap{font-size:11.5px;font-weight:900;color:var(--pink);letter-spacing:-.02em;margin-bottom:8px}
+.tm-g{display:grid;grid-template-columns:1fr 74px;gap:7px}
+.tm-card input{width:100%;padding:11px 10px;border:2px solid var(--line);border-radius:11px;font:inherit;font-size:13.5px;font-weight:600;background:#fff;letter-spacing:-.03em;margin-bottom:8px}
+.tm-g input{margin-bottom:0}
+.tm-g{margin-bottom:8px}
+.tm-card input:focus{outline:none;border-color:var(--pink)}
+.tm-card input::placeholder{color:#c2b8bf}
 .dim-s{font-weight:700;font-size:12.5px;opacity:.75}
 .tm-n{font-size:12px;font-weight:600;color:var(--dim);letter-spacing:-.03em;margin:3px 0 0;line-height:1.5}
 .consent{display:flex;gap:11px;align-items:flex-start;background:var(--white);border:2px solid #f0dbe5;border-radius:14px;padding:15px 16px;margin-bottom:16px;cursor:pointer}
@@ -428,8 +438,14 @@ textarea{resize:none;min-height:88px}
   <div class="sheet">
     <div class="grab"></div>
     <div id="matchFormView">
-      <h3>1:1 맞춤 매칭 신청</h3>
-      <p class="lead">단톡방에서 직접 구하지 않으셔도 돼요.<br>프로필을 보고 <b style="color:var(--ink)">조건 맞는 분만 골라서</b> 연결해드려요.</p>
+      <span class="mtag">운영진이 직접 골라주는 매칭</span>
+      <h3>아무나 말고,<br><em>조건 맞는 사람만</em></h3>
+      <p class="lead">단톡방은 직접 구해야 하지만,<br>여기선 <b style="color:var(--ink)">운영진이 대신 찾아드려요.</b></p>
+      <ul class="perks">
+        <li><b>학교 · 나이 · 이상형</b>까지 맞춰서 골라드려요</li>
+        <li>번호·카톡·인스타는 <b>매칭된 상대에게만</b> 공개돼요</li>
+        <li>못 찾아드리면 <b>전액 환불</b> — 손해 볼 일이 없어요</li>
+      </ul>
       <form id="matchForm">
         <div class="field">
           <label>성별 <span class="req">*</span></label>
@@ -522,7 +538,7 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="matchConsent" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·학과/학년·나이·휴대폰 번호(미팅은 팀원의 이름·학교·나이 포함)·카카오톡 ID·인스타그램 아이디·MBTI·자기소개·이상형·입금 및 환불 계좌 정보 / 목적: 매칭 상대 연결 및 결제·환불 처리 / 보유기간: 매칭 종료 후 3개월 이내 파기.</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·학과/학년·나이·휴대폰 번호·카카오톡 ID·인스타그램 아이디·MBTI·자기소개·이상형·입금 및 환불 계좌 정보 / 목적: 매칭 상대 연결 및 결제·환불 처리 / 보유기간: 매칭 종료 후 3개월 이내 파기. 미팅 신청 시에는 함께 오는 팀원의 이름·학교·나이·연락처·인스타그램 아이디를 추가로 수집하며, 대표자는 <b>팀원 본인들의 동의를 받은 뒤</b> 입력해야 합니다.</span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" style="margin-top:8px">매칭 신청하기</button>
@@ -833,17 +849,21 @@ function syncMatchFee() {
     tn.style.display = 'block';
     tn.innerHTML = '<b>' + label + '은 ' + teamN + '명이 한 팀으로 참여해요.</b><br>'
       + '<b>대표자 한 분만</b> 이 신청서를 작성하시면 돼요. '
-      + '아래에 같이 오는 친구 ' + (teamN - 1) + '명 정보만 적어주세요.';
+      + '아래에 같이 오는 친구 ' + (teamN - 1) + '명 정보를 적어주세요.';
     tb.style.display = 'block';
     var want = teamN - 1;
     if (rows.children.length !== want) {
       var html = '';
       for (var i = 2; i <= teamN; i++) {
-        html += '<div class="tm-row">'
-             +  '<span class="tm-i">' + i + '</span>'
-             +  '<input type="text" name="tm_name' + i + '" placeholder="이름" required>'
+        html += '<div class="tm-card">'
+             +  '<div class="tm-cap">친구 ' + (i - 1) + '</div>'
+             +  '<div class="tm-g">'
+             +    '<input type="text" name="tm_name' + i + '" placeholder="이름" required>'
+             +    '<input type="text" name="tm_age' + i + '" placeholder="나이" inputmode="numeric" maxlength="2" required>'
+             +  '</div>'
              +  '<input type="text" name="tm_school' + i + '" placeholder="학교" required>'
-             +  '<input type="text" name="tm_age' + i + '" placeholder="나이" inputmode="numeric" maxlength="2" required>'
+             +  '<input type="tel" name="tm_phone' + i + '" placeholder="연락처 010-0000-0000" inputmode="numeric" maxlength="13" required>'
+             +  '<input type="text" name="tm_insta' + i + '" placeholder="인스타 아이디 (@ 없이)" required>'
              +  '</div>';
       }
       rows.innerHTML = html;
@@ -858,6 +878,19 @@ function syncMatchFee() {
     setLbl_('school', '학교');
   }
 }
+
+/* 동적 생성되는 팀원 칸에도 번호 하이픈·인스타 @ 제거를 적용 */
+$('tmRows').addEventListener('input', function (e) {
+  var n = e.target.name || '';
+  if (/^tm_phone/.test(n)) {
+    var v = e.target.value.replace(/[^0-9]/g, '').slice(0, 11);
+    if (v.length > 7)      v = v.slice(0,3) + '-' + v.slice(3,7) + '-' + v.slice(7);
+    else if (v.length > 3) v = v.slice(0,3) + '-' + v.slice(3);
+    e.target.value = v;
+  } else if (/^tm_insta/.test(n)) {
+    e.target.value = e.target.value.replace(/[@\s]/g, '');
+  }
+});
 
 /* 미팅일 때 대표자임을 라벨로 명확히 한다 */
 function setLbl_(field, text) {
@@ -902,13 +935,18 @@ $('matchForm').addEventListener('submit', function (e) {
     var m = /^tm_name(\d+)$/.exec(k);
     if (!m) return;
     var n = m[1];
-    mates.push({ no: +n, t: data[k] + '(' + (data['tm_school' + n] || '') + ' ' + (data['tm_age' + n] || '') + '세)' });
+    mates.push({
+      no: +n,
+      t: [data[k], data['tm_school' + n], (data['tm_age' + n] || '') + '세',
+          data['tm_phone' + n], '@' + (data['tm_insta' + n] || '')].join(' / ')
+    });
   });
   if (mates.length) {
     mates.sort(function (a, b) { return a.no - b.no; });
-    data.intro = '[팀 ' + (mates.length + 1) + '명] 대표 ' + data.name + '(' + data.school + ') / '
-               + mates.map(function (x) { return x.t; }).join(' / ')
-               + '\n' + data.intro;
+    var roster = ['[팀 ' + (mates.length + 1) + '명]'];
+    roster.push('1. ' + [data.name, data.school, data.age + '세', data.phone, '@' + data.instagram].join(' / ') + ' (대표)');
+    mates.forEach(function (x, i) { roster.push((i + 2) + '. ' + x.t); });
+    data.intro = roster.join('\n') + '\n---\n' + data.intro;
   }
 
   submitToForm(CONFIG.MATCH_FORM_URL, CONFIG.MATCH_FIELD_IDS, data, 'meetingtalk_match');
