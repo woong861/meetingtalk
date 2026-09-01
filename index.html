@@ -96,6 +96,8 @@ h1 .l2{color:var(--pink);display:block}
 .tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
+.screen-note{margin-top:12px;padding:12px 14px;background:#fff;border:2px solid var(--line);border-radius:14px;font-size:12.5px;font-weight:600;color:var(--ink-soft);letter-spacing:-.03em;line-height:1.6}
+.screen-note b{display:block;color:var(--ink);font-weight:800;margin-bottom:3px}
 .tracklab{margin-top:24px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.03em}
 .tracklab-2{margin-top:34px}
 .tl-tag{font-size:11px;font-weight:900;padding:4px 9px;border-radius:99px;letter-spacing:-.02em}
@@ -468,13 +470,18 @@ textarea{resize:none;min-height:88px}
           </span>
         </label>
         <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">입장 신청하기</button>
+        <p class="screen-note">
+          <b>모든 신청이 승인되지는 않아요.</b>
+          신청서와 인스타그램을 확인한 뒤 안내드리며, 방 분위기에 맞지 않는다고 판단되면
+          입장이 어려울 수 있어요. 다 같이 안전하게 만나기 위한 절차예요.
+        </p>
         <button type="button" class="btn btn-ghost" data-close style="margin-top:10px">닫기</button>
       </form>
     </div>
     <div id="doneView" style="display:none" class="done">
       <div class="done-ic">💌</div>
       <h3 id="doneTitle">입장 신청이 접수됐어요</h3>
-      <p id="doneText">확인되는 대로<br>문자로 링크를 보내드릴게요.</p>
+      <p id="doneText">신청서를 확인한 뒤 안내드릴게요.<br>승인되면 문자로 링크를 보내드려요.</p>
       <button type="button" class="btn btn-primary" data-close style="margin-top:24px">확인</button>
     </div>
   </div>
@@ -821,7 +828,7 @@ $('applyForm').addEventListener('submit', function (e) {
   if (PAY.FEE > 0 && data.gender === '남자') {
     $('doneText').innerHTML = '곧 입금 안내 문자를 보내드려요.<br>입금 확인되면 링크를 보내드릴게요.';
   } else {
-    $('doneText').innerHTML = '확인되는 대로<br>문자로 링크를 보내드릴게요.';
+    $('doneText').innerHTML = '신청서를 확인한 뒤 안내드릴게요.<br>승인되면 문자로 링크를 보내드려요.';
   }
 
   $('formView').style.display = 'none';
