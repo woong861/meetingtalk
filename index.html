@@ -96,6 +96,24 @@ h1 .l2{color:var(--pink);display:block}
 .tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
+.tracklab{margin-top:24px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.03em}
+.tracklab-2{margin-top:34px}
+.tl-tag{font-size:11px;font-weight:900;padding:4px 9px;border-radius:99px;letter-spacing:-.02em}
+.tl-free{background:#eafaf1;color:#0b7c41;border:1.5px solid #c3ecd5}
+.tl-paid{background:var(--pink);color:#fff}
+.track{margin-top:13px;background:var(--ink);border-radius:20px;padding:22px 20px 20px;color:#fff}
+.track-h{font-size:20px;font-weight:900;letter-spacing:-.04em;line-height:1.32}
+.track-h em{color:var(--yellow);font-style:normal}
+.track-steps{list-style:none;margin:17px 0 19px;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:ts}
+.track-steps li{counter-increment:ts;position:relative;padding-left:33px;display:flex;flex-direction:column;gap:3px}
+.track-steps li::before{content:counter(ts);position:absolute;left:0;top:0;width:23px;height:23px;border-radius:50%;background:rgba(255,255,255,.14);color:var(--yellow);font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.track-steps b{font-size:15px;font-weight:800;letter-spacing:-.035em}
+.track-steps span{font-size:13px;font-weight:600;letter-spacing:-.03em;color:rgba(255,255,255,.62);line-height:1.5}
+.btn-track{background:var(--yellow);color:var(--ink);font-size:16.5px;padding:16px 20px;box-shadow:none}
+.btn-track .ta{transition:transform .15s ease}
+.btn-track:hover .ta{transform:translateX(3px)}
+.track-note{margin-top:11px;text-align:center;font-size:12.5px;font-weight:700;letter-spacing:-.03em;color:rgba(255,255,255,.6)}
+.track-note b{color:var(--yellow);font-weight:800}
 .btn-free{display:inline-flex;align-items:center;background:rgba(255,255,255,.24);color:#fff;font-size:12.5px;font-weight:900;padding:4px 10px;border-radius:99px;letter-spacing:-.02em}
 .btn-match{flex-direction:column;align-items:stretch;gap:0;padding:0;border-color:#eccadb;overflow:hidden}
 .btn-match .m-top{display:flex;align-items:center;gap:12px;padding:15px 17px 14px;text-align:left}
@@ -287,7 +305,9 @@ textarea{resize:none;min-height:88px}
 
   <section>
     <h2>이렇게 <span class="em">진행돼요</span></h2>
-    <p class="lead">신청서 한 번이면 끝나요. 가입 같은 건 없어요.</p>
+    <p class="lead">직접 구하거나, 운영진이 골라드리거나.<br>둘 다 신청서 한 번이면 끝나요.</p>
+
+    <div class="tracklab"><span class="tl-tag tl-free">무료</span> 단톡방에서 직접 구하기</div>
     <div class="steps">
       <div class="step">
         <div class="step-n">1</div>
@@ -301,6 +321,18 @@ textarea{resize:none;min-height:88px}
         <div class="step-n">3</div>
         <div><div class="step-t">단톡방에서 구하기</div><div class="step-d">"2:2 오늘 저녁 가능한 분?" 처럼 편하게 올리시면 돼요.</div></div>
       </div>
+    </div>
+
+    <div class="tracklab tracklab-2"><span class="tl-tag tl-paid">유료</span> 운영진이 대신 골라주기</div>
+    <div class="track">
+      <h3 class="track-h">직접 구하기 어렵다면,<br><em>1:1 맞춤 매칭</em></h3>
+      <ol class="track-steps">
+        <li><b>이상형을 적어주세요</b><span>학교·나이·MBTI·원하는 조건까지 받아요</span></li>
+        <li><b>운영진이 직접 찾아드려요</b><span>단톡방과 기존 신청자 전체에서 골라요</span></li>
+        <li><b>상대 프로필을 문자로 보내드려요</b><span>서로 좋다고 하시면 그때 연결해드려요</span></li>
+      </ol>
+      <button class="btn btn-track" data-open-match>1:1 맞춤 매칭 신청하기 <span class="ta">→</span></button>
+      <p class="track-note">여학우 무료 · 남학우 8,000원부터 · <b>매칭 안 되면 전액 환불</b></p>
     </div>
   </section>
 
@@ -689,7 +721,7 @@ $('instaInput').addEventListener('input', function (e) {
 
 /* 스크롤 등장 효과 — 첫 화면에 보이는 요소는 건드리지 않는다 */
 (function () {
-  var targets = document.querySelectorAll('.steps .step, .code-card, .faq details, .tags');
+  var targets = document.querySelectorAll('.steps .step, .track, .code-card, .faq details, .tags');
   if (!('IntersectionObserver' in window)) return;
 
   var below = [];
