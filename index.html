@@ -96,8 +96,6 @@ h1 .l2{color:var(--pink);display:block}
 .tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
-.screen-note{margin-top:12px;padding:12px 14px;background:#fff;border:2px solid var(--line);border-radius:14px;font-size:12.5px;font-weight:600;color:var(--ink-soft);letter-spacing:-.03em;line-height:1.6}
-.screen-note b{display:block;color:var(--ink);font-weight:800;margin-bottom:3px}
 .tracklab{margin-top:24px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.03em}
 .tracklab-2{margin-top:34px}
 .tl-tag{font-size:11px;font-weight:900;padding:4px 9px;border-radius:99px;letter-spacing:-.02em}
@@ -256,6 +254,7 @@ textarea{resize:none;min-height:88px}
 .consent input{width:21px;height:21px;flex:0 0 auto;margin:1px 0 0;accent-color:var(--pink)}
 .consent-t{display:block;font-size:13.5px;font-weight:800;letter-spacing:-.025em;line-height:1.5}
 .consent-d{display:block;font-size:12.5px;color:var(--ink-soft);font-weight:600;letter-spacing:-.02em;line-height:1.55;margin-top:4px}
+.consent-d b{color:var(--ink);font-weight:800}
 .done{text-align:center;padding:32px 0 12px}
 .done-ic{font-size:52px}
 .done h3{margin-top:14px}
@@ -466,15 +465,10 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="consentChk" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·나이·휴대폰 번호·인스타그램 아이디 / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요.</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·나이·휴대폰 번호·인스타그램 아이디 / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요. <b>모든 신청이 승인되지는 않으며</b>, 신청서와 인스타그램을 확인한 뒤 안내드려요. 방 분위기에 맞지 않는다고 판단되면 입장이 어려울 수 있어요.</span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">입장 신청하기</button>
-        <p class="screen-note">
-          <b>모든 신청이 승인되지는 않아요.</b>
-          신청서와 인스타그램을 확인한 뒤 안내드리며, 방 분위기에 맞지 않는다고 판단되면
-          입장이 어려울 수 있어요. 다 같이 안전하게 만나기 위한 절차예요.
-        </p>
         <button type="button" class="btn btn-ghost" data-close style="margin-top:10px">닫기</button>
       </form>
     </div>
