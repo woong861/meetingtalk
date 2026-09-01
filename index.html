@@ -204,6 +204,8 @@ textarea{resize:none;min-height:88px}
 .acct{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.13);border-radius:11px;padding:12px 14px;margin-top:11px}
 .acct b{font-size:15px;font-weight:900;letter-spacing:-.01em;font-variant-numeric:tabular-nums;flex:1}
 .acct button{background:var(--yellow);color:var(--ink);border:none;border-radius:8px;padding:8px 13px;font-family:inherit;font-size:12.5px;font-weight:900;cursor:pointer;flex:0 0 auto}
+.teamnote{background:#fff8e1;border:2px solid #ffe08a;border-radius:15px;padding:15px 17px;margin-bottom:16px;font-size:13.5px;font-weight:600;color:#7a5a00;letter-spacing:-.03em;line-height:1.6}
+.teamnote b{color:#5c4300;font-weight:900}
 .consent{display:flex;gap:11px;align-items:flex-start;background:var(--white);border:2px solid #f0dbe5;border-radius:14px;padding:15px 16px;margin-bottom:16px;cursor:pointer}
 .consent input{width:21px;height:21px;flex:0 0 auto;margin:1px 0 0;accent-color:var(--pink)}
 .consent-t{display:block;font-size:13.5px;font-weight:800;letter-spacing:-.025em;line-height:1.5}
@@ -452,6 +454,7 @@ textarea{resize:none;min-height:88px}
           </div>
           <p id="matchAcctNote">예금주 <b id="matchHolder">박*일</b> · <b>입금 후</b> 아래 입금 정보를 적어주세요.<br>매칭이 안 되면 전액 환불해드려요.</p>
         </div>
+        <div class="teamnote" id="teamNote" style="display:none"></div>
 
         <div class="field">
           <label>학교 <span class="req">*</span></label>
@@ -792,14 +795,35 @@ function syncMatchFee() {
   // 무료면 계좌 안내를 숨긴다
   $('matchAcctBox').style.display = free ? 'none' : '';
   $('matchAcctNote').style.display = free ? 'none' : '';
+  var isTeam = tv !== '소개팅';
+  var per = isTeam ? '1인당 ' : '';
+  var teamN = tv === '2대2미팅' ? 2 : (tv === '3대3미팅' ? 3 : 4);
+
   if (free) {
     box.className = 'pay pay-f on';
     $('matchFeeTitle').innerHTML = label + ' — <span class="won">무료</span>';
     $('matchFeeDesc').textContent = '입금하실 필요 없어요. 아래 입금 정보란에는 "무료"라고 적어주세요.';
   } else {
     box.className = 'pay pay-m on';
-    $('matchFeeTitle').innerHTML = label + ' 참가비 <span class="won">' + fee.toLocaleString() + '원</span>';
-    $('matchFeeDesc').textContent = '입금 확인 후 매칭이 진행돼요.';
+    $('matchFeeTitle').innerHTML = label + ' 참가비 <span class="won">' + per + fee.toLocaleString() + '원</span>';
+    $('matchFeeDesc').textContent = isTeam
+      ? '팀 인원 각자 입금해주세요. 입금 확인 후 매칭이 진행돼요.'
+      : '입금 확인 후 매칭이 진행돼요.';
+  }
+
+  // 미팅은 팀 단위라 별도 안내
+  var tn = $('teamNote');
+  if (isTeam) {
+    tn.style.display = 'block';
+    tn.innerHTML = '<b>' + label + '은 ' + teamN + '명이 함께 오셔야 해요.</b><br>'
+      + '같이 갈 친구 ' + (teamN - 1) + '명도 <b>각자</b> 이 신청서를 써주세요. '
+      + '아래 자기소개란에 <b>같이 온 친구 이름</b>을 적어주시면 한 팀으로 묶어드려요.';
+    var ta = document.querySelector('#matchForm textarea[name="intro"]');
+    if (ta) ta.placeholder = '어떤 사람인지 편하게 적어주세요.\n(같이 신청한 친구 이름도 꼭 적어주세요)';
+  } else {
+    tn.style.display = 'none';
+    var ta2 = document.querySelector('#matchForm textarea[name="intro"]');
+    if (ta2) ta2.placeholder = '어떤 사람인지 편하게 적어주세요';
   }
 }
 document.querySelectorAll('#matchForm input[name="gender"]').forEach(function (r) {
@@ -840,7 +864,7 @@ $('matchForm').addEventListener('submit', function (e) {
             : (data.type || '').replace('대', ':').replace('미팅', ' 미팅');
   if (fee > 0) {
     $('matchDonePay').style.display = 'block';
-    $('matchDoneFee').innerHTML = label + ' <b>' + fee.toLocaleString() + '원</b>';
+    $('matchDoneFee').innerHTML = label + ' <b>' + (data.type === '소개팅' ? '' : '1인당 ') + fee.toLocaleString() + '원</b>';
     $('matchDoneText').innerHTML = '입금이 확인되면 매칭을 시작해요.<br>상대가 정해지면 문자로 알려드릴게요.';
   } else {
     $('matchDonePay').style.display = 'none';
