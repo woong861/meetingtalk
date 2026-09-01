@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>전국대학 미팅·과팅 | 과팅·미팅 품앗이 단톡방</title>
-<meta name="description" content="전국 대학생 과팅·미팅 품앗이 단톡방. 2:2, 3:3, 한 명 대타까지. 여학우 무료.">
+<meta name="description" content="전국 대학생 과팅·미팅 품앗이 단톡방. 2:2, 3:3, 한 명 대타까지. 입장 무료.">
 <meta property="og:title" content="전국대학 미팅·과팅">
 <meta property="og:description" content="과팅·미팅 품앗이 단톡방 열었어요. 한 명 대타 급할 때도 여기로!">
 <meta property="og:type" content="website">
@@ -251,6 +251,7 @@ textarea{resize:none;min-height:88px}
 
   <div class="cta-block">
     <button class="btn btn-primary" id="applyBtn" data-open-form>단톡방 입장하기</button>
+    <span class="btn-sub">신청서 1분 · <b>남녀 모두 무료</b></span>
     <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match>
       <span class="mlabel">1:1 맞춤 매칭</span>
       <span class="mtext">조건 맞는 사람만 골라드려요</span>
@@ -302,14 +303,13 @@ textarea{resize:none;min-height:88px}
     <div class="faq">
       <details>
         <summary>입장료가 있나요?</summary>
-        <p><b>여학우는 무료</b>예요. 남학우는 5,000원을 받고 있어요.</p>
-        <p>단톡방은 성비가 맞아야 미팅이 성사되는데, 한쪽으로 쏠리면 방이 금방 죽어버려서 최소한의 장치로 두고 있어요. 승인이 안 되면 전액 환불해드려요.</p>
+        <p><b>남녀 모두 무료</b>예요. 단톡방 입장에는 어떤 비용도 받지 않아요.</p>
+        <p>신청서만 남겨주시면 확인 후 바로 링크를 보내드려요. 신청서·인스타를 확인해서 이상한 사람은 거르고, 문제가 생기면 즉시 강퇴하고 재입장을 막고 있어요.</p>
       </details>
       <details>
-        <summary>5,000원 내면 미팅이 잡히나요?</summary>
-        <p>아니요. 5,000원은 <b>단톡방에 들어오는 입장료</b>예요. 미팅 성사를 보장하는 금액이 아닙니다.</p>
-        <p>이 돈으로 하는 일은 성비 관리, 신청서·인스타 확인해서 이상한 사람 거르기, 문제 생기면 즉시 강퇴하고 재입장 차단이에요.</p>
-        <p>미팅은 방 안에서 직접 구하시는 거예요. 운영진이 상대를 찾아드리는 건 별도의 '매칭 신청' 쪽이에요.</p>
+        <summary>그럼 미팅은 어떻게 잡나요?</summary>
+        <p>단톡방 안에서 <b>직접 구하시는 방식</b>이에요. <code>[지역] [인원] [날짜]</code> 형식으로 올리면 훨씬 빨리 잡혀요.</p>
+        <p>직접 구하기 번거로우시면 <b>1:1 맞춤 매칭</b>을 신청해주세요. 운영진이 프로필을 보고 조건이 맞는 분만 골라서 연결해드려요. (이쪽은 유료예요)</p>
       </details>
       <details>
         <summary>1:1 맞춤 매칭은 뭔가요?</summary>
@@ -357,7 +357,7 @@ textarea{resize:none;min-height:88px}
     <div class="grab"></div>
     <div id="formView">
       <h3 id="formTitle">단톡방 입장 신청</h3>
-      <p class="lead" id="formLead">1분이면 끝나요.<br>확인되는 대로 <b style="color:var(--ink)">바로 문자로 링크</b>를 보내드려요.<br><b style="color:var(--ink)">여학우 무료 · 남학우 5,000원</b></p>
+      <p class="lead" id="formLead">1분이면 끝나요.<br>확인되는 대로 <b style="color:var(--ink)">바로 문자로 링크</b>를 보내드려요.<br><b style="color:var(--ink)">남녀 모두 무료예요.</b></p>
       <form id="applyForm">
         <div class="field">
           <label>이름 <span class="req">*</span></label>
@@ -604,7 +604,7 @@ const CONFIG = {
   // ── ③ 남학우 입장료 (성비 조절용) ──
   // FEE 를 0 으로 두면 결제 안내가 아예 안 나오고 남녀 모두 무료로 동작합니다.
   PAY : {
-    FEE     : 5000,       // 남학우 입장료. 0으로 두면 남녀 모두 무료로 동작한다
+    FEE     : 0,          // 남학우 입장료. 0이면 결제 안내가 모두 숨겨지고 남녀 모두 무료
 
     BANK    : '카카오뱅크',
     ACCOUNT : '3333241809842',

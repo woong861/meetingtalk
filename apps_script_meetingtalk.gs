@@ -34,6 +34,8 @@ const MT_JOIN_CODE = '';                     // 참여코드 (안 쓰면 빈칸)
 const MT_SENDER    = '01057182024';          // 솔라피에 등록된 발신번호
 const MT_BRAND     = '전국대학 미팅단톡';
 const MT_PAY_FORM  = 'https://forms.gle/14sji6FuT4gU9WWS7';  // 입장료 입금 확인 폼 (남학우)
+// 단톡방 입장료. 0이면 자동 안내 문자를 보내지 않는다 (2026-09-02 무료 전환)
+const MT_ENTRY_FEE = 0;
 
 // 오픈채팅 링크는 스크립트 속성에서 읽는다 (코드에 하드코딩 금지)
 function mtOpenChatUrl_(gender) {
@@ -336,6 +338,7 @@ function mtSendSms_(to, text, type) {
 // 폼 제출이 시트에 들어오면 실행된다. 남학우면 입장료 안내 SMS를 자동 발송.
 // ※ mtInstallTrigger() 를 에디터에서 한 번 실행해야 작동한다.
 function mtOnFormSubmit(e) {
+  if (MT_ENTRY_FEE <= 0) return;   // 무료 운영 중에는 아무것도 보내지 않는다
   try {
     var sh = mtSheet_();
     var row = sh.getLastRow();
@@ -353,6 +356,17 @@ function mtOnFormSubmit(e) {
   } catch (err) {
     Logger.log('자동 입장료 안내 실패: ' + err);
   }
+}
+
+// 트리거 해제 (입장료를 없앨 때 에디터에서 실행)
+function mtRemoveTrigger() {
+  var n = 0;
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'mtOnFormSubmit') { ScriptApp.deleteTrigger(t); n++; }
+  });
+  var msg = '트리거 ' + n + '개 삭제됨: 자동 입장료 안내가 중지됩니다.';
+  Logger.log(msg);
+  return msg;
 }
 
 // 트리거 설치 (에디터에서 한 번만 실행)
