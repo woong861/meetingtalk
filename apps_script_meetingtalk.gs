@@ -33,6 +33,7 @@ function mtAdminKey_() {
 const MT_JOIN_CODE = '';                     // 참여코드 (안 쓰면 빈칸)
 const MT_SENDER    = '01057182024';          // 솔라피에 등록된 발신번호
 const MT_BRAND     = '전국대학 미팅단톡';
+const MT_SITE      = 'https://meetingtalk.cloud';   // 1:1 매칭 안내용 랜딩 주소
 const MT_PAY_FORM  = 'https://forms.gle/14sji6FuT4gU9WWS7';  // 입장료 입금 확인 폼 (남학우)
 // 단톡방 입장료. 0이면 자동 안내 문자를 보내지 않는다 (2026-09-02 무료 전환)
 const MT_ENTRY_FEE = 0;
@@ -287,6 +288,14 @@ function mtBuildText_(name, target) {
   if (MT_JOIN_CODE) lines.push('참여코드: ' + MT_JOIN_CODE);
   lines.push('');
   lines.push('※ 정치·종교 대화, 부적절한 언행 시 즉시 강퇴됩니다.');
+
+  // 입장 안내에 1:1 매칭을 함께 노출 (성별에 따라 안내 문구를 다르게)
+  var isF = String(target.room || '').indexOf('여') !== -1;
+  lines.push('');
+  lines.push('직접 구하기 번거로우시면');
+  lines.push('운영진이 조건 맞는 분을 골라드려요.');
+  lines.push(isF ? '여학우는 무료예요 → ' + MT_SITE
+                 : '8,000원부터 → ' + MT_SITE);
   return lines.join('\n');
 }
 
