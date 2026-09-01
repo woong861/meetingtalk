@@ -206,6 +206,14 @@ textarea{resize:none;min-height:88px}
 .acct button{background:var(--yellow);color:var(--ink);border:none;border-radius:8px;padding:8px 13px;font-family:inherit;font-size:12.5px;font-weight:900;cursor:pointer;flex:0 0 auto}
 .teamnote{background:#fff8e1;border:2px solid #ffe08a;border-radius:15px;padding:15px 17px;margin-bottom:16px;font-size:13.5px;font-weight:600;color:#7a5a00;letter-spacing:-.03em;line-height:1.6}
 .teamnote b{color:#5c4300;font-weight:900}
+.tmbox{background:#fff;border:2px solid var(--line);border-radius:16px;padding:15px 15px 13px;margin-bottom:16px}
+.tm-h{font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.03em;margin-bottom:11px}
+.tm-row{display:grid;grid-template-columns:22px 1fr 1fr 52px;gap:7px;align-items:center;margin-bottom:8px}
+.tm-row .tm-i{font-size:12px;font-weight:900;color:var(--pink);text-align:center}
+.tm-row input{width:100%;padding:11px 10px;border:2px solid var(--line);border-radius:11px;font:inherit;font-size:13.5px;font-weight:600;background:#fff;letter-spacing:-.03em}
+.tm-row input:focus{outline:none;border-color:var(--pink)}
+.dim-s{font-weight:700;font-size:12.5px;opacity:.75}
+.tm-n{font-size:12px;font-weight:600;color:var(--dim);letter-spacing:-.03em;margin:3px 0 0;line-height:1.5}
 .consent{display:flex;gap:11px;align-items:flex-start;background:var(--white);border:2px solid #f0dbe5;border-radius:14px;padding:15px 16px;margin-bottom:16px;cursor:pointer}
 .consent input{width:21px;height:21px;flex:0 0 auto;margin:1px 0 0;accent-color:var(--pink)}
 .consent-t{display:block;font-size:13.5px;font-weight:800;letter-spacing:-.025em;line-height:1.5}
@@ -456,6 +464,12 @@ textarea{resize:none;min-height:88px}
         </div>
         <div class="teamnote" id="teamNote" style="display:none"></div>
 
+        <div class="tmbox" id="teamMates" style="display:none">
+          <div class="tm-h">같이 오는 친구 <span class="req">*</span></div>
+          <div id="tmRows"></div>
+          <p class="tm-n">대표자 한 분만 작성하시면 돼요. 친구들은 따로 신청하지 않아도 됩니다.</p>
+        </div>
+
         <div class="field">
           <label>학교 <span class="req">*</span></label>
           <input type="text" name="school" placeholder="○○대학교" required>
@@ -508,7 +522,7 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="matchConsent" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·학과/학년·나이·휴대폰 번호·카카오톡 ID·인스타그램 아이디·MBTI·자기소개·이상형·입금 및 환불 계좌 정보 / 목적: 매칭 상대 연결 및 결제·환불 처리 / 보유기간: 매칭 종료 후 3개월 이내 파기.</span>
+            <span class="consent-d">수집 항목: 이름·성별·학교·학과/학년·나이·휴대폰 번호(미팅은 팀원의 이름·학교·나이 포함)·카카오톡 ID·인스타그램 아이디·MBTI·자기소개·이상형·입금 및 환불 계좌 정보 / 목적: 매칭 상대 연결 및 결제·환불 처리 / 보유기간: 매칭 종료 후 3개월 이내 파기.</span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" style="margin-top:8px">매칭 신청하기</button>
@@ -796,35 +810,61 @@ function syncMatchFee() {
   $('matchAcctBox').style.display = free ? 'none' : '';
   $('matchAcctNote').style.display = free ? 'none' : '';
   var isTeam = tv !== '소개팅';
-  var per = isTeam ? '1인당 ' : '';
-  var teamN = tv === '2대2미팅' ? 2 : (tv === '3대3미팅' ? 3 : 4);
+  var teamN  = tv === '2대2미팅' ? 2 : (tv === '3대3미팅' ? 3 : 4);
+  var total  = isTeam ? fee * teamN : fee;
 
   if (free) {
     box.className = 'pay pay-f on';
     $('matchFeeTitle').innerHTML = label + ' — <span class="won">무료</span>';
-    $('matchFeeDesc').textContent = '입금하실 필요 없어요. 아래 입금 정보란에는 "무료"라고 적어주세요.';
+    $('matchFeeDesc').textContent = isTeam
+      ? '여학우 팀은 전원 무료예요. 아래 입금 정보란에는 "무료"라고 적어주세요.'
+      : '입금하실 필요 없어요. 아래 입금 정보란에는 "무료"라고 적어주세요.';
   } else {
     box.className = 'pay pay-m on';
-    $('matchFeeTitle').innerHTML = label + ' 참가비 <span class="won">' + per + fee.toLocaleString() + '원</span>';
+    $('matchFeeTitle').innerHTML = label + ' 참가비 <span class="won">' + total.toLocaleString() + '원</span>';
     $('matchFeeDesc').textContent = isTeam
-      ? '팀 인원 각자 입금해주세요. 입금 확인 후 매칭이 진행돼요.'
+      ? '1인당 ' + fee.toLocaleString() + '원 × ' + teamN + '명 · 대표자가 한 번에 입금해주세요.'
       : '입금 확인 후 매칭이 진행돼요.';
   }
 
-  // 미팅은 팀 단위라 별도 안내
-  var tn = $('teamNote');
+  // 미팅은 대표자 1명이 팀 전체를 신청한다
+  var tn = $('teamNote'), tb = $('teamMates'), rows = $('tmRows');
   if (isTeam) {
     tn.style.display = 'block';
-    tn.innerHTML = '<b>' + label + '은 ' + teamN + '명이 함께 오셔야 해요.</b><br>'
-      + '같이 갈 친구 ' + (teamN - 1) + '명도 <b>각자</b> 이 신청서를 써주세요. '
-      + '아래 자기소개란에 <b>같이 온 친구 이름</b>을 적어주시면 한 팀으로 묶어드려요.';
-    var ta = document.querySelector('#matchForm textarea[name="intro"]');
-    if (ta) ta.placeholder = '어떤 사람인지 편하게 적어주세요.\n(같이 신청한 친구 이름도 꼭 적어주세요)';
+    tn.innerHTML = '<b>' + label + '은 ' + teamN + '명이 한 팀으로 참여해요.</b><br>'
+      + '<b>대표자 한 분만</b> 이 신청서를 작성하시면 돼요. '
+      + '아래에 같이 오는 친구 ' + (teamN - 1) + '명 정보만 적어주세요.';
+    tb.style.display = 'block';
+    var want = teamN - 1;
+    if (rows.children.length !== want) {
+      var html = '';
+      for (var i = 2; i <= teamN; i++) {
+        html += '<div class="tm-row">'
+             +  '<span class="tm-i">' + i + '</span>'
+             +  '<input type="text" name="tm_name' + i + '" placeholder="이름" required>'
+             +  '<input type="text" name="tm_school' + i + '" placeholder="학교" required>'
+             +  '<input type="text" name="tm_age' + i + '" placeholder="나이" inputmode="numeric" maxlength="2" required>'
+             +  '</div>';
+      }
+      rows.innerHTML = html;
+    }
+    setLbl_('name', '대표자 이름');
+    setLbl_('school', '대표자 학교');
   } else {
     tn.style.display = 'none';
-    var ta2 = document.querySelector('#matchForm textarea[name="intro"]');
-    if (ta2) ta2.placeholder = '어떤 사람인지 편하게 적어주세요';
+    tb.style.display = 'none';
+    rows.innerHTML = '';
+    setLbl_('name', '이름');
+    setLbl_('school', '학교');
   }
+}
+
+/* 미팅일 때 대표자임을 라벨로 명확히 한다 */
+function setLbl_(field, text) {
+  var el = document.querySelector('#matchForm [name="' + field + '"]');
+  if (!el) return;
+  var lb = el.closest('.field').querySelector('label');
+  if (lb) lb.innerHTML = text + ' <span class="req">*</span>';
 }
 document.querySelectorAll('#matchForm input[name="gender"]').forEach(function (r) {
   r.addEventListener('change', syncMatchFee);
@@ -855,6 +895,22 @@ $('matchForm').addEventListener('submit', function (e) {
   e.preventDefault();
   var data = {};
   new FormData(e.target).forEach(function (v, k) { data[k] = v; });
+
+  // 미팅이면 팀원 정보를 자기소개 앞에 붙여 보낸다 (구글폼에 별도 항목이 없음)
+  var mates = [];
+  Object.keys(data).forEach(function (k) {
+    var m = /^tm_name(\d+)$/.exec(k);
+    if (!m) return;
+    var n = m[1];
+    mates.push({ no: +n, t: data[k] + '(' + (data['tm_school' + n] || '') + ' ' + (data['tm_age' + n] || '') + '세)' });
+  });
+  if (mates.length) {
+    mates.sort(function (a, b) { return a.no - b.no; });
+    data.intro = '[팀 ' + (mates.length + 1) + '명] 대표 ' + data.name + '(' + data.school + ') / '
+               + mates.map(function (x) { return x.t; }).join(' / ')
+               + '\n' + data.intro;
+  }
+
   submitToForm(CONFIG.MATCH_FORM_URL, CONFIG.MATCH_FIELD_IDS, data, 'meetingtalk_match');
 
   // 완료 화면에 본인 참가비와 계좌를 다시 한 번 보여준다
@@ -862,13 +918,19 @@ $('matchForm').addEventListener('submit', function (e) {
   var fee = price ? (data.gender === '여자' ? price[1] : price[0]) : 0;
   var label = data.type === '소개팅' ? '1:1 소개팅'
             : (data.type || '').replace('대', ':').replace('미팅', ' 미팅');
+  var tN = data.type === '소개팅' ? 1
+         : (data.type === '2대2미팅' ? 2 : (data.type === '3대3미팅' ? 3 : 4));
   if (fee > 0) {
     $('matchDonePay').style.display = 'block';
-    $('matchDoneFee').innerHTML = label + ' <b>' + (data.type === '소개팅' ? '' : '1인당 ') + fee.toLocaleString() + '원</b>';
-    $('matchDoneText').innerHTML = '입금이 확인되면 매칭을 시작해요.<br>상대가 정해지면 문자로 알려드릴게요.';
+    $('matchDoneFee').innerHTML = label + ' <b>' + (fee * tN).toLocaleString() + '원</b>'
+      + (tN > 1 ? ' <span class="dim-s">(1인당 ' + fee.toLocaleString() + '원 × ' + tN + '명)</span>' : '');
+    $('matchDoneText').innerHTML = tN > 1
+      ? '대표자가 팀 인원수만큼 한 번에 입금해주세요.<br>확인되면 상대 팀을 찾아 문자로 알려드릴게요.'
+      : '입금이 확인되면 매칭을 시작해요.<br>상대가 정해지면 문자로 알려드릴게요.';
   } else {
     $('matchDonePay').style.display = 'none';
-    $('matchDoneText').innerHTML = '여학우는 무료예요.<br>상대가 정해지면 문자로 알려드릴게요.';
+    $('matchDoneText').innerHTML = (tN > 1 ? '여학우 팀은 전원 무료예요.' : '여학우는 무료예요.')
+      + '<br>상대가 정해지면 문자로 알려드릴게요.';
   }
 
   $('matchFormView').style.display = 'none';
