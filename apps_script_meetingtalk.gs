@@ -10,7 +10,8 @@
 //      SOLAPI_API_KEY    = 솔라피 API 키
 //      SOLAPI_API_SECRET = 솔라피 API 시크릿
 //      OPENCHAT_URL_M    = 남자방 오픈채팅 링크
-//      OPENCHAT_URL_F    = 여자방 오픈채팅 링크
+//      OPENCHAT_URL_F1   = 여자 1번방 오픈채팅 링크
+//      OPENCHAT_URL_F2   = 여자 2번방 오픈채팅 링크
 //      ADMIN_KEY         = 관리 키 (admin.html 에 입력하는 값과 동일)
 //    ⚠️ 오픈채팅 링크는 코드에 직접 적지 말 것.
 //       (레포가 public이라 링크가 새면 승인제가 무의미해짐)
@@ -39,20 +40,33 @@ const MT_PAY_FORM  = 'https://forms.gle/14sji6FuT4gU9WWS7';  // 입장료 입금
 const MT_ENTRY_FEE = 0;
 
 // 오픈채팅 링크는 스크립트 속성에서 읽는다 (코드에 하드코딩 금지)
-function mtOpenChatUrl_(gender) {
+// 여자방은 2개로 운영한다: OPENCHAT_URL_F1 / OPENCHAT_URL_F2
+// (예전 속성 OPENCHAT_URL_F 만 있어도 1번방으로 동작하게 하위호환을 둔다)
+function mtOpenChatUrl_(gender, roomNo) {
   var props = PropertiesService.getScriptProperties();
   var isF = String(gender).indexOf('여') !== -1;
   var isM = String(gender).indexOf('남') !== -1;
   if (!isF && !isM) throw new Error('성별을 알 수 없어 어느 방으로 보낼지 정할 수 없어요: "' + gender + '"');
-  var url = props.getProperty(isF ? 'OPENCHAT_URL_F' : 'OPENCHAT_URL_M');
-  if (!url) throw new Error('스크립트 속성에 ' + (isF ? 'OPENCHAT_URL_F' : 'OPENCHAT_URL_M') + ' 를 설정해주세요.');
-  return { url: url, room: isF ? '여자방' : '남자방' };
+
+  if (isM) {
+    var mUrl = props.getProperty('OPENCHAT_URL_M');
+    if (!mUrl) throw new Error('스크립트 속성에 OPENCHAT_URL_M 을 설정해주세요.');
+    return { url: mUrl, room: '남자방', roomNo: 0 };
+  }
+
+  var n = (String(roomNo) === '2') ? 2 : 1;          // 지정이 없으면 1번방
+  var keyName = 'OPENCHAT_URL_F' + n;
+  var fUrl = props.getProperty(keyName);
+  if (!fUrl && n === 1) fUrl = props.getProperty('OPENCHAT_URL_F');   // 하위호환
+  if (!fUrl) throw new Error('스크립트 속성에 ' + keyName + ' 를 설정해주세요. (여자 ' + n + '번방 오픈채팅 링크)');
+  return { url: fUrl, room: '여자방 ' + n + '번', roomNo: n };
 }
 
 const MT_COL_STATUS = '승인상태';
 const MT_COL_SENT   = '발송시각';
 const MT_COL_MEMO   = '메모';
 const MT_COL_PAYSENT = '입금안내발송';
+const MT_COL_ROOM    = '입장방';
 
 // ---------------- 라우터 ----------------
 function doGet(e) {
@@ -64,9 +78,9 @@ function doGet(e) {
 
     switch (p.action) {
       case 'list':    out = mtList_(); break;
-      case 'approve': out = mtDecide_(Number(p.row), true,  p.memo || ''); break;
+      case 'approve': out = mtDecide_(Number(p.row), true,  p.memo || '', false, p.room); break;
       case 'reject':  out = mtDecide_(Number(p.row), false, p.memo || ''); break;
-      case 'resend':  out = mtDecide_(Number(p.row), true,  p.memo || '', true); break;
+      case 'resend':  out = mtDecide_(Number(p.row), true,  p.memo || '', true,  p.room); break;
       case 'payinfo': out = mtSendPayInfo_(Number(p.row)); break;
       case 'ping':    out = { ok: true, sheet: mtSheet_().getName() }; break;
       default:        out = { error: 'unknown action' };
@@ -142,6 +156,7 @@ function mtCols_(sh) {
   c.sent   = mtEnsureCol_(sh, headers, MT_COL_SENT);
   c.memo   = mtEnsureCol_(sh, headers, MT_COL_MEMO);
   c.paysent = mtEnsureCol_(sh, headers, MT_COL_PAYSENT);
+  c.room    = mtEnsureCol_(sh, headers, MT_COL_ROOM);
   c._headers = headers;
   return c;
 }
@@ -177,7 +192,7 @@ function mtList_() {
 
   var values = sh.getRange(2, 1, last - 1, sh.getLastColumn()).getValues();
   var items = [];
-  var stats = { pending: 0, approvedM: 0, approvedF: 0 };
+  var stats = { pending: 0, approvedM: 0, approvedF: 0, approvedF1: 0, approvedF2: 0 };
 
   values.forEach(function (row, i) {
     // 타임스탬프 빈 행 = 운영자가 적어둔 메모 등 → 신청자 아님
@@ -188,9 +203,13 @@ function mtList_() {
     var insta  = mtPick_(row, c.insta).replace(/^@/, '').trim();
 
     if (status === 'pending') stats.pending++;
+    var assigned = mtPick_(row, c.room);
     if (status === 'approved') {
-      if (gender.indexOf('여') !== -1) stats.approvedF++;
-      else if (gender.indexOf('남') !== -1) stats.approvedM++;
+      if (gender.indexOf('여') !== -1) {
+        stats.approvedF++;
+        if (assigned.indexOf('2') !== -1) stats.approvedF2++;
+        else stats.approvedF1++;          // 방 기록이 없던 예전 건은 1번방으로 본다
+      } else if (gender.indexOf('남') !== -1) stats.approvedM++;
     }
 
     items.push({
@@ -211,7 +230,8 @@ function mtList_() {
       status  : status,
       sent    : mtPickTime_(row, c.sent),
       memo    : mtPick_(row, c.memo),
-      paysent : mtPickTime_(row, c.paysent)
+      paysent : mtPickTime_(row, c.paysent),
+      room    : assigned
     });
   });
 
@@ -220,7 +240,7 @@ function mtList_() {
 }
 
 // ---------------- 승인 / 거절 ----------------
-function mtDecide_(row, approve, memo, force) {
+function mtDecide_(row, approve, memo, force, roomNo) {
   if (!row || row < 2) throw new Error('행 번호가 잘못됐어요.');
   var sh = mtSheet_();
   var c = mtCols_(sh);
@@ -239,7 +259,13 @@ function mtDecide_(row, approve, memo, force) {
     return { ok: true, status: 'approved', skipped: true, message: '이미 발송된 신청이에요.' };
   }
 
-  var target = mtOpenChatUrl_(mtPick_(data, c.gender));
+  // 재발송인데 방 지정이 없으면, 전에 보냈던 방을 그대로 쓴다
+  if (!roomNo) {
+    var prevRoom = mtPick_(data, c.room);
+    if (prevRoom.indexOf('2') !== -1) roomNo = 2;
+    else if (prevRoom.indexOf('1') !== -1) roomNo = 1;
+  }
+  var target = mtOpenChatUrl_(mtPick_(data, c.gender), roomNo);
 
   var phone = mtFixPhone_(mtPick_(data, c.phone));
   if (!/^01[0-9]{8,9}$/.test(phone)) throw new Error('휴대폰 번호가 올바르지 않아요: ' + phone);
@@ -251,9 +277,10 @@ function mtDecide_(row, approve, memo, force) {
   var now = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm');
   sh.getRange(row, c.status + 1).setValue('approved');
   sh.getRange(row, c.sent + 1).setValue(now);
+  sh.getRange(row, c.room + 1).setValue(target.room);
   if (memo) sh.getRange(row, c.memo + 1).setValue(memo);
 
-  return { ok: true, status: 'approved', sent: now, to: phone, room: target.room };
+  return { ok: true, status: 'approved', sent: now, to: phone, room: target.room, roomNo: target.roomNo };
 }
 
 // 남학우에게 입장료 입금 안내 SMS (90바이트 이내 단문)
@@ -409,7 +436,8 @@ function mtCheckSetup() {
   lines.push('');
   var props = PropertiesService.getScriptProperties();
   lines.push('남자방 링크: ' + (props.getProperty('OPENCHAT_URL_M') ? 'OK' : '❌ 없음'));
-  lines.push('여자방 링크: ' + (props.getProperty('OPENCHAT_URL_F') ? 'OK' : '❌ 없음'));
+  lines.push('여자 1번방 링크: ' + ((props.getProperty('OPENCHAT_URL_F1') || props.getProperty('OPENCHAT_URL_F')) ? 'OK' : '❌ 없음'));
+  lines.push('여자 2번방 링크: ' + (props.getProperty('OPENCHAT_URL_F2') ? 'OK' : '❌ 없음'));
   lines.push('솔라피 키: ' + (props.getProperty('SOLAPI_API_KEY') ? 'OK' : '❌ 없음'));
   lines.push('솔라피 시크릿: ' + (props.getProperty('SOLAPI_API_SECRET') ? 'OK' : '❌ 없음'));
   Logger.log(lines.join('\n'));
