@@ -96,6 +96,9 @@ h1 .l2{color:var(--pink);display:block}
 .tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
+.followtip{background:#fff8e1;border:2px solid #ffe08a;border-radius:13px;padding:11px 13px;margin:-8px 0 16px;font-size:12.5px;font-weight:700;color:#7a5a00;letter-spacing:-.03em;line-height:1.6}
+.followtip b{color:#5c4300;font-weight:900}
+.followtip a{color:#5c4300;font-weight:900;text-decoration:underline}
 .tracklab{margin-top:24px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.03em}
 .tracklab-2{margin-top:34px}
 .tl-tag{font-size:11px;font-weight:900;padding:4px 9px;border-radius:99px;letter-spacing:-.02em}
@@ -447,6 +450,7 @@ textarea{resize:none;min-height:88px}
           <label>인스타그램 아이디 <span class="req">*</span></label>
           <input type="text" name="instagram" id="instaInput" placeholder="@ 없이 아이디만" required>
         </div>
+        <div class="followtip" id="followTip"></div>
         <p class="note" id="privacyNote">입력하신 번호로 단톡방 링크를 보내드려요.<br>번호·인스타는 단톡방에 절대 올라가지 않아요.</p>
         <div class="pay pay-m" id="payMale">
           <h4>남학우 입장료 <span class="won">5,000원</span></h4>
@@ -561,6 +565,7 @@ textarea{resize:none;min-height:88px}
           <label>인스타그램 아이디 <span class="req">*</span></label>
           <input type="text" name="instagram" id="matchInsta" placeholder="@ 없이 아이디만" required>
         </div>
+        <div class="followtip" id="followTip2"></div>
         <p class="note">번호·카톡 ID·인스타는 <b>매칭이 성사된 상대에게만</b> 공개돼요.</p>
         <div class="field">
           <label>MBTI <span class="req">*</span></label>
@@ -674,7 +679,11 @@ const CONFIG = {
     BANK    : '카카오뱅크',
     ACCOUNT : '3333241809842',
     HOLDER  : '박*일'
-  }
+  },
+
+  // ── ④ 미팅단톡 인스타 계정 (@ 없이 아이디만) ──
+  // 비워두면 "미팅단톡 계정"이라고만 안내하고, 넣으면 @아이디가 링크로 표시됩니다.
+  INSTA_ACCOUNT : ''
 };
 /* ══════════════════════════════════════════════════════════ */
 
@@ -706,6 +715,20 @@ if (PAY.FEE > 0) {
     });
   });
 }
+
+/* 인스타 팔로우 안내 — 비공개 계정이면 프로필 확인이 안 되므로 수락을 부탁한다 */
+(function () {
+  var acc = (CONFIG.INSTA_ACCOUNT || '').replace(/[@\s]/g, '');
+  var who = acc
+    ? '<a href="https://instagram.com/' + encodeURIComponent(acc) + '" target="_blank" rel="noopener">@' + acc + '</a>'
+    : '<b>미팅단톡 계정</b>';
+  var html = '📷 신청해주시면 ' + who + '에서 <b>팔로우 요청</b>을 드려요.<br>'
+           + '비공개 계정이면 <b>꼭 받아주셔야</b> 확인하고 승인해드릴 수 있어요.';
+  ['followTip', 'followTip2'].forEach(function (id) {
+    var el = $(id);
+    if (el) el.innerHTML = html;
+  });
+})();
 
 /* 휴대폰 번호 자동 하이픈 */
 $('phoneInput').addEventListener('input', function (e) {
