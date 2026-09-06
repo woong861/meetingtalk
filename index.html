@@ -469,7 +469,7 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="consentChk" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·나이·휴대폰 번호·인스타그램 아이디 / 목적: 단톡방 입장 안내 및 매칭 연결 / 보유기간: 참여 종료 후 3개월 이내 파기. 동의를 거부하실 수 있으나 이 경우 입장 안내를 받으실 수 없어요. <b>모든 신청이 승인되지는 않으며</b>, 신청서와 인스타그램을 확인한 뒤 안내드려요. 방 분위기에 맞지 않는다고 판단되면 입장이 어려울 수 있어요.</span>
+            <span class="consent-d">적어주신 정보는 <b>입장 안내와 매칭</b>에만 쓰고 참여 종료 후 3개월 안에 파기해요. 거부하시면 입장 안내를 못 받아요. 신청서와 인스타를 확인해 승인하며, <b>모든 신청이 승인되지는 않아요.</b></span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px">입장 신청하기</button>
@@ -592,7 +592,7 @@ textarea{resize:none;min-height:88px}
           <input type="checkbox" id="matchConsent" required>
           <span>
             <span class="consent-t">개인정보 수집·이용에 동의합니다</span>
-            <span class="consent-d">수집 항목: 이름·성별·학교·학과/학년·나이·휴대폰 번호·카카오톡 ID·인스타그램 아이디·MBTI·자기소개·이상형·입금 및 환불 계좌 정보 / 목적: 매칭 상대 연결 및 결제·환불 처리 / 보유기간: 매칭 종료 후 3개월 이내 파기. 미팅 신청 시에는 함께 오는 팀원의 이름·학교·나이·연락처·인스타그램 아이디를 추가로 수집하며, 대표자는 <b>팀원 본인들의 동의를 받은 뒤</b> 입력해야 합니다.</span>
+            <span class="consent-d">적어주신 정보는 <b>매칭과 결제·환불</b>에만 쓰고 매칭 종료 후 3개월 안에 파기해요. 미팅은 팀원 정보도 함께 받으니, 대표자는 <b>팀원 동의를 받고</b> 적어주세요.</span>
           </span>
         </label>
         <button type="submit" class="btn btn-primary" style="margin-top:8px">매칭 신청하기</button>
@@ -682,7 +682,8 @@ const CONFIG = {
   },
 
   // ── ④ 미팅단톡 인스타 계정 (@ 없이 아이디만) ──
-  // 비워두면 "미팅단톡 계정"이라고만 안내하고, 넣으면 @아이디가 링크로 표시됩니다.
+  // ⚠️ 여기는 비워둡니다. 레포가 public이라 적으면 계정이 그대로 공개돼요.
+  //    비워두면 화면에 "미팅단톡 계정"이라고만 나오고, 아이디는 노출되지 않습니다.
   INSTA_ACCOUNT : ''
 };
 /* ══════════════════════════════════════════════════════════ */
