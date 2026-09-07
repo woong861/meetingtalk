@@ -51,6 +51,11 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
 .tabs{display:flex;gap:6px;margin-top:16px;overflow-x:auto;padding-bottom:2px}
 .tab{flex:0 0 auto;padding:9px 15px;border-radius:999px;background:var(--white);border:1.5px solid var(--line);font-size:13.5px;font-weight:800;cursor:pointer;letter-spacing:-.02em}
 .tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.gtabs{margin-top:8px}
+.gtabs .tab{padding:7px 13px;font-size:12.5px}
+.gtabs .tab.on{background:var(--pink);border-color:var(--pink)}
+.tab .n{font-weight:900;opacity:.6;margin-left:4px}
+.tab.on .n{opacity:.85}
 
 .list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
 .card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:15px 16px}
@@ -119,6 +124,14 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
     <div class="tab" data-f="all">전체</div>
   </div>
 
+  <div class="tabs gtabs" id="gtabs" style="display:none">
+    <div class="tab on" data-g="">전체</div>
+    <div class="tab" data-g="m">남자</div>
+    <div class="tab" data-g="f">여자</div>
+    <div class="tab" data-g="f1">여 1번방</div>
+    <div class="tab" data-g="f2">여 2번방</div>
+  </div>
+
   <div id="msg"></div>
   <div class="list" id="list"></div>
 </div>
@@ -127,7 +140,7 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
 var $ = function(id){ return document.getElementById(id); };
 var STORE = 'meetingtalk_admin_cfg';
 var PAY_FEE = 0;      // 남학우 입장료. 0이면 입금 확인 단계와 입장료 버튼이 사라짐
-var state = { items: [], filter: 'pending', busy: false };
+var state = { items: [], filter: 'pending', gender: '', busy: false };
 
 /* 저장된 설정 복원 */
 try {
@@ -181,6 +194,7 @@ function load() {
     $('conn').textContent = '연결됨 · ' + state.items.length + '건';
     $('statsBox').style.display = '';
     $('tabs').style.display = '';
+    $('gtabs').style.display = '';
     renderStats(res.stats || {});
     render();
     showMsg('');
@@ -220,9 +234,35 @@ function esc(s) {
   });
 }
 
+/* 신청자의 성별·배정방을 필터 키로 바꾼다 (m / f / f1 / f2) */
+function gkey(it) {
+  if (String(it.gender).indexOf('여') !== -1) {
+    if (it.status !== 'approved') return 'f';   // 승인 전이라 아직 방이 없음
+    return String(it.room).indexOf('2') !== -1 ? 'f2' : 'f1';
+  }
+  return String(it.gender).indexOf('남') !== -1 ? 'm' : '';
+}
+function gmatch(it, g) {
+  if (!g) return true;
+  var k = gkey(it);
+  if (g === 'f') return k.charAt(0) === 'f';    // 여자 전체 (방 미정 포함)
+  return k === g;
+}
+
 function render() {
   var f = state.filter;
-  var items = state.items.filter(function (it) { return f === 'all' || it.status === f; });
+  var byStatus = state.items.filter(function (it) { return f === 'all' || it.status === f; });
+
+  // 성별 칩에 현재 탭 기준 개수를 보여준다
+  document.querySelectorAll('#gtabs .tab').forEach(function (t) {
+    var g = t.dataset.g;
+    if (!t.dataset.label) t.dataset.label = t.textContent.trim();   // 첫 렌더 대비
+    var n = byStatus.filter(function (it) { return gmatch(it, g); }).length;
+    t.innerHTML = t.dataset.label + '<span class="n">' + n + '</span>';
+    t.classList.toggle('on', g === state.gender);
+  });
+
+  var items = byStatus.filter(function (it) { return gmatch(it, state.gender); });
   if (!items.length) {
     $('list').innerHTML = '<div class="empty">해당하는 신청이 없어요</div>';
     return;
@@ -288,10 +328,21 @@ function render() {
 $('tabs').addEventListener('click', function (e) {
   var t = e.target.closest('.tab');
   if (!t) return;
-  document.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('on'); });
+  document.querySelectorAll('#tabs .tab').forEach(function (x) { x.classList.remove('on'); });
   t.classList.add('on');
   state.filter = t.dataset.f;
   render();
+});
+
+/* 성별 탭 */
+$('gtabs').addEventListener('click', function (e) {
+  var t = e.target.closest('.tab');
+  if (!t) return;
+  state.gender = t.dataset.g;
+  render();
+});
+document.querySelectorAll('#gtabs .tab').forEach(function (t) {
+  t.dataset.label = t.textContent.trim();
 });
 
 /* 카드 액션 */
