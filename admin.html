@@ -51,6 +51,14 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
 .tabs{display:flex;gap:6px;margin-top:16px;overflow-x:auto;padding-bottom:2px}
 .tab{flex:0 0 auto;padding:9px 15px;border-radius:999px;background:var(--white);border:1.5px solid var(--line);font-size:13.5px;font-weight:800;cursor:pointer;letter-spacing:-.02em}
 .tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.searchbox{position:relative;margin-top:10px}
+.searchbox input{width:100%;padding:12px 40px 12px 14px;border:2px solid var(--line);border-radius:12px;font-family:inherit;font-size:14px;font-weight:600;background:var(--white);letter-spacing:-.02em;-webkit-appearance:none}
+.searchbox input:focus{outline:none;border-color:var(--ink)}
+.searchbox input::-webkit-search-cancel-button{display:none}
+.searchbox button{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:26px;height:26px;border:none;border-radius:50%;background:#ece7ee;color:var(--soft);font-size:12px;font-weight:900;cursor:pointer;display:none;line-height:1}
+.searchbox.has button{display:block}
+.searchnote{font-size:12px;font-weight:700;color:var(--soft);letter-spacing:-.02em;margin-top:6px;min-height:0}
+.tabs.dim{opacity:.4}
 .gtabs{margin-top:8px}
 .gtabs .tab{padding:7px 13px;font-size:12.5px}
 .gtabs .tab.on{background:var(--pink);border-color:var(--pink)}
@@ -132,6 +140,12 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
     <div class="tab" data-g="f2">여 2번방</div>
   </div>
 
+  <div class="searchbox" id="searchBox" style="display:none">
+    <input type="search" id="q" placeholder="이름 · 학교 · 학과 · 인스타 · 번호 검색" autocomplete="off">
+    <button type="button" id="qClear" title="지우기">✕</button>
+  </div>
+  <div class="searchnote" id="searchNote"></div>
+
   <div id="msg"></div>
   <div class="list" id="list"></div>
 </div>
@@ -140,7 +154,7 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
 var $ = function(id){ return document.getElementById(id); };
 var STORE = 'meetingtalk_admin_cfg';
 var PAY_FEE = 0;      // 남학우 입장료. 0이면 입금 확인 단계와 입장료 버튼이 사라짐
-var state = { items: [], filter: 'pending', gender: '', busy: false };
+var state = { items: [], filter: 'pending', gender: '', q: '', busy: false };
 
 /* 저장된 설정 복원 */
 try {
@@ -195,6 +209,7 @@ function load() {
     $('statsBox').style.display = '';
     $('tabs').style.display = '';
     $('gtabs').style.display = '';
+    $('searchBox').style.display = '';
     renderStats(res.stats || {});
     render();
     showMsg('');
@@ -249,9 +264,29 @@ function gmatch(it, g) {
   return k === g;
 }
 
+/* 검색어와 대조할 문자열 (공백·하이픈·@ 제거해서 느슨하게 매칭) */
+function norm(v) {
+  return String(v == null ? '' : v).toLowerCase().replace(/[\s\-@().]/g, '');
+}
+function qmatch(it, q) {
+  if (!q) return true;
+  return [it.name, it.school, it.major, it.insta, it.phone, it.kakao, it.age, it.mbti]
+    .some(function (v) { return norm(v).indexOf(q) !== -1; });
+}
+
 function render() {
   var f = state.filter;
-  var byStatus = state.items.filter(function (it) { return f === 'all' || it.status === f; });
+  var q = norm(state.q);
+
+  // 검색할 땐 상태 탭을 무시하고 전체에서 찾는다 (다른 탭에 있는 사람도 나오도록)
+  var byStatus = q
+    ? state.items.filter(function (it) { return qmatch(it, q); })
+    : state.items.filter(function (it) { return f === 'all' || it.status === f; });
+
+  $('tabs').classList.toggle('dim', !!q);
+  $('searchNote').textContent = q
+    ? '전체에서 검색 중 · ' + byStatus.length + '건'
+    : '';
 
   // 성별 칩에 현재 탭 기준 개수를 보여준다
   document.querySelectorAll('#gtabs .tab').forEach(function (t) {
@@ -264,7 +299,9 @@ function render() {
 
   var items = byStatus.filter(function (it) { return gmatch(it, state.gender); });
   if (!items.length) {
-    $('list').innerHTML = '<div class="empty">해당하는 신청이 없어요</div>';
+    $('list').innerHTML = '<div class="empty">'
+      + (q ? '"' + esc(state.q.trim()) + '" 로 찾은 신청이 없어요' : '해당하는 신청이 없어요')
+      + '</div>';
     return;
   }
   $('list').innerHTML = items.map(function (it) {
@@ -332,6 +369,20 @@ $('tabs').addEventListener('click', function (e) {
   t.classList.add('on');
   state.filter = t.dataset.f;
   render();
+});
+
+/* 검색 */
+$('q').addEventListener('input', function (e) {
+  state.q = e.target.value;
+  $('searchBox').classList.toggle('has', !!state.q.trim());
+  render();
+});
+$('qClear').addEventListener('click', function () {
+  $('q').value = '';
+  state.q = '';
+  $('searchBox').classList.remove('has');
+  render();
+  $('q').focus();
 });
 
 /* 성별 탭 */
