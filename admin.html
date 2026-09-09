@@ -57,6 +57,16 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
 .searchbox input::-webkit-search-cancel-button{display:none}
 .searchbox button{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:26px;height:26px;border:none;border-radius:50%;background:#ece7ee;color:var(--soft);font-size:12px;font-weight:900;cursor:pointer;display:none;line-height:1}
 .searchbox.has button{display:block}
+.bulkbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--white);border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:10px}
+.ball{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800;cursor:pointer;letter-spacing:-.02em}
+.ball input{width:17px;height:17px;accent-color:var(--ink);cursor:pointer}
+.bcount{font-size:12.5px;font-weight:700;color:var(--soft);letter-spacing:-.02em}
+.bulkbar .btn{margin-left:auto;width:auto;padding:10px 16px;font-size:13.5px}
+.bulkbar .btn:disabled{opacity:.4;cursor:default}
+.bulkprog{font-size:12.5px;font-weight:700;color:var(--soft);letter-spacing:-.02em;margin-top:6px}
+.card.sel{border-color:var(--ok);box-shadow:0 0 0 2px rgba(46,160,103,.18)}
+.pickbox{display:flex;align-items:center;gap:8px;margin-bottom:9px;font-size:12.5px;font-weight:800;color:var(--soft);cursor:pointer;letter-spacing:-.02em}
+.pickbox input{width:18px;height:18px;accent-color:var(--ok);cursor:pointer}
 .searchnote{font-size:12px;font-weight:700;color:var(--soft);letter-spacing:-.02em;margin-top:6px;min-height:0}
 .tabs.dim{opacity:.4}
 .gtabs{margin-top:8px}
@@ -146,6 +156,13 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
   </div>
   <div class="searchnote" id="searchNote"></div>
 
+  <div class="bulkbar" id="bulkBar" style="display:none">
+    <label class="ball"><input type="checkbox" id="selAll"><span>전체 선택</span></label>
+    <span class="bcount" id="bulkCount">0명 선택</span>
+    <button type="button" class="btn b-ok" id="bulkOk" disabled>선택 승인 &amp; 문자발송</button>
+  </div>
+  <div class="bulkprog" id="bulkProg"></div>
+
   <div id="msg"></div>
   <div class="list" id="list"></div>
 </div>
@@ -154,7 +171,7 @@ header .st{font-size:12.5px;color:#b9a9b6;font-weight:700}
 var $ = function(id){ return document.getElementById(id); };
 var STORE = 'meetingtalk_admin_cfg';
 var PAY_FEE = 0;      // 남학우 입장료. 0이면 입금 확인 단계와 입장료 버튼이 사라짐
-var state = { items: [], filter: 'pending', gender: '', q: '', busy: false };
+var state = { items: [], filter: 'pending', gender: '', q: '', sel: {}, busy: false };
 
 /* 저장된 설정 복원 */
 try {
@@ -220,6 +237,7 @@ function load() {
 }
 
 function renderStats(s) {
+  state.stats = s || {};
   $('sPending').textContent = s.pending || 0;
   $('sMale').textContent    = s.approvedM || 0;
   $('sFemale').textContent  = s.approvedF || 0;
@@ -304,8 +322,23 @@ function render() {
       + '</div>';
     return;
   }
+  // 대기중인 건만 일괄 승인 대상
+  var pendings = items.filter(function (it) { return it.status === 'pending'; });
+  var selRows = Object.keys(state.sel).filter(function (r) { return state.sel[r]; });
+  $('bulkBar').style.display = pendings.length ? 'flex' : 'none';
+  $('bulkCount').textContent = selRows.length + '명 선택';
+  $('bulkOk').disabled = !selRows.length || state.busy;
+  $('bulkOk').textContent = selRows.length
+    ? '선택한 ' + selRows.length + '명 승인 & 문자발송'
+    : '선택 승인 & 문자발송';
+  $('selAll').checked = pendings.length > 0 && pendings.every(function (it) { return state.sel[it.row]; });
+
   $('list').innerHTML = items.map(function (it) {
     var gender = it.gender.indexOf('여') !== -1 ? 'f' : (it.gender.indexOf('남') !== -1 ? 'm' : '');
+    var picked = !!state.sel[it.row];
+    var pick = it.status === 'pending'
+      ? '<label class="pickbox"><input type="checkbox" data-pick="' + it.row + '"' + (picked ? ' checked' : '') + '><span>일괄 승인에 포함</span></label>'
+      : '';
     var clean = function (v) { return (!v || v === '-') ? '' : v; };
     var meta = [clean(it.school), clean(it.major),
                 clean(it.age) ? clean(it.age) + '세' : '',
@@ -341,7 +374,8 @@ function render() {
       acts = okBtns + '<button class="btn b-no" data-act="reject" data-row="' + it.row + '">거절</button>';
     }
 
-    return '<div class="card ' + it.status + '">'
+    return '<div class="card ' + it.status + (picked ? ' sel' : '') + '">'
+      + pick
       + '<div class="ch"><b>' + esc(it.name || '이름없음') + '</b>'
       + (gender ? '<span class="badge g-' + gender + '">' + esc(it.gender) + '</span>' : '')
       + statusBadge + waitLabel(it)
@@ -369,6 +403,78 @@ $('tabs').addEventListener('click', function (e) {
   t.classList.add('on');
   state.filter = t.dataset.f;
   render();
+});
+
+/* ── 일괄 승인 ─────────────────────────────── */
+/* 체크박스 토글 (카드 클릭 핸들러보다 먼저 잡는다) */
+$('list').addEventListener('change', function (e) {
+  var cb = e.target.closest('[data-pick]');
+  if (!cb) return;
+  var row = cb.dataset.pick;
+  if (cb.checked) state.sel[row] = true; else delete state.sel[row];
+  render();
+});
+
+$('selAll').addEventListener('change', function (e) {
+  var f = state.filter, q = norm(state.q);
+  var pool = q ? state.items.filter(function (it) { return qmatch(it, q); })
+               : state.items.filter(function (it) { return f === 'all' || it.status === f; });
+  pool.filter(function (it) { return gmatch(it, state.gender) && it.status === 'pending'; })
+      .forEach(function (it) {
+        if (e.target.checked) state.sel[it.row] = true; else delete state.sel[it.row];
+      });
+  render();
+});
+
+/* 여학우는 인원이 적은 방으로 자동 배정 */
+function autoRoom(counts) {
+  return (counts.f2 <= counts.f1) ? '2' : '1';
+}
+
+$('bulkOk').addEventListener('click', function () {
+  if (state.busy) return;
+  var rows = Object.keys(state.sel).filter(function (r) { return state.sel[r]; });
+  var targets = state.items.filter(function (it) {
+    return state.sel[it.row] && it.status === 'pending';
+  });
+  if (!targets.length) return;
+
+  var nF = targets.filter(function (it) { return it.gender.indexOf('여') !== -1; }).length;
+  var nM = targets.length - nF;
+  if (!confirm('선택한 ' + targets.length + '명(남 ' + nM + ' · 여 ' + nF + ')에게\n'
+             + '단톡방 링크를 문자로 발송합니다.\n\n'
+             + '여학우는 인원이 적은 방으로 자동 배정돼요.\n되돌릴 수 없어요. 진행할까요?')) return;
+
+  var counts = { f1: (state.stats && state.stats.approvedF1) || 0,
+                 f2: (state.stats && state.stats.approvedF2) || 0 };
+  var ok = 0, fail = [], i = 0;
+  state.busy = true;
+  $('bulkOk').disabled = true;
+
+  (function next() {
+    if (i >= targets.length) {
+      state.busy = false;
+      state.sel = {};
+      $('bulkProg').textContent = '';
+      showMsg('✓ ' + ok + '명 발송 완료'
+        + (fail.length ? ' · 실패 ' + fail.length + '명 (' + fail.join(', ') + ')' : ''),
+        fail.length ? 'err' : 'info');
+      load();
+      return;
+    }
+    var it = targets[i];
+    $('bulkProg').textContent = '발송 중… ' + (i + 1) + ' / ' + targets.length + '  (' + it.name + ')';
+
+    var params = { row: it.row };
+    if (it.gender.indexOf('여') !== -1) {
+      var r = autoRoom(counts);
+      params.room = r;
+      counts['f' + r]++;          // 다음 사람은 반대 방으로 가도록 즉시 반영
+    }
+    api('approve', params).then(function () { ok++; })
+      .catch(function (err) { fail.push(it.name + ': ' + err.message); })
+      .then(function () { i++; next(); });
+  })();
 });
 
 /* 검색 */
