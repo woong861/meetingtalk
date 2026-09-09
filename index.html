@@ -98,6 +98,7 @@ h1 .l2{color:var(--pink);display:block}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
 .opt{display:inline-block;background:#f0e8ee;color:var(--ink-soft);font-size:11px;font-weight:800;padding:2px 7px;border-radius:99px;margin-left:5px;letter-spacing:-.02em;vertical-align:2px}
 .reftip{color:var(--pink-deep) !important;margin-top:-10px !important}
+.fieldtip{margin-top:-9px;margin-bottom:16px;font-size:12.5px;color:var(--ink-soft);font-weight:700;letter-spacing:-.02em;line-height:1.5}
 .reftip b{color:var(--pink-deep);font-weight:900}
 .followtip{background:#fff8e1;border:2px solid #ffe08a;border-radius:13px;padding:11px 13px;margin:-8px 0 16px;font-size:12.5px;font-weight:700;color:#7a5a00;letter-spacing:-.03em;line-height:1.6}
 .followtip b{color:#5c4300;font-weight:900}
@@ -449,6 +450,7 @@ textarea{resize:none;min-height:88px}
           <label>휴대폰 번호 <span class="req">*</span></label>
           <input type="tel" name="phone" id="phoneInput" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
         </div>
+        <p class="fieldtip">📩 승인되면 이 번호로 <b>오픈채팅 링크</b>를 보내드려요.</p>
         <div class="field">
           <label>인스타그램 아이디 <span class="req">*</span></label>
           <input type="text" name="instagram" id="instaInput" placeholder="@ 없이 아이디만" required>
@@ -459,7 +461,7 @@ textarea{resize:none;min-height:88px}
           <input type="text" name="referrer" placeholder="초대해준 친구 이름">
         </div>
         <p class="note reftip">친구 이름을 적으면 <b>둘 다 매칭 확률이 올라가요</b> 🎈</p>
-        <p class="note" id="privacyNote">입력하신 번호로 단톡방 링크를 보내드려요.<br>번호·인스타는 단톡방에 절대 올라가지 않아요.</p>
+        <p class="note" id="privacyNote">번호·인스타는 단톡방에 절대 올라가지 않아요.</p>
         <div class="pay pay-m" id="payMale">
           <h4>남학우 입장료 <span class="won">5,000원</span></h4>
           <p>이 금액은 <b>단톡방 입장료</b>예요.<br>미팅 성사를 보장하는 금액이 아닙니다.<br>성비를 맞추기 위해 남학우만 받고 있어요.</p>
@@ -565,6 +567,7 @@ textarea{resize:none;min-height:88px}
           <label>휴대폰 번호 <span class="req">*</span></label>
           <input type="tel" name="phone" id="matchPhone" placeholder="010-0000-0000" inputmode="numeric" maxlength="13" required>
         </div>
+        <p class="fieldtip">📩 매칭 결과를 이 번호로 알려드려요.</p>
         <div class="field">
           <label>카카오톡 ID <span class="req">*</span></label>
           <input type="text" name="kakao" placeholder="매칭되면 상대에게 전달돼요" required>
