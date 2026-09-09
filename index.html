@@ -96,6 +96,9 @@ h1 .l2{color:var(--pink);display:block}
 .tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--pink);color:#fff;box-shadow:0 8px 22px rgba(255,61,135,.35)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid #f0dbe5}
+.opt{display:inline-block;background:#f0e8ee;color:var(--ink-soft);font-size:11px;font-weight:800;padding:2px 7px;border-radius:99px;margin-left:5px;letter-spacing:-.02em;vertical-align:2px}
+.reftip{color:var(--pink-deep) !important;margin-top:-10px !important}
+.reftip b{color:var(--pink-deep);font-weight:900}
 .followtip{background:#fff8e1;border:2px solid #ffe08a;border-radius:13px;padding:11px 13px;margin:-8px 0 16px;font-size:12.5px;font-weight:700;color:#7a5a00;letter-spacing:-.03em;line-height:1.6}
 .followtip b{color:#5c4300;font-weight:900}
 .followtip a{color:#5c4300;font-weight:900;text-decoration:underline}
@@ -451,6 +454,11 @@ textarea{resize:none;min-height:88px}
           <input type="text" name="instagram" id="instaInput" placeholder="@ 없이 아이디만" required>
         </div>
         <div class="followtip" id="followTip"></div>
+        <div class="field">
+          <label>추천인 <span class="opt">선택</span></label>
+          <input type="text" name="referrer" placeholder="초대해준 친구 이름">
+        </div>
+        <p class="note reftip">친구 이름을 적으면 <b>둘 다 매칭 확률이 올라가요</b> 🎈</p>
         <p class="note" id="privacyNote">입력하신 번호로 단톡방 링크를 보내드려요.<br>번호·인스타는 단톡방에 절대 올라가지 않아요.</p>
         <div class="pay pay-m" id="payMale">
           <h4>남학우 입장료 <span class="won">5,000원</span></h4>
@@ -641,7 +649,8 @@ const CONFIG = {
     phone     : 'entry.1842828426',
     kakao     : 'entry.93356708',
     instagram : 'entry.1762284157',
-    mbti      : 'entry.60215028'
+    mbti      : 'entry.60215028',
+    referrer  : 'entry.1915207015'   // 추천인 (선택)
   },
 
   // ── ② 운영진 1:1 매칭 신청 (구글폼 "✅ 미팅단톡 1대1 신청서 ✅") ──

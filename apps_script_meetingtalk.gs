@@ -150,7 +150,8 @@ function mtCols_(sh) {
     kakao  : mtFindCol_(headers, ['카카오톡', '카카오톡 ID'], ['카카오', '카톡'], ['추천']),
     insta  : mtFindCol_(headers, ['인스타 ID', '인스타그램 아이디'], ['인스타'], ['추천']),
     type   : mtFindCol_(headers, ['소개팅/미팅'], ['소개팅', '미팅', '만남'], []),
-    intro  : mtFindCol_(headers, ['한 줄 자기소개'], ['자기소개', '소개'], ['추천', '인스타'])
+    intro  : mtFindCol_(headers, ['한 줄 자기소개'], ['자기소개', '소개'], ['추천', '인스타']),
+    ref    : mtFindCol_(headers, ['추천인 (선택)', '추천인'], ['추천'], [])
   };
   c.status = mtEnsureCol_(sh, headers, MT_COL_STATUS);
   c.sent   = mtEnsureCol_(sh, headers, MT_COL_SENT);
@@ -231,7 +232,8 @@ function mtList_() {
       sent    : mtPickTime_(row, c.sent),
       memo    : mtPick_(row, c.memo),
       paysent : mtPickTime_(row, c.paysent),
-      room    : assigned
+      room    : assigned,
+      ref     : mtPick_(row, c.ref)
     });
   });
 
@@ -323,6 +325,11 @@ function mtBuildText_(name, target) {
   lines.push('운영진이 조건 맞는 분을 골라드려요.');
   lines.push(isF ? '여학우는 무료예요 → ' + MT_SITE
                  : '8,000원부터 → ' + MT_SITE);
+
+  // 친구 초대 (기존 멤버가 곧 유입 채널)
+  lines.push('');
+  lines.push('친구랑 같이 오면 더 재밌어요 🎈');
+  lines.push('친구가 신청서에 내 이름을 적으면 매칭 확률 UP!');
   return lines.join('\n');
 }
 

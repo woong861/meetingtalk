@@ -288,7 +288,7 @@ function norm(v) {
 }
 function qmatch(it, q) {
   if (!q) return true;
-  return [it.name, it.school, it.major, it.insta, it.phone, it.kakao, it.age, it.mbti]
+  return [it.name, it.school, it.major, it.insta, it.phone, it.kakao, it.age, it.mbti, it.ref]
     .some(function (v) { return norm(v).indexOf(q) !== -1; });
 }
 
@@ -387,6 +387,7 @@ function render() {
       +   (clean(it.kakao) ? '<button class="id" data-copy="' + esc(it.kakao) + '">💬 ' + esc(it.kakao) + '</button>' : '')
       +   (it.phone ? '<button class="id" data-copy="' + esc(it.phone) + '">📱 ' + esc(it.phone) + '</button>' : '')
       + '</div>'
+      + (clean(it.ref) ? '<div class="sentline" style="color:#b0157a">🎈 추천인 · <b>' + esc(it.ref) + '</b></div>' : '')
       + (it.paysent ? '<div class="sentline" style="color:#8a6100">💰 ' + esc(it.paysent) + ' 입장료 안내 발송</div>' : '')
       + (it.sent ? '<div class="sentline">✓ ' + esc(it.sent) + ' 링크 발송' + (it.room ? ' · <b>' + esc(it.room) + '</b>' : '') + '</div>' : '')
       + payRow
