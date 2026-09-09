@@ -732,8 +732,7 @@ if (PAY.FEE > 0) {
   var who = acc
     ? '<a href="https://instagram.com/' + encodeURIComponent(acc) + '" target="_blank" rel="noopener">@' + acc + '</a>'
     : '<b>미팅단톡 계정</b>';
-  var html = '📷 신청해주시면 ' + who + '에서 <b>팔로우 요청</b>을 드려요.<br>'
-           + '비공개 계정이면 <b>꼭 받아주셔야</b> 확인하고 승인해드릴 수 있어요.';
+  var html = '📷 신청해주시면 ' + who + '에서 <b>팔로우 요청</b>을 드려요.';
   ['followTip', 'followTip2'].forEach(function (id) {
     var el = $(id);
     if (el) el.innerHTML = html;
