@@ -50,37 +50,39 @@ body::before{
 .blob-2{width:260px;height:260px;background:rgba(201,242,77,.45);bottom:-90px;left:-100px}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 
-/* ── hero ── */
-.hero{padding:44px 0 8px}
-.badge{
-  display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;
-  padding:9px 18px;border-radius:999px;font-size:14px;font-weight:700;letter-spacing:-.02em;
-}
-.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 rgba(201,242,77,.7);animation:pulse 2s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(201,242,77,0)}100%{box-shadow:0 0 0 0 rgba(201,242,77,0)}}
-h1{margin:20px 0 0;font-size:clamp(46px,13.5vw,64px);font-weight:900;letter-spacing:-.045em;line-height:1.02}
-h1 .l2{display:inline-block;color:var(--ink);background:var(--accent);padding:0 14px 5px;border-radius:16px;transform:rotate(-1.5deg);margin-top:8px}
-.sub{margin-top:20px;font-size:clamp(18px,4.8vw,21px);font-weight:700;letter-spacing:-.03em;line-height:1.5}
-.sub .hl{background:linear-gradient(transparent 58%,var(--brand-soft) 58%);padding:0 3px}
+/* ── top bar ── */
+.top{display:flex;align-items:center;justify-content:space-between;padding:18px 0 0}
+.logo{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:900;letter-spacing:-.04em}
+.logo i{width:10px;height:10px;border-radius:3px;background:var(--accent);transform:rotate(45deg);display:block;box-shadow:0 0 0 3px rgba(201,242,77,.35)}
+.top-cta{background:var(--ink);color:#fff;border:none;border-radius:999px;padding:9px 15px;font-family:inherit;font-size:13px;font-weight:800;letter-spacing:-.02em;cursor:pointer}
 
-/* ── kakao mock ── */
-.mock{
-  margin-top:30px;background:var(--white);border-radius:var(--radius);
-  padding:24px 22px 26px;box-shadow:var(--shadow);
-}
-.mock-head{display:flex;align-items:baseline;gap:10px;padding-bottom:14px;border-bottom:1px solid #ebe6f7}
-.mock-title{font-size:18px;font-weight:800;letter-spacing:-.03em}
-.mock-count{font-size:16px;font-weight:700;color:#a9a4bf}
-.msg{display:flex;gap:12px;align-items:flex-start;margin-top:18px}
-.av{width:38px;height:38px;border-radius:13px;flex:0 0 auto}
-.av-p{background:var(--brand-soft)}.av-b{background:var(--blue)}
-.bub{background:#efecf8;border-radius:16px;padding:11px 17px;font-size:16px;font-weight:600;letter-spacing:-.03em}
-.time{font-size:11px;color:#a9a4bf;font-weight:600;align-self:flex-end;margin-bottom:2px;letter-spacing:-.02em;flex:0 0 auto}
-.msg-me{justify-content:flex-end;margin-top:20px}
-.bub-me{background:var(--accent);font-weight:800}
+/* ── hero ── */
+.hero2{padding:34px 0 6px}
+.kicker{display:inline-block;font-size:13px;font-weight:800;color:var(--brand-deep);letter-spacing:-.02em;background:var(--brand-soft);padding:6px 12px;border-radius:8px}
+h1{margin:16px 0 0;font-size:clamp(35px,9.8vw,46px);font-weight:900;letter-spacing:-.05em;line-height:1.14}
+h1 .l2{display:inline-block;color:var(--ink);background:var(--accent);padding:0 12px 3px;border-radius:12px;transform:rotate(-1.2deg);margin-top:6px}
+.sub{margin-top:18px;font-size:clamp(15px,4.2vw,17px);font-weight:600;color:var(--ink-soft);letter-spacing:-.03em;line-height:1.6}
+
+/* ── 구인 보드 ── */
+.board{margin-top:26px;background:var(--ink);color:#fff;border-radius:var(--radius);padding:18px 18px 14px;box-shadow:0 18px 40px rgba(27,23,51,.28)}
+.board-h{display:flex;align-items:center;gap:8px;padding:0 2px 12px}
+.board-t{font-size:14px;font-weight:800;letter-spacing:-.03em;color:rgba(255,255,255,.85)}
+.board-tag{font-size:10.5px;font-weight:800;color:var(--ink);background:var(--accent);padding:2px 7px;border-radius:99px;letter-spacing:-.01em}
+.posts{list-style:none;display:flex;flex-direction:column;gap:7px}
+.posts li{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-radius:15px;padding:12px 13px}
+.pt{flex:0 0 auto;min-width:42px;text-align:center;font-size:13px;font-weight:900;letter-spacing:-.02em;color:var(--ink);background:var(--accent);border-radius:9px;padding:7px 8px}
+.pt.alt{background:var(--brand-soft)}
+.pt.hot{background:#ffb4c8}
+.pb{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pb b{font-size:14.5px;font-weight:800;letter-spacing:-.035em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pb span{font-size:12px;font-weight:600;color:rgba(255,255,255,.58);letter-spacing:-.03em}
+.posts em{flex:0 0 auto;font-style:normal;font-size:11.5px;font-weight:800;color:var(--accent);letter-spacing:-.03em}
+.board-f{margin-top:12px;text-align:center;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.62);letter-spacing:-.03em}
+.board-f b{color:#fff}
 
 /* ── cta ── */
-.cta-block{margin-top:26px;display:flex;flex-direction:column;gap:12px}
+.cta-block{margin-top:18px}
+.cta2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn{
   display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
   padding:19px 20px;border:none;border-radius:999px;font-family:inherit;
@@ -88,14 +90,18 @@ h1 .l2{display:inline-block;color:var(--ink);background:var(--accent);padding:0 
   transition:transform .12s ease,box-shadow .12s ease;text-decoration:none;
 }
 .btn:active{transform:scale(.975)}
-.btn-primary:hover{box-shadow:0 10px 26px rgba(106,76,255,.42)}
-.btn-ghost:hover{border-color:#cfc5f0}
-.step{transition:transform .18s ease,box-shadow .18s ease}
-.step:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(90,60,200,.11)}
-.tag{transition:transform .15s ease}
-.tag:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--brand);color:#fff;box-shadow:0 8px 22px rgba(106,76,255,.35)}
+.btn-primary:hover{box-shadow:0 10px 26px rgba(106,76,255,.42)}
 .btn-ghost{background:var(--white);color:var(--ink);border:2px solid var(--line)}
+.btn-ghost:hover{border-color:#cfc5f0}
+.btn-big{flex-direction:column;gap:3px;padding:17px 12px 15px;border-radius:20px}
+.btn-big .bl{font-size:17px;font-weight:900;letter-spacing:-.04em}
+.btn-big .bs{font-size:11.5px;font-weight:700;letter-spacing:-.02em;opacity:.78}
+.btn-ghost.btn-big .bl{color:var(--brand-deep)}
+.btn-ghost.btn-big .bs{color:var(--ink-soft);opacity:1}
+.trust{list-style:none;margin-top:14px;display:flex;justify-content:center;flex-wrap:wrap;gap:6px 14px}
+.trust li{position:relative;padding-left:15px;font-size:12.5px;font-weight:700;color:var(--ink-soft);letter-spacing:-.03em}
+.trust li::before{content:'';position:absolute;left:0;top:5px;width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 2px rgba(201,242,77,.35)}
 .opt{display:inline-block;background:#ece8f6;color:var(--ink-soft);font-size:11px;font-weight:800;padding:2px 7px;border-radius:99px;margin-left:5px;letter-spacing:-.02em;vertical-align:2px}
 .reftip{color:var(--brand-deep) !important;margin-top:-10px !important}
 .fieldtip{margin-top:-9px;margin-bottom:16px;font-size:12.5px;color:var(--ink-soft);font-weight:700;letter-spacing:-.02em;line-height:1.5}
@@ -103,36 +109,11 @@ h1 .l2{display:inline-block;color:var(--ink);background:var(--accent);padding:0 
 .followtip{background:#f5fbe1;border:2px solid #d4ec86;border-radius:13px;padding:11px 13px;margin:-8px 0 16px;font-size:12.5px;font-weight:700;color:#3d4f00;letter-spacing:-.03em;line-height:1.6}
 .followtip b{color:#2a3600;font-weight:900}
 .followtip a{color:#2a3600;font-weight:900;text-decoration:underline}
-.tracklab{margin-top:24px;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.03em}
-.tracklab-2{margin-top:34px}
 .tl-tag{font-size:11px;font-weight:900;padding:4px 9px;border-radius:99px;letter-spacing:-.02em}
 .tl-free{background:#eafaf1;color:#0b7c41;border:1.5px solid #c3ecd5}
 .tl-paid{background:var(--brand);color:#fff}
-.track{margin-top:13px;background:var(--ink);border-radius:20px;padding:22px 20px 20px;color:#fff}
-.track-h{font-size:20px;font-weight:900;letter-spacing:-.04em;line-height:1.32}
-.track-h em{color:var(--accent);font-style:normal}
-.track-steps{list-style:none;margin:17px 0 19px;padding:0;display:flex;flex-direction:column;gap:14px;counter-reset:ts}
-.track-steps li{counter-increment:ts;position:relative;padding-left:33px;display:flex;flex-direction:column;gap:3px}
-.track-steps li::before{content:counter(ts);position:absolute;left:0;top:0;width:23px;height:23px;border-radius:50%;background:rgba(255,255,255,.14);color:var(--accent);font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
-.track-steps b{font-size:15px;font-weight:800;letter-spacing:-.035em}
-.track-steps span{font-size:13px;font-weight:600;letter-spacing:-.03em;color:rgba(255,255,255,.62);line-height:1.5}
 .btn-track{background:var(--accent);color:var(--ink);font-size:16.5px;padding:16px 20px;box-shadow:none}
-.btn-track .ta{transition:transform .15s ease}
-.btn-track:hover .ta{transform:translateX(3px)}
-.track-note{margin-top:11px;text-align:center;font-size:12.5px;font-weight:700;letter-spacing:-.03em;color:rgba(255,255,255,.6)}
-.track-note b{color:var(--accent);font-weight:800}
 .btn-free{display:inline-flex;align-items:center;background:rgba(255,255,255,.24);color:#fff;font-size:12.5px;font-weight:900;padding:4px 10px;border-radius:99px;letter-spacing:-.02em}
-.btn-match{flex-direction:column;align-items:stretch;gap:0;padding:0;border-color:var(--line);overflow:hidden;border-radius:22px}
-.btn-match .m-top{display:flex;align-items:center;gap:12px;padding:15px 17px 14px;text-align:left}
-.btn-match .m-body{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
-.btn-match .mlabel{font-size:17px;font-weight:900;letter-spacing:-.035em;color:var(--brand-deep)}
-.btn-match .mtext{font-size:13px;font-weight:700;letter-spacing:-.03em;color:var(--ink-soft);line-height:1.45}
-.btn-match .mtext b{color:var(--ink);font-weight:800}
-.btn-match .marrow{flex:none;font-size:19px;font-weight:900;color:var(--brand);transition:transform .15s ease}
-.btn-match:hover .marrow{transform:translateX(3px)}
-.btn-match .m-foot{display:block;padding:10px 14px;background:#f1edff;border-top:2px solid #e3dcff;font-size:12.5px;font-weight:700;color:var(--ink-soft);letter-spacing:-.03em;text-align:center}
-.btn-match .m-foot b{color:var(--brand-deep);font-weight:900}
-.btn-sub{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);text-align:center;margin-top:-4px;letter-spacing:-.02em}
 
 /* ── sections ── */
 section{margin-top:52px}
@@ -140,32 +121,38 @@ h2{font-size:26px;font-weight:900;letter-spacing:-.045em;line-height:1.25}
 h2 .em{color:var(--brand)}
 .lead{margin-top:10px;font-size:16px;color:var(--ink-soft);font-weight:600;letter-spacing:-.02em}
 
-.steps{margin-top:22px;display:flex;flex-direction:column;gap:12px}
-.step{background:var(--white);border-radius:18px;padding:20px 20px;display:flex;gap:15px;align-items:flex-start;box-shadow:0 4px 14px rgba(90,60,200,.07)}
-.step-n{
-  flex:0 0 auto;width:30px;height:30px;border-radius:11px;background:var(--brand);color:#fff;
-  display:grid;place-items:center;font-size:15px;font-weight:900;
-}
-.step-t{font-size:17px;font-weight:800;letter-spacing:-.03em}
-.step-d{font-size:14.5px;color:var(--ink-soft);font-weight:600;letter-spacing:-.02em;margin-top:3px}
+.cmp{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.col{background:var(--white);border-radius:20px;padding:17px 14px 15px;display:flex;flex-direction:column;box-shadow:0 4px 16px rgba(90,60,200,.07)}
+.col-paid{background:var(--ink);color:#fff}
+.col-h{display:flex;align-items:center;gap:7px}
+.col-h b{font-size:17px;font-weight:900;letter-spacing:-.04em}
+.col-d{margin-top:9px;font-size:12.5px;font-weight:600;letter-spacing:-.03em;line-height:1.5;color:var(--ink-soft);min-height:38px}
+.col-paid .col-d{color:rgba(255,255,255,.65)}
+.flow{list-style:none;margin:12px 0 14px;padding:0;display:flex;flex-direction:column;gap:8px;counter-reset:fl}
+.flow li{counter-increment:fl;position:relative;padding-left:27px;font-size:13px;font-weight:800;letter-spacing:-.035em;line-height:1.4}
+.flow li::before{content:counter(fl);position:absolute;left:0;top:0;width:20px;height:20px;border-radius:7px;background:var(--brand-soft);color:var(--brand-deep);font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.flow li:not(:last-child)::after{content:'';position:absolute;left:9px;top:21px;width:2px;height:8px;background:var(--line)}
+.col-paid .flow li::before{background:rgba(255,255,255,.14);color:var(--accent)}
+.col-paid .flow li:not(:last-child)::after{background:rgba(255,255,255,.14)}
+.btn-sm{margin-top:auto;padding:13px 12px;font-size:14.5px;border-radius:13px}
+.col-n{margin-top:10px;font-size:11.5px;font-weight:700;letter-spacing:-.03em;line-height:1.45;color:rgba(255,255,255,.6);text-align:center}
+.col-n b{color:var(--accent)}
 
-.tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
-.tag{background:var(--white);border:1.5px solid var(--line);border-radius:999px;padding:11px 17px;font-size:14.5px;font-weight:700;letter-spacing:-.025em}
-.tag.no{color:var(--brand-deep);border-color:var(--brand-soft)}
+.rules{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rule{border-radius:20px;padding:16px 15px}
+.rule.ok{background:#eafaf1;border:2px solid #c3ecd5}
+.rule.no{background:#fff0f4;border:2px solid #ffd1de}
+.rule h4{font-size:14.5px;font-weight:900;letter-spacing:-.04em}
+.rule.ok h4{color:#0b7c41}.rule.no h4{color:#c2185b}
+.rule ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.rule li{position:relative;padding-left:22px;font-size:13.5px;font-weight:700;letter-spacing:-.035em;color:var(--ink)}
+.rule li::before{position:absolute;left:0;top:0;width:16px;height:16px;border-radius:50%;font-size:10px;font-weight:900;display:flex;align-items:center;justify-content:center;color:#fff}
+.rule.ok li::before{content:'✓';background:#1fa15d}
+.rule.no li::before{content:'✕';background:#e0407a}
 
-.code-card{
-  margin-top:22px;background:var(--ink);color:#fff;border-radius:var(--radius);
-  padding:24px 20px;display:flex;align-items:center;gap:16px;
-}
-.code-l{flex:0 0 auto}
-.code-lab{font-size:14px;font-weight:800;color:var(--brand);letter-spacing:-.02em}
-.code-v{font-size:29px;font-weight:900;letter-spacing:.04em;line-height:1.2;font-variant-numeric:tabular-nums}
-.code-div{width:1px;align-self:stretch;background:rgba(255,255,255,.2)}
-.code-r{font-size:14px;font-weight:700;letter-spacing:-.03em;line-height:1.55}
-.code-r .em{color:var(--accent)}
-
-.faq{margin-top:18px;display:flex;flex-direction:column;gap:10px}
-details{background:var(--white);border-radius:16px;padding:17px 19px;box-shadow:0 3px 12px rgba(90,60,200,.06)}
+.faq{margin-top:14px;background:var(--white);border-radius:20px;padding:4px 18px;box-shadow:0 4px 16px rgba(90,60,200,.07)}
+details{padding:15px 0;border-bottom:1.5px solid var(--line)}
+details:last-child{border-bottom:none}
 summary{font-size:16px;font-weight:800;letter-spacing:-.03em;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
 summary::-webkit-details-marker{display:none}
 summary::after{content:'+';color:var(--brand);font-weight:900;font-size:20px;flex:0 0 auto}
@@ -177,15 +164,15 @@ footer{margin-top:56px;padding:28px 0 20px;text-align:center;font-size:13px;colo
 /* ── sticky ── */
 .sticky{
   position:fixed;left:0;right:0;bottom:0;z-index:50;
-  background:rgba(243,240,255,.9);backdrop-filter:blur(12px);
-  border-top:1px solid rgba(255,255,255,.7);
-  padding:12px 20px calc(12px + env(safe-area-inset-bottom));
+  background:transparent;
+  padding:0 14px calc(14px + env(safe-area-inset-bottom));
   transform:translateY(110%);transition:transform .3s cubic-bezier(.2,.8,.3,1);
 }
 .sticky.on{transform:translateY(0)}
-.sticky-in{max-width:var(--max);margin:0 auto;display:flex;gap:10px}
-.sticky .btn{padding:16px;font-size:16.5px}
-.sticky .btn-ghost{flex:0 0 34%;text-decoration:none}
+.sticky-in{max-width:var(--max);margin:0 auto;display:flex;gap:6px;background:var(--ink);border-radius:999px;padding:6px;box-shadow:0 14px 34px rgba(27,23,51,.35)}
+.sticky .btn{padding:14px;font-size:15.5px}
+.sticky .btn-ghost{flex:0 0 36%;background:transparent;border:none;color:#fff}
+.sticky .btn-primary{background:var(--accent);color:var(--ink);box-shadow:none}
 
 /* ── modal ── */
 .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center}
@@ -271,93 +258,87 @@ textarea{resize:none;min-height:88px}
 
 <div class="wrap">
 
-  <header class="hero">
-    <div class="badge"><span class="dot"></span>대학생이면 누구나</div>
-    <h1>대학생<span class="l2">미팅방</span></h1>
-    <p class="sub">
-      과팅·미팅 <span class="hl">품앗이 단톡방</span> 열었어요<br>
-      한 명 대타 급할 때도 여기로!
-    </p>
+  <nav class="top">
+    <span class="logo"><i></i>대학생 미팅방</span>
+    <button type="button" class="top-cta" data-open-form>무료 입장</button>
+  </nav>
+
+  <header class="hero2">
+    <p class="kicker">과팅 · 미팅 · 한 명 대타까지</p>
+    <h1>미팅 나갈 사람,<br>다른 학교에서<br><span class="l2">구해드려요</span></h1>
+    <p class="sub">대학생끼리 미팅 상대와 팀을 구하는 단톡방이에요.<br>혼자 와도, 셋이 와도 돼요.</p>
   </header>
 
-  <div class="mock">
-    <div class="mock-head">
-      <span class="mock-title">대학생 미팅방</span>
-      <span class="mock-count" id="liveCount">137</span>
+  <div class="board">
+    <div class="board-h">
+      <span class="board-t">방에 올라오는 글</span>
+      <span class="board-tag">예시</span>
+      <span id="liveCount" hidden></span>
     </div>
-    <div class="msg"><div class="av av-p"></div><div class="bub">2:2 오늘 저녁 가능한 분?</div><span class="time">오후 7:32</span></div>
-    <div class="msg"><div class="av av-b"></div><div class="bub">저희과 3명 대기중이요!</div><span class="time">7:33</span></div>
-    <div class="msg msg-me"><span class="time">7:35</span><div class="bub bub-me">한 명만 대타 구해요 🙏</div></div>
+    <ul class="posts">
+      <li><span class="pt">3:3</span><div class="pb"><b>서울권 3:3 이번 주말</b><span>여 3명 · 상대 팀 구해요</span></div><em>👋 2팀 신청</em></li>
+      <li><span class="pt alt">2:2</span><div class="pb"><b>오늘 저녁 2:2 가능한 분</b><span>남 2명 · 7시 이후</span></div><em>👋 1팀 신청</em></li>
+      <li><span class="pt hot">대타</span><div class="pb"><b>한 명 펑크 나서 급구 🙏</b><span>3:3인데 한 분만 더요</span></div><em>🔥 마감 임박</em></li>
+      <li><span class="pt alt">4:4</span><div class="pb"><b>경기권 4:4 다음 주</b><span>학교 상관없이 편하게</span></div><em>👋 3팀 신청</em></li>
+    </ul>
+    <div class="board-f">들어가면 이런 글에 <b>바로 신청</b>할 수 있어요</div>
   </div>
 
-  <div class="cta-block">
-    <button class="btn btn-primary" id="applyBtn" data-open-form>
-      단톡방 입장하기<span class="btn-free">무료</span>
+  <div class="cta-block cta2">
+    <button class="btn btn-primary btn-big" id="applyBtn" data-open-form>
+      <span class="bl">단톡방 입장</span>
+      <span class="bs">무료 · 신청서 1분</span>
     </button>
-    <span class="btn-sub">신청서 1분 · 확인되면 <b>바로 링크 발송</b></span>
-
-    <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match>
-      <span class="m-top">
-        <span class="m-body">
-          <span class="mlabel">1:1 맞춤 매칭</span>
-          <span class="mtext">학교·나이·이상형 보고 <b>직접 골라드려요</b></span>
-        </span>
-        <span class="marrow" aria-hidden="true">→</span>
-      </span>
-      <span class="m-foot">여학우 무료 · 남학우 8,000원부터 · <b>안 되면 전액 환불</b></span>
+    <button class="btn btn-ghost btn-big" id="matchBtn" data-open-match>
+      <span class="bl">1:1 맞춤 매칭</span>
+      <span class="bs">여 무료 · 남 8,000원~</span>
     </button>
   </div>
+  <ul class="trust">
+    <li>인스타 확인 후 입장</li>
+    <li>번호·인스타 비공개</li>
+    <li>이상하면 즉시 강퇴</li>
+  </ul>
 
   <section>
-    <h2>이렇게 <span class="em">진행돼요</span></h2>
-    <p class="lead">단톡방에서 함께 나가거나, 1:1로 연결받거나.<br>둘 다 신청서 한 번이면 끝나요.</p>
-
-    <div class="tracklab"><span class="tl-tag tl-free">무료</span> 단톡방에서 미팅 참여하기</div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-n">1</div>
-        <div><div class="step-t">신청서 작성</div><div class="step-d">1분이면 끝나요. 이름·성별·학교·나이·번호·인스타만 받아요.</div></div>
+    <h2>두 가지 방법이 <span class="em">있어요</span></h2>
+    <p class="lead">방에서 직접 구하거나, 운영진이 골라주거나.</p>
+    <div class="cmp">
+      <div class="col col-free">
+        <div class="col-h"><span class="tl-tag tl-free">무료</span><b>단톡방</b></div>
+        <p class="col-d">방에서 미팅 상대·팀을 직접 구해요</p>
+        <ol class="flow">
+          <li>신청서 작성</li>
+          <li>문자로 링크 받기</li>
+          <li>방에서 신청·구인</li>
+        </ol>
+        <button type="button" class="btn btn-primary btn-sm" data-open-form>입장 신청</button>
       </div>
-      <div class="step">
-        <div class="step-n">2</div>
-        <div><div class="step-t">문자로 링크 받기</div><div class="step-d">확인되는 대로 바로 보내드려요. 성별에 맞는 방으로 안내해드려요.</div></div>
+      <div class="col col-paid">
+        <div class="col-h"><span class="tl-tag tl-paid">유료</span><b>1:1 매칭</b></div>
+        <p class="col-d">조건 맞는 상대만 골라서 연결해요</p>
+        <ol class="flow">
+          <li>이상형 적기</li>
+          <li>운영진이 찾기</li>
+          <li>프로필 문자 → 연결</li>
+        </ol>
+        <button type="button" class="btn btn-track btn-sm" data-open-match>매칭 신청</button>
+        <p class="col-n">여 무료 · 남 8,000원~<br><b>안 되면 전액 환불</b></p>
       </div>
-      <div class="step">
-        <div class="step-n">3</div>
-        <div><div class="step-t">미팅 신청하기</div><div class="step-d">운영진이 "3:3 ○○대 나가실 분!" 하고 올리면 신청만 하시면 돼요.</div></div>
-      </div>
-    </div>
-
-    <div class="tracklab tracklab-2"><span class="tl-tag tl-paid">유료</span> 운영진이 대신 골라주기</div>
-    <div class="track">
-      <h3 class="track-h">조건 맞는 사람만 만나고 싶다면,<br><em>1:1 맞춤 매칭</em></h3>
-      <ol class="track-steps">
-        <li><b>이상형을 적어주세요</b><span>학교·나이·MBTI·원하는 조건까지 받아요</span></li>
-        <li><b>운영진이 직접 찾아드려요</b><span>단톡방과 기존 신청자 전체에서 골라요</span></li>
-        <li><b>상대 프로필을 문자로 보내드려요</b><span>서로 좋다고 하시면 그때 연결해드려요</span></li>
-      </ol>
-      <button class="btn btn-track" data-open-match>1:1 맞춤 매칭 신청하기 <span class="ta">→</span></button>
-      <p class="track-note">여학우 무료 · 남학우 8,000원부터 · <b>매칭 안 되면 전액 환불</b></p>
     </div>
   </section>
 
   <section>
-    <h2>입장 <span class="em">전에</span> 확인해주세요</h2>
-    <div class="tags">
-      <span class="tag">재학생·졸업생만</span>
-      <span class="tag no">정치·종교 관련 X</span>
-      <span class="tag no">이상한 말 하면 바로 강퇴</span>
-      <span class="tag no">홍보·영업 X</span>
-      <span class="tag">닉네임은 학교/학번</span>
-    </div>
-
-    <div class="code-card">
-      <div class="code-l">
-        <div class="code-lab">입장 방법</div>
-        <div class="code-v" style="font-size:26px">문자로<br>링크 발송</div>
+    <h2>방 <span class="em">규칙</span></h2>
+    <div class="rules">
+      <div class="rule ok">
+        <h4>이런 분 환영</h4>
+        <ul><li>재학생 · 졸업생</li><li>혼자 오신 분</li><li>닉네임은 학교/학번</li></ul>
       </div>
-      <div class="code-div"></div>
-      <div class="code-r" id="codeText">신청서를 확인한 뒤<br><span class="em">남녀 각각의 방</span> 링크를<br>문자로 보내드려요</div>
+      <div class="rule no">
+        <h4>이건 안 돼요</h4>
+        <ul><li>정치 · 종교 얘기</li><li>홍보 · 영업</li><li>이상한 말 → 강퇴</li></ul>
+      </div>
     </div>
   </section>
 
@@ -409,7 +390,7 @@ textarea{resize:none;min-height:88px}
 <div class="sticky" id="sticky">
   <div class="sticky-in">
     <button class="btn btn-ghost" id="matchBtn2" data-open-match>1:1 매칭</button>
-    <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장하기</button>
+    <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장</button>
   </div>
 </div>
 
@@ -727,7 +708,7 @@ $('instaInput').addEventListener('input', function (e) {
 
 /* 스크롤 등장 효과 — 첫 화면에 보이는 요소는 건드리지 않는다 */
 (function () {
-  var targets = document.querySelectorAll('.steps .step, .track, .code-card, .faq details, .tags');
+  var targets = document.querySelectorAll('.cmp .col, .rules .rule, .faq details');
   if (!('IntersectionObserver' in window)) return;
 
   var below = [];
