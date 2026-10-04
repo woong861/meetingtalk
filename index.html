@@ -296,7 +296,7 @@ textarea{resize:none;min-height:88px}
     </button>
     <span class="btn-sub">신청서 1분 · 확인되면 <b>바로 링크 발송</b></span>
 
-    <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match>
+    <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match data-match>
       <span class="m-top">
         <span class="m-body">
           <span class="mlabel">1:1 맞춤 매칭</span>
@@ -310,9 +310,9 @@ textarea{resize:none;min-height:88px}
 
   <section>
     <h2>이렇게 <span class="em">진행돼요</span></h2>
-    <p class="lead">단톡방에서 함께 나가거나, 1:1로 연결받거나.<br>둘 다 신청서 한 번이면 끝나요.</p>
+    <p class="lead"><span data-match>단톡방에서 함께 나가거나, 1:1로 연결받거나.<br>둘 다 신청서 한 번이면 끝나요.</span><span data-nomatch hidden>신청서 한 번이면 끝나요.<br>확인되는 대로 방 링크를 보내드려요.</span></p>
 
-    <div class="tracklab"><span class="tl-tag tl-free">무료</span> 단톡방에서 미팅 참여하기</div>
+    <div class="tracklab" data-match><span class="tl-tag tl-free">무료</span> 단톡방에서 미팅 참여하기</div>
     <div class="steps">
       <div class="step">
         <div class="step-n">1</div>
@@ -328,8 +328,8 @@ textarea{resize:none;min-height:88px}
       </div>
     </div>
 
-    <div class="tracklab tracklab-2"><span class="tl-tag tl-paid">유료</span> 운영진이 대신 골라주기</div>
-    <div class="track">
+    <div class="tracklab tracklab-2" data-match><span class="tl-tag tl-paid">유료</span> 운영진이 대신 골라주기</div>
+    <div class="track" data-match>
       <h3 class="track-h">조건 맞는 사람만 만나고 싶다면,<br><em>1:1 맞춤 매칭</em></h3>
       <ol class="track-steps">
         <li><b>이상형을 적어주세요</b><span>학교·나이·MBTI·원하는 조건까지 받아요</span></li>
@@ -372,15 +372,15 @@ textarea{resize:none;min-height:88px}
       <details>
         <summary>미팅은 어떻게 참여하나요?</summary>
         <p>운영진이 단톡방에 <b>"3:3 ○○대 나가실 분!"</b> 처럼 올려요. 원하는 건에 <b>신청만 하시면</b> 돼요.</p>
-        <p>직접 구하고 싶으시면 방에 올리셔도 되고요. 조건 맞는 분만 골라서 연결받고 싶으시면 <b>1:1 맞춤 매칭</b>을 신청해주세요. (이쪽은 유료예요)</p>
+        <p>직접 구하고 싶으시면 방에 올리셔도 되고요.<span data-match> 조건 맞는 분만 골라서 연결받고 싶으시면 <b>1:1 맞춤 매칭</b>을 신청해주세요. (이쪽은 유료예요)</span></p>
       </details>
-      <details>
+      <details data-match>
         <summary>1:1 맞춤 매칭은 뭔가요?</summary>
         <p>단체 미팅 대신, <b>운영진이 프로필을 보고 조건 맞는 상대만 골라서 1:1로 연결</b>해드리는 서비스예요. 학교·나이·이상형을 보고 매칭해요.</p>
         <p>· 1:1 소개팅 — 남 16,000원 / 여 무료<br>· 2:2 · 3:3 미팅 — 남 8,000원 / 여 무료</p>
         <p>매칭이 안 되면 전액 환불해드려요.</p>
       </details>
-      <details>
+      <details data-match>
         <summary>환불은 어떻게 되나요?</summary>
         <p>· 승인이 안 된 경우 → <b>전액 환불</b><br>· 입장 후 단순 변심 → 환불 어려움<br>· 규칙 위반으로 강퇴된 경우 → 환불 불가</p>
       </details>
@@ -408,7 +408,7 @@ textarea{resize:none;min-height:88px}
 <!-- sticky -->
 <div class="sticky" id="sticky">
   <div class="sticky-in">
-    <button class="btn btn-ghost" id="matchBtn2" data-open-match>1:1 매칭</button>
+    <button class="btn btn-ghost" id="matchBtn2" data-open-match data-match>1:1 매칭</button>
     <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장하기</button>
   </div>
 </div>
@@ -621,6 +621,10 @@ const CONFIG = {
   // 실제로 사람이 어느 정도 차면 그때 실제 숫자를 넣을 것 (부풀리면 들어와서 바로 들킨다)
   MEMBER_COUNT : 0,
 
+  // 1:1 매칭을 랜딩에 보여줄지. false 면 카드·유료 트랙·FAQ·스티키 버튼이 모두 사라지고
+  // 순수 무료 단톡방 페이지가 된다. 매칭 신청은 숨은 주소 /#match 로만 열림 (승인 문자에 실어 보냄).
+  SHOW_MATCH : false,
+
   // ── ① 단톡방 입장 신청 (구글폼 "✅ 전국 대학 미팅단톡 ✅") ──
   // 이 페이지의 신청서가 아래 구글폼으로 조용히 제출됩니다.
   JOIN_FORM_URL : 'https://docs.google.com/forms/d/e/1FAIpQLSeIo2cThxxxPmyXDPr0UP-jD_Mc-mX2KE-MW4ZLTOGlCjKD2g/formResponse',
@@ -686,6 +690,12 @@ if (CONFIG.MEMBER_COUNT > 0) {
   $('liveCount').style.display = 'none';
 }
 
+
+/* 1:1 매칭 노출 스위치 — 꺼져 있으면 관련 UI를 DOM에서 아예 들어낸다 */
+if (!CONFIG.SHOW_MATCH) {
+  document.querySelectorAll('[data-match]').forEach(function (el) { el.remove(); });
+  document.querySelectorAll('[data-nomatch]').forEach(function (el) { el.hidden = false; });
+}
 
 /* 성별에 따라 결제 안내 전환 */
 var PAY = CONFIG.PAY || {};
@@ -1016,6 +1026,13 @@ $('matchForm').addEventListener('submit', function (e) {
   $('matchPay').classList.remove('on');
   e.target.reset();
 });
+
+/* 숨은 주소: /#match 로 들어오면 1:1 매칭 모달을 바로 연다 (승인 문자 링크용) */
+function openMatchFromHash() {
+  if (location.hash === '#match') { openMatch(); history.replaceState(null, '', location.pathname); }
+}
+window.addEventListener('hashchange', openMatchFromHash);
+openMatchFromHash();
 </script>
 </body>
 </html>
