@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>대학생 미팅방 | 과팅·미팅 구하는 단톡방</title>
-<meta name="description" content="대학생 과팅·미팅 구하는 단톡방. 2:2, 3:3, 한 명 대타까지. 입장 무료.">
-<meta property="og:title" content="대학생 미팅방">
-<meta property="og:description" content="과팅·미팅 구하는 단톡방 열었어요. 한 명 대타 급할 때도 여기로!">
+<title>서울수도권 미팅방 | 서울·경기·인천 대학생 미팅 구하는 단톡방</title>
+<meta name="description" content="서울·경기·인천 대학생끼리 과팅·미팅 구하는 단톡방. 2:2, 3:3, 한 명 대타까지. 입장 무료.">
+<meta property="og:title" content="서울수도권 미팅방">
+<meta property="og:description" content="수도권 대학생끼리 미팅 구하는 단톡방이에요. 한 명 대타 급할 때도 여기로!">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://meetingtalk.cloud/">
 <meta property="og:image" content="https://meetingtalk.cloud/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:site_name" content="대학생 미팅방">
+<meta property="og:site_name" content="서울수도권 미팅방">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="대학생 미팅방">
-<meta name="twitter:description" content="과팅·미팅 구하는 단톡방 열었어요. 한 명 대타 급할 때도 여기로!">
+<meta name="twitter:title" content="서울수도권 미팅방">
+<meta name="twitter:description" content="수도권 대학생끼리 미팅 구하는 단톡방이에요. 한 명 대타 급할 때도 여기로!">
 <meta name="twitter:image" content="https://meetingtalk.cloud/og.png">
 <meta name="theme-color" content="#ff3d87">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff3d87'/%3E%3Cpath d='M16 25c-.4 0-.8-.15-1.1-.42C10.6 20.7 8 18.3 8 15.1 8 12.6 9.9 10.8 12.2 10.8c1.4 0 2.8.68 3.8 1.9 1-1.22 2.4-1.9 3.8-1.9 2.3 0 4.2 1.8 4.2 4.3 0 3.2-2.6 5.6-6.9 9.48-.3.27-.7.42-1.1.42z' fill='%23fff'/%3E%3C/svg%3E">
@@ -58,8 +58,9 @@ body::before{
 }
 .badge .dot{width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 0 rgba(61,220,132,.7);animation:pulse 2s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
-h1{margin:20px 0 0;font-size:clamp(46px,13.5vw,64px);font-weight:900;letter-spacing:-.045em;line-height:1.02}
-h1 .l2{color:var(--brand);display:block}
+h1{margin:22px 0 0;font-size:clamp(46px,13.5vw,64px);font-weight:900;letter-spacing:-.045em;line-height:1.06}
+h1 .l1{display:inline;font-size:.62em;letter-spacing:-.04em;background:linear-gradient(transparent 58%,var(--accent) 58%);padding:0 6px 2px;border-radius:4px}
+h1 .l2{color:var(--brand);display:block;font-size:1.12em;letter-spacing:-.06em;margin-top:2px}
 .sub{margin-top:20px;font-size:clamp(18px,4.8vw,21px);font-weight:700;letter-spacing:-.03em;line-height:1.5}
 .sub .hl{background:linear-gradient(transparent 58%,var(--brand-soft) 58%);padding:0 3px}
 
@@ -83,7 +84,7 @@ h1 .l2{color:var(--brand);display:block}
 .cta-block{margin-top:26px;display:flex;flex-direction:column;gap:12px}
 .btn{
   display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
-  padding:19px 20px;border:none;border-radius:18px;font-family:inherit;
+  padding:19px 20px;border:none;border-radius:999px;font-family:inherit;
   font-size:18px;font-weight:800;letter-spacing:-.03em;cursor:pointer;
   transition:transform .12s ease,box-shadow .12s ease;text-decoration:none;
 }
@@ -122,7 +123,7 @@ h1 .l2{color:var(--brand);display:block}
 .track-note{margin-top:11px;text-align:center;font-size:12.5px;font-weight:700;letter-spacing:-.03em;color:rgba(255,255,255,.6)}
 .track-note b{color:var(--accent);font-weight:800}
 .btn-free{display:inline-flex;align-items:center;background:rgba(255,255,255,.24);color:#fff;font-size:12.5px;font-weight:900;padding:4px 10px;border-radius:99px;letter-spacing:-.02em}
-.btn-match{flex-direction:column;align-items:stretch;gap:0;padding:0;border-color:var(--line);overflow:hidden}
+.btn-match{flex-direction:column;align-items:stretch;gap:0;padding:0;border-color:var(--line);overflow:hidden;border-radius:20px}
 .btn-match .m-top{display:flex;align-items:center;gap:12px;padding:15px 17px 14px;text-align:left}
 .btn-match .m-body{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0}
 .btn-match .mlabel{font-size:17px;font-weight:900;letter-spacing:-.035em;color:var(--brand-deep)}
@@ -272,17 +273,17 @@ textarea{resize:none;min-height:88px}
 <div class="wrap">
 
   <header class="hero">
-    <div class="badge"><span class="dot"></span>대학생이면 누구나</div>
-    <h1>대학생<span class="l2">미팅방</span></h1>
+    <div class="badge"><span class="dot"></span>서울 · 경기 · 인천 대학생</div>
+    <h1><span class="l1">서울수도권</span><span class="l2">미팅방</span></h1>
     <p class="sub">
-      과팅·미팅 <span class="hl">품앗이 단톡방</span> 열었어요<br>
+      수도권 대학생끼리 <span class="hl">미팅 구하는 단톡방</span>이에요<br>
       한 명 대타 급할 때도 여기로!
     </p>
   </header>
 
   <div class="mock">
     <div class="mock-head">
-      <span class="mock-title">대학생 미팅방</span>
+      <span class="mock-title">📍 서울수도권 미팅방</span>
       <span class="mock-count" id="liveCount">137</span>
     </div>
     <div class="msg"><div class="av av-p"></div><div class="bub">2:2 오늘 저녁 가능한 분?</div><span class="time">오후 7:32</span></div>
@@ -400,7 +401,7 @@ textarea{resize:none;min-height:88px}
   </section>
 
   <footer>
-    대학생 미팅방<br>
+    서울수도권 미팅방<br>
     문의는 단톡방 운영자에게 남겨주세요
   </footer>
 </div>

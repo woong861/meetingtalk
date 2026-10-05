@@ -33,7 +33,7 @@ function mtAdminKey_() {
 }
 const MT_JOIN_CODE = '';                     // 참여코드 (안 쓰면 빈칸)
 const MT_SENDER    = '01057182024';          // 솔라피에 등록된 발신번호
-const MT_BRAND     = '전국대학 미팅단톡';
+const MT_BRAND     = '서울수도권 미팅방';
 const MT_SITE      = 'https://meetingtalk.cloud/#match';   // 1:1 매칭 신청 숨은 주소 (랜딩에는 안 보임, 승인 문자로만 안내)
 const MT_PAY_FORM  = 'https://forms.gle/14sji6FuT4gU9WWS7';  // 입장료 입금 확인 폼 (남학우)
 // 단톡방 입장료. 0이면 자동 안내 문자를 보내지 않는다 (2026-09-02 무료 전환)
