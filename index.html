@@ -264,153 +264,199 @@ textarea{resize:none;min-height:88px}
 .done-ic{font-size:52px}
 .done h3{margin-top:14px}
 .done p{margin-top:10px;font-size:15px;color:var(--ink-soft);font-weight:600;letter-spacing:-.02em}
+
+/* ══════ 레이아웃 v3: 핑크 풀블리드 헤더 + 크림 시트 ══════ */
+body{background:#fff6f9}
+body::before{background:#fff6f9;background-image:none}
+.blob{display:none}
+.hd{background:var(--brand);color:#fff;padding:22px 0 92px;position:relative;overflow:hidden}
+.hd::before{content:'';position:absolute;width:420px;height:420px;border-radius:50%;background:rgba(255,255,255,.1);top:-220px;right:-160px}
+.hd::after{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,217,61,.22);bottom:40px;left:-120px}
+.hd .wrap{position:relative;z-index:1}
+.hd-top{display:flex;align-items:center;justify-content:space-between}
+.wm{font-size:17px;font-weight:700;letter-spacing:-.04em;color:rgba(255,255,255,.9)}
+.wm b{font-weight:900;color:#fff;background:rgba(255,255,255,.18);padding:3px 9px;border-radius:9px;margin-right:4px}
+.hd-chip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;letter-spacing:-.02em;border:1.5px solid rgba(255,255,255,.45);border-radius:999px;padding:6px 12px}
+.hd-chip i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(255,217,61,.3)}
+.hd h1{margin:36px 0 0;font-size:clamp(36px,10.4vw,50px);font-weight:900;letter-spacing:-.05em;line-height:1.16;color:#fff}
+.hd h1 em{font-style:normal;color:var(--accent);position:relative;display:inline-block}
+.hd h1 em::after{content:'';position:absolute;left:0;right:0;bottom:4px;height:5px;border-radius:3px;background:rgba(255,217,61,.45)}
+.hd-sub{margin-top:18px;font-size:clamp(15px,4.2vw,17px);font-weight:600;line-height:1.6;letter-spacing:-.03em;color:rgba(255,255,255,.86)}
+.hd-sub b{color:#fff;font-weight:800}
+.hd .cta-block{margin-top:26px}
+.btn-yellow{background:var(--accent);color:var(--ink);box-shadow:0 10px 26px rgba(43,32,48,.22);font-size:18.5px;font-weight:900}
+.btn-yellow .arrow{transition:transform .15s ease}
+.btn-yellow:hover .arrow{transform:translateX(4px)}
+.hd .btn-sub{color:rgba(255,255,255,.78)}
+.hd .btn-sub b{color:#fff}
+.hd .btn-match{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;backdrop-filter:blur(6px)}
+.hd .btn-match .mlabel{color:#fff}.hd .btn-match .mtext{color:rgba(255,255,255,.8)}.hd .btn-match .mtext b{color:#fff}
+.hd .btn-match .marrow{color:var(--accent)}
+.hd .btn-match .m-foot{background:rgba(0,0,0,.14);border-top-color:rgba(255,255,255,.2);color:rgba(255,255,255,.85)}
+.hd .btn-match .m-foot b{color:var(--accent)}
+
+.sheetbody{position:relative;z-index:2;margin-top:-56px;background:#fff6f9;border-radius:30px 30px 0 0;padding-top:8px}
+.sheetbody::before{content:'';display:block;width:44px;height:5px;border-radius:99px;background:#efd3de;margin:12px auto 0}
+
+/* 피드 */
+.feed{margin-top:18px;background:#fff;border-radius:22px;padding:16px 16px 8px;box-shadow:0 10px 30px rgba(180,60,110,.1)}
+.feed-h{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;letter-spacing:-.03em;padding:0 2px 10px}
+.feed-h .ex{font-size:10.5px;font-weight:900;color:var(--brand-deep);background:var(--brand-soft);padding:2px 7px;border-radius:99px}
+.post{display:flex;align-items:center;gap:12px;padding:12px 2px;border-top:1.5px solid #f6e8ee}
+.pav{flex:0 0 auto;min-width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:13px;font-weight:900;letter-spacing:-.02em;color:var(--ink);padding:0 8px}
+.p1{background:var(--brand-soft)}.p2{background:#dfeeff}.p3{background:var(--accent)}
+.pbody{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pbody b{font-size:15px;font-weight:800;letter-spacing:-.035em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pbody span{font-size:12.5px;font-weight:600;color:var(--ink-soft);letter-spacing:-.03em}
+.pt{flex:0 0 auto;font-size:11.5px;font-weight:700;color:#c4b2bc;letter-spacing:-.02em}
+
+/* 타임라인 */
+.tl{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:relative}
+.tl::before{content:'';position:absolute;left:14%;right:14%;top:17px;height:2px;background:#f3d6e2}
+.tl-step{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.tl-n{width:36px;height:36px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:15px;font-weight:900;box-shadow:0 0 0 6px #fff6f9;z-index:1}
+.tl-step b{font-size:14.5px;font-weight:900;letter-spacing:-.04em;margin-top:4px}
+.tl-step span{font-size:12px;font-weight:600;color:var(--ink-soft);letter-spacing:-.03em;line-height:1.45}
+
+/* 규칙 */
+.rulecard{margin-top:18px;background:#fff;border-radius:22px;padding:6px 18px;box-shadow:0 6px 20px rgba(180,60,110,.08)}
+.rrow{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-top:1.5px solid #f6e8ee}
+.rrow:first-child{border-top:none}
+.rrow i{flex:0 0 auto;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:900;color:#fff;margin-top:1px}
+.rrow.ok i{background:#1fa15d}.rrow.no i{background:var(--brand)}
+.rrow b{display:block;font-size:15px;font-weight:800;letter-spacing:-.035em}
+.rrow span{display:block;font-size:12.5px;font-weight:600;color:var(--ink-soft);letter-spacing:-.03em;margin-top:2px}
+
+/* FAQ: 왼쪽 핑크 바 */
+.faq details{border-left:4px solid var(--brand-soft);border-radius:14px}
+.faq details[open]{border-left-color:var(--brand)}
+
+/* 스티키: 단일 버튼 꽉 채움 */
+.sticky{background:rgba(255,246,249,.92)}
 </style>
 </head>
 <body>
 <div class="blob blob-1"></div>
 <div class="blob blob-2"></div>
 
-<div class="wrap">
+<div class="hd">
+    <div class="wrap">
+      <div class="hd-top">
+        <span class="wm"><b>서울수도권</b> 미팅방</span>
+        <span class="hd-chip"><i></i>서울 · 경기 · 인천</span>
+      </div>
+      <h1>미팅 상대,<br>우리 학교 밖에서<br><em>구해드려요</em></h1>
+      <p class="hd-sub">수도권 대학생끼리 <b>2:2 · 3:3 · 한 명 대타</b>까지<br>바로 구하는 단톡방이에요. 입장은 무료.</p>
 
-  <header class="hero">
-    <div class="badge"><span class="dot"></span>서울 · 경기 · 인천 대학생</div>
-    <h1><span class="l1">서울수도권</span><span class="l2">미팅방</span></h1>
-    <p class="sub">
-      수도권 대학생끼리 <span class="hl">미팅 구하는 단톡방</span>이에요<br>
-      한 명 대타 급할 때도 여기로!
-    </p>
-  </header>
-
-  <div class="mock">
-    <div class="mock-head">
-      <span class="mock-title">📍 서울수도권 미팅방</span>
-      <span class="mock-count" id="liveCount">137</span>
+      <div class="cta-block">
+        <button class="btn btn-yellow" id="applyBtn" data-open-form>단톡방 입장 신청 <span class="arrow">→</span></button>
+        <span class="btn-sub">신청서 1분 · 확인되면 <b>바로 링크 발송</b></span>
+        <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match data-match>
+          <span class="m-top">
+            <span class="m-body">
+              <span class="mlabel">1:1 맞춤 매칭</span>
+              <span class="mtext">학교·나이·이상형 보고 <b>직접 골라드려요</b></span>
+            </span>
+            <span class="marrow" aria-hidden="true">→</span>
+          </span>
+          <span class="m-foot">여학우 무료 · 남학우 8,000원부터 · <b>안 되면 전액 환불</b></span>
+        </button>
+      </div>
     </div>
-    <div class="msg"><div class="av av-p"></div><div class="bub">2:2 오늘 저녁 가능한 분?</div><span class="time">오후 7:32</span></div>
-    <div class="msg"><div class="av av-b"></div><div class="bub">저희과 3명 대기중이요!</div><span class="time">7:33</span></div>
-    <div class="msg msg-me"><span class="time">7:35</span><div class="bub bub-me">한 명만 대타 구해요 🙏</div></div>
   </div>
 
-  <div class="cta-block">
-    <button class="btn btn-primary" id="applyBtn" data-open-form>
-      단톡방 입장하기<span class="btn-free">무료</span>
-    </button>
-    <span class="btn-sub">신청서 1분 · 확인되면 <b>바로 링크 발송</b></span>
+  <div class="sheetbody">
+    <div class="wrap">
 
-    <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match data-match>
-      <span class="m-top">
-        <span class="m-body">
-          <span class="mlabel">1:1 맞춤 매칭</span>
-          <span class="mtext">학교·나이·이상형 보고 <b>직접 골라드려요</b></span>
-        </span>
-        <span class="marrow" aria-hidden="true">→</span>
-      </span>
-      <span class="m-foot">여학우 무료 · 남학우 8,000원부터 · <b>안 되면 전액 환불</b></span>
-    </button>
+      <div class="feed">
+        <div class="feed-h">방에 이렇게 올라와요 <span class="ex">예시</span><span id="liveCount" hidden></span></div>
+        <div class="post"><div class="pav p1">3:3</div><div class="pbody"><b>이번 주 토요일 3:3 서울권</b><span>여 3명 · 상대 팀 구해요</span></div><span class="pt">2시간 전</span></div>
+        <div class="post"><div class="pav p2">2:2</div><div class="pbody"><b>오늘 저녁 2:2 가능한 분</b><span>남 2명 · 7시 이후 · 홍대 쪽</span></div><span class="pt">4시간 전</span></div>
+        <div class="post"><div class="pav p3">대타</div><div class="pbody"><b>한 명 펑크 나서 급구 🙏</b><span>3:3인데 한 분만 더요</span></div><span class="pt">어제</span></div>
+      </div>
+
+      <section>
+        <h2>이렇게 <span class="em">진행돼요</span></h2>
+        <p class="lead"><span data-match>단톡방에서 함께 나가거나, 1:1로 연결받거나.<br>둘 다 신청서 한 번이면 끝나요.</span><span data-nomatch hidden>신청서 한 번이면 끝나요.<br>확인되는 대로 방 링크를 보내드려요.</span></p>
+        <ol class="tl">
+          <li class="tl-step"><span class="tl-n">1</span><b>신청서 작성</b><span>이름·학교·나이·번호·인스타, 1분</span></li>
+          <li class="tl-step"><span class="tl-n">2</span><b>문자로 링크</b><span>확인되면 성별에 맞는 방으로</span></li>
+          <li class="tl-step"><span class="tl-n">3</span><b>미팅 신청</b><span>올라온 글에 신청만 하면 끝</span></li>
+        </ol>
+
+        <div class="tracklab tracklab-2" data-match><span class="tl-tag tl-paid">유료</span> 운영진이 대신 골라주기</div>
+        <div class="track" data-match>
+          <h3 class="track-h">조건 맞는 사람만 만나고 싶다면,<br><em>1:1 맞춤 매칭</em></h3>
+          <ol class="track-steps">
+            <li><b>이상형을 적어주세요</b><span>학교·나이·MBTI·원하는 조건까지 받아요</span></li>
+            <li><b>운영진이 직접 찾아드려요</b><span>단톡방과 기존 신청자 전체에서 골라요</span></li>
+            <li><b>상대 프로필을 문자로 보내드려요</b><span>서로 좋다고 하시면 그때 연결해드려요</span></li>
+          </ol>
+          <button class="btn btn-track" data-open-match>1:1 맞춤 매칭 신청하기 <span class="ta">→</span></button>
+          <p class="track-note">여학우 무료 · 남학우 8,000원부터 · <b>매칭 안 되면 전액 환불</b></p>
+        </div>
+      </section>
+
+      <section>
+        <h2>방 <span class="em">규칙</span></h2>
+        <div class="rulecard">
+          <div class="rrow ok"><i>✓</i><div><b>재학생·졸업생만</b><span>인스타 확인 후 입장해요</span></div></div>
+          <div class="rrow ok"><i>✓</i><div><b>혼자 와도 OK</b><span>대타 자리가 제일 빨리 차요</span></div></div>
+          <div class="rrow no"><i>✕</i><div><b>정치·종교 얘기, 홍보·영업</b><span>바로 강퇴, 재입장 불가</span></div></div>
+          <div class="rrow no"><i>✕</i><div><b>이상한 말·불쾌한 언행</b><span>신고 즉시 내보내요</span></div></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>자주 묻는 질문</h2>
+        <div class="faq">
+          <details>
+            <summary>입장료가 있나요?</summary>
+            <p><b>남녀 모두 무료</b>예요. 단톡방 입장에는 어떤 비용도 받지 않아요.</p>
+            <p>신청서만 남겨주시면 확인 후 바로 링크를 보내드려요. 신청서·인스타를 확인해서 이상한 사람은 거르고, 문제가 생기면 즉시 강퇴하고 재입장을 막고 있어요.</p>
+          </details>
+          <details>
+            <summary>미팅은 어떻게 참여하나요?</summary>
+            <p>운영진이 단톡방에 <b>"3:3 ○○대 나가실 분!"</b> 처럼 올려요. 원하는 건에 <b>신청만 하시면</b> 돼요.</p>
+            <p>직접 구하고 싶으시면 방에 올리셔도 되고요.<span data-match> 조건 맞는 분만 골라서 연결받고 싶으시면 <b>1:1 맞춤 매칭</b>을 신청해주세요. (이쪽은 유료예요)</span></p>
+          </details>
+          <details data-match>
+            <summary>1:1 맞춤 매칭은 뭔가요?</summary>
+            <p>단체 미팅 대신, <b>운영진이 프로필을 보고 조건 맞는 상대만 골라서 1:1로 연결</b>해드리는 서비스예요. 학교·나이·이상형을 보고 매칭해요.</p>
+            <p>· 1:1 소개팅 — 남 16,000원 / 여 무료<br>· 2:2 · 3:3 미팅 — 남 8,000원 / 여 무료</p>
+            <p>매칭이 안 되면 전액 환불해드려요.</p>
+          </details>
+          <details data-match>
+            <summary>환불은 어떻게 되나요?</summary>
+            <p>· 승인이 안 된 경우 → <b>전액 환불</b><br>· 입장 후 단순 변심 → 환불 어려움<br>· 규칙 위반으로 강퇴된 경우 → 환불 불가</p>
+          </details>
+          <details>
+            <summary>혼자여도 들어갈 수 있나요?</summary>
+            <p>물론이에요. 오히려 "한 명 대타" 구하는 글이 제일 많아서, 혼자 오신 분들이 제일 빨리 매칭돼요.</p>
+          </details>
+          <details>
+            <summary>우리 학교 사람한테 들키면 어떡하죠?</summary>
+            <p>닉네임을 실명으로 안 하셔도 돼요. 그리고 같은 학교끼리는 매칭에서 제외해달라고 말씀해주시면 빼드려요.</p>
+          </details>
+          <details>
+            <summary>단톡방이 안 들어가져요 / 방이 없어졌어요</summary>
+            <p>가끔 방이 새로 열리는 경우가 있어요. 그럴 땐 <b>이 페이지에 항상 최신 링크가 올라가</b>니까, 여기를 다시 확인해주시면 돼요.</p>
+          </details>
+        </div>
+      </section>
+
+      <footer>
+        서울수도권 미팅방<br>
+        문의는 단톡방 운영자에게 남겨주세요
+      </footer>
+    </div>
   </div>
-
-  <section>
-    <h2>이렇게 <span class="em">진행돼요</span></h2>
-    <p class="lead"><span data-match>단톡방에서 함께 나가거나, 1:1로 연결받거나.<br>둘 다 신청서 한 번이면 끝나요.</span><span data-nomatch hidden>신청서 한 번이면 끝나요.<br>확인되는 대로 방 링크를 보내드려요.</span></p>
-
-    <div class="tracklab" data-match><span class="tl-tag tl-free">무료</span> 단톡방에서 미팅 참여하기</div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-n">1</div>
-        <div><div class="step-t">신청서 작성</div><div class="step-d">1분이면 끝나요. 이름·성별·학교·나이·번호·인스타만 받아요.</div></div>
-      </div>
-      <div class="step">
-        <div class="step-n">2</div>
-        <div><div class="step-t">문자로 링크 받기</div><div class="step-d">확인되는 대로 바로 보내드려요. 성별에 맞는 방으로 안내해드려요.</div></div>
-      </div>
-      <div class="step">
-        <div class="step-n">3</div>
-        <div><div class="step-t">미팅 신청하기</div><div class="step-d">운영진이 "3:3 ○○대 나가실 분!" 하고 올리면 신청만 하시면 돼요.</div></div>
-      </div>
-    </div>
-
-    <div class="tracklab tracklab-2" data-match><span class="tl-tag tl-paid">유료</span> 운영진이 대신 골라주기</div>
-    <div class="track" data-match>
-      <h3 class="track-h">조건 맞는 사람만 만나고 싶다면,<br><em>1:1 맞춤 매칭</em></h3>
-      <ol class="track-steps">
-        <li><b>이상형을 적어주세요</b><span>학교·나이·MBTI·원하는 조건까지 받아요</span></li>
-        <li><b>운영진이 직접 찾아드려요</b><span>단톡방과 기존 신청자 전체에서 골라요</span></li>
-        <li><b>상대 프로필을 문자로 보내드려요</b><span>서로 좋다고 하시면 그때 연결해드려요</span></li>
-      </ol>
-      <button class="btn btn-track" data-open-match>1:1 맞춤 매칭 신청하기 <span class="ta">→</span></button>
-      <p class="track-note">여학우 무료 · 남학우 8,000원부터 · <b>매칭 안 되면 전액 환불</b></p>
-    </div>
-  </section>
-
-  <section>
-    <h2>입장 <span class="em">전에</span> 확인해주세요</h2>
-    <div class="tags">
-      <span class="tag">재학생·졸업생만</span>
-      <span class="tag no">정치·종교 관련 X</span>
-      <span class="tag no">이상한 말 하면 바로 강퇴</span>
-      <span class="tag no">홍보·영업 X</span>
-      <span class="tag">닉네임은 학교/학번</span>
-    </div>
-
-    <div class="code-card">
-      <div class="code-l">
-        <div class="code-lab">입장 방법</div>
-        <div class="code-v" style="font-size:26px">문자로<br>링크 발송</div>
-      </div>
-      <div class="code-div"></div>
-      <div class="code-r" id="codeText">신청서를 확인한 뒤<br><span class="em">남녀 각각의 방</span> 링크를<br>문자로 보내드려요</div>
-    </div>
-  </section>
-
-  <section>
-    <h2>자주 묻는 질문</h2>
-    <div class="faq">
-      <details>
-        <summary>입장료가 있나요?</summary>
-        <p><b>남녀 모두 무료</b>예요. 단톡방 입장에는 어떤 비용도 받지 않아요.</p>
-        <p>신청서만 남겨주시면 확인 후 바로 링크를 보내드려요. 신청서·인스타를 확인해서 이상한 사람은 거르고, 문제가 생기면 즉시 강퇴하고 재입장을 막고 있어요.</p>
-      </details>
-      <details>
-        <summary>미팅은 어떻게 참여하나요?</summary>
-        <p>운영진이 단톡방에 <b>"3:3 ○○대 나가실 분!"</b> 처럼 올려요. 원하는 건에 <b>신청만 하시면</b> 돼요.</p>
-        <p>직접 구하고 싶으시면 방에 올리셔도 되고요.<span data-match> 조건 맞는 분만 골라서 연결받고 싶으시면 <b>1:1 맞춤 매칭</b>을 신청해주세요. (이쪽은 유료예요)</span></p>
-      </details>
-      <details data-match>
-        <summary>1:1 맞춤 매칭은 뭔가요?</summary>
-        <p>단체 미팅 대신, <b>운영진이 프로필을 보고 조건 맞는 상대만 골라서 1:1로 연결</b>해드리는 서비스예요. 학교·나이·이상형을 보고 매칭해요.</p>
-        <p>· 1:1 소개팅 — 남 16,000원 / 여 무료<br>· 2:2 · 3:3 미팅 — 남 8,000원 / 여 무료</p>
-        <p>매칭이 안 되면 전액 환불해드려요.</p>
-      </details>
-      <details data-match>
-        <summary>환불은 어떻게 되나요?</summary>
-        <p>· 승인이 안 된 경우 → <b>전액 환불</b><br>· 입장 후 단순 변심 → 환불 어려움<br>· 규칙 위반으로 강퇴된 경우 → 환불 불가</p>
-      </details>
-      <details>
-        <summary>혼자여도 들어갈 수 있나요?</summary>
-        <p>물론이에요. 오히려 "한 명 대타" 구하는 글이 제일 많아서, 혼자 오신 분들이 제일 빨리 매칭돼요.</p>
-      </details>
-      <details>
-        <summary>우리 학교 사람한테 들키면 어떡하죠?</summary>
-        <p>닉네임을 실명으로 안 하셔도 돼요. 그리고 같은 학교끼리는 매칭에서 제외해달라고 말씀해주시면 빼드려요.</p>
-      </details>
-      <details>
-        <summary>단톡방이 안 들어가져요 / 방이 없어졌어요</summary>
-        <p>가끔 방이 새로 열리는 경우가 있어요. 그럴 땐 <b>이 페이지에 항상 최신 링크가 올라가</b>니까, 여기를 다시 확인해주시면 돼요.</p>
-      </details>
-    </div>
-  </section>
-
-  <footer>
-    서울수도권 미팅방<br>
-    문의는 단톡방 운영자에게 남겨주세요
-  </footer>
-</div>
 
 <!-- sticky -->
 <div class="sticky" id="sticky">
   <div class="sticky-in">
     <button class="btn btn-ghost" id="matchBtn2" data-open-match data-match>1:1 매칭</button>
-    <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장하기</button>
+    <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장 신청</button>
   </div>
 </div>
 
@@ -738,7 +784,7 @@ $('instaInput').addEventListener('input', function (e) {
 
 /* 스크롤 등장 효과 — 첫 화면에 보이는 요소는 건드리지 않는다 */
 (function () {
-  var targets = document.querySelectorAll('.steps .step, .track, .code-card, .faq details, .tags');
+  var targets = document.querySelectorAll('.post, .tl-step, .rulecard, .track, .faq details');
   if (!('IntersectionObserver' in window)) return;
 
   var below = [];
