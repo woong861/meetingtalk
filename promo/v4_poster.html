@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+/* 에타 홍보용 v4 — 광고 배너가 아니라 "학생이 만든 포스터"처럼 보이게.
+   핑크 배너·이모지 헤더·신청방법 번호·URL 전부 뺌. 인스타 핸들은 ?ig= 로만 주입(레포에 안 남김) */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1200px;height:675px;overflow:hidden}
+body{font-family:Pretendard,'Apple SD Gothic Neo',sans-serif;background:#fbf6ec;color:#17151a;position:relative}
+.grain{position:absolute;inset:0;background-image:radial-gradient(rgba(23,21,26,.07) 1px,transparent 1.2px);background-size:14px 14px}
+.wrap{position:relative;z-index:2;height:100%;padding:62px 70px 54px;display:flex;gap:40px}
+.l{flex:1;display:flex;flex-direction:column}
+.kick{display:inline-flex;align-items:center;gap:10px;font-size:20px;font-weight:800;letter-spacing:-.03em;color:#17151a}
+.kick i{width:12px;height:12px;background:#17151a;border-radius:2px;transform:rotate(45deg)}
+h1{margin-top:26px;font-size:78px;font-weight:900;letter-spacing:-.06em;line-height:1.08}
+h1 .hl{background:linear-gradient(transparent 52%,#ffe45c 52%);padding:0 4px}
+.sub{margin-top:30px;font-size:26px;font-weight:600;letter-spacing:-.04em;line-height:1.5;color:#4a4650}
+.sub b{color:#17151a;font-weight:800}
+.chips{margin-top:auto;display:flex;gap:10px}
+.chip{border:2.5px solid #17151a;border-radius:999px;padding:9px 18px;font-size:18px;font-weight:800;letter-spacing:-.03em}
+.chip.fill{background:#17151a;color:#fff}
+.r{flex:0 0 380px;display:flex;flex-direction:column;justify-content:space-between}
+.note{background:#ffe45c;border-radius:6px;padding:28px 28px 26px;transform:rotate(1.6deg);box-shadow:0 18px 40px rgba(23,21,26,.16);position:relative}
+.note::before{content:'';position:absolute;top:-14px;left:50%;width:120px;height:28px;margin-left:-60px;background:rgba(255,255,255,.55);transform:rotate(-2deg)}
+.note h3{font-size:19px;font-weight:800;letter-spacing:-.03em;color:#5a4a00;margin-bottom:14px}
+.note li{list-style:none;font-size:23px;font-weight:800;letter-spacing:-.04em;line-height:1.35;padding:9px 0;border-top:1.5px dashed rgba(23,21,26,.25)}
+.note li:first-child{border-top:none}
+.note li small{display:block;font-size:15px;font-weight:600;color:#6b5a10;margin-top:2px;letter-spacing:-.02em}
+.ig{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:800;letter-spacing:-.03em;justify-content:flex-end}
+.ig .ic{width:30px;height:30px;border:3px solid #17151a;border-radius:9px;position:relative}
+.ig .ic::after{content:'';position:absolute;inset:6px;border:3px solid #17151a;border-radius:50%}
+.ig span{color:#4a4650;font-weight:600;font-size:18px}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+  <div class="l">
+    <div class="kick"><i></i>대학생 미팅방</div>
+    <h1>미팅 상대,<br>우리 학교에서만<br><span class="hl">찾고 있었어?</span></h1>
+    <p class="sub">다른 학교 애들이 모여 있는 방이에요.<br><b>2:2 · 3:3</b>부터 <b>한 명 대타</b>까지 바로 구해져요.</p>
+    <div class="chips"><span class="chip fill">입장 무료</span><span class="chip">인스타 확인 후 입장</span><span class="chip">정치·종교 ✕</span></div>
+  </div>
+  <div class="r">
+    <div class="note">
+      <h3>이번 주 올라온 글</h3>
+      <ul>
+        <li>서울권 3:3 토요일<small>여 3명 · 상대 팀 구해요</small></li>
+        <li>오늘 저녁 2:2 되는 분<small>남 2명 · 7시 이후</small></li>
+        <li>한 명 펑크 나서 급구<small>3:3인데 한 분만 더</small></li>
+      </ul>
+    </div>
+    <div class="ig"><span>인스타</span><div class="ic"></div><b id="ig">@</b></div>
+  </div>
+</div>
+<script>
+  var ig = new URLSearchParams(location.search).get('ig');
+  document.getElementById('ig').textContent = ig ? '@' + ig : '@프로필 참고';
+</script>
+</body>
+</html>
