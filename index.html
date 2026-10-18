@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>서울수도권 미팅방 | 서울·경기·인천 대학생 미팅 구하는 단톡방</title>
-<meta name="description" content="서울·경기·인천 대학생끼리 과팅·미팅 구하는 단톡방. 2:2, 3:3, 한 명 대타까지. 입장 무료.">
-<meta property="og:title" content="서울수도권 미팅방">
-<meta property="og:description" content="수도권 대학생끼리 미팅 구하는 단톡방이에요. 한 명 대타 급할 때도 여기로!">
+<title>서울수도권 미팅과팅 | 서울·경기·인천 대학생 미팅·과팅·소개팅</title>
+<meta name="description" content="서울·경기·인천 대학생 미팅·과팅·소개팅. 단톡방에서 직접 구하거나, 신청서 한 장이면 운영진이 연결해드려요.">
+<meta property="og:title" content="서울수도권 미팅과팅">
+<meta property="og:description" content="단톡방에서 직접 구하거나, 신청서 한 장으로 연결받거나. 수도권 대학생 미팅·과팅·소개팅.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://meetingtalk.cloud/">
 <meta property="og:image" content="https://meetingtalk.cloud/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:site_name" content="서울수도권 미팅방">
+<meta property="og:site_name" content="서울수도권 미팅과팅">
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="서울수도권 미팅방">
-<meta name="twitter:description" content="수도권 대학생끼리 미팅 구하는 단톡방이에요. 한 명 대타 급할 때도 여기로!">
+<meta name="twitter:title" content="서울수도권 미팅과팅">
+<meta name="twitter:description" content="단톡방에서 직접 구하거나, 신청서 한 장으로 연결받거나. 수도권 대학생 미팅·과팅·소개팅.">
 <meta name="twitter:image" content="https://meetingtalk.cloud/og.png">
 <meta name="theme-color" content="#ff3d87">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff3d87'/%3E%3Cpath d='M16 25c-.4 0-.8-.15-1.1-.42C10.6 20.7 8 18.3 8 15.1 8 12.6 9.9 10.8 12.2 10.8c1.4 0 2.8.68 3.8 1.9 1-1.22 2.4-1.9 3.8-1.9 2.3 0 4.2 1.8 4.2 4.3 0 3.2-2.6 5.6-6.9 9.48-.3.27-.7.42-1.1.42z' fill='%23fff'/%3E%3C/svg%3E">
@@ -288,6 +288,8 @@ body::before{background:#fff;background-image:none}
 .btn-yellow .arrow{transition:transform .15s ease}
 .btn-yellow:hover .arrow{transform:translateX(4px)}
 .hd .btn-sub{color:var(--ink-soft)}
+.or{display:flex;align-items:center;gap:12px;margin:4px 0 -2px;color:#c9a9b8;font-size:12px;font-weight:800}
+.or::before,.or::after{content:"";flex:1;height:1.5px;background:#f3cfdc}
 .hd .btn-sub b{color:var(--ink)}
 .hd .btn-match{border-color:var(--line);background:#fff;color:var(--ink)}
 .hd .btn-match .mlabel{color:var(--brand-deep)}.hd .btn-match .mtext{color:var(--ink-soft)}.hd .btn-match .mtext b{color:var(--ink)}
@@ -342,20 +344,21 @@ body::before{background:#fff;background-image:none}
 <div class="hd">
     <div class="wrap">
       <div class="hd-top">
-        <span class="wm"><b>서울수도권</b> 미팅방</span>
+        <span class="wm"><b>서울수도권</b> 미팅과팅</span>
         <span class="hd-chip"><i></i>서울 · 경기 · 인천</span>
       </div>
-      <h1>미팅 상대,<br>우리 학교 밖에서<br><em>구해드려요</em></h1>
-      <p class="hd-sub">수도권 대학생끼리 <b>2:2 · 3:3 · 한 명 대타</b>까지<br>바로 구하는 단톡방이에요. 입장은 무료.</p>
+      <h1>미팅·과팅·소개팅,<br>우리 학교 밖에서<br><em>구해드려요</em></h1>
+      <p class="hd-sub">단톡방에서 <b>직접 구하거나</b>,<br>신청서 한 장이면 <b>운영진이 연결</b>해드려요.</p>
 
       <div class="cta-block">
-        <button class="btn btn-yellow" id="applyBtn" data-open-form>단톡방 입장 신청 <span class="arrow">→</span></button>
+        <button class="btn btn-yellow" id="applyBtn" data-open-form>단톡방 입장 <span class="btn-free">무료</span></button>
         <span class="btn-sub">신청서 1분 · 확인되면 <b>바로 링크 발송</b></span>
+        <div class="or"><span>또는</span></div>
         <button class="btn btn-ghost btn-match" id="matchBtn" data-open-match data-match>
           <span class="m-top">
             <span class="m-body">
-              <span class="mlabel">1:1 맞춤 매칭</span>
-              <span class="mtext">학교·나이·이상형 보고 <b>직접 골라드려요</b></span>
+              <span class="mlabel">미팅 · 과팅 · 소개팅 신청</span>
+              <span class="mtext">신청서만 쓰면 <b>운영진이 상대를 찾아</b> 연결해드려요</span>
             </span>
             <span class="marrow" aria-hidden="true">→</span>
           </span>
@@ -377,22 +380,22 @@ body::before{background:#fff;background-image:none}
 
       <section>
         <h2>이렇게 <span class="em">진행돼요</span></h2>
-        <p class="lead"><span data-match>단톡방에서 함께 나가거나, 1:1로 연결받거나.<br>둘 다 신청서 한 번이면 끝나요.</span><span data-nomatch hidden>신청서 한 번이면 끝나요.<br>확인되는 대로 방 링크를 보내드려요.</span></p>
+        <p class="lead"><span data-match>단톡방에서 직접 구하거나, 신청서로 연결받거나.<br>둘 다 1분이면 끝나요.</span><span data-nomatch hidden>신청서 한 번이면 끝나요.<br>확인되는 대로 방 링크를 보내드려요.</span></p>
         <ol class="tl">
           <li class="tl-step"><span class="tl-n">1</span><b>신청서 작성</b><span>이름·학교·나이·번호·인스타, 1분</span></li>
           <li class="tl-step"><span class="tl-n">2</span><b>문자로 링크</b><span>확인되면 성별에 맞는 방으로</span></li>
           <li class="tl-step"><span class="tl-n">3</span><b>미팅 신청</b><span>올라온 글에 신청만 하면 끝</span></li>
         </ol>
 
-        <div class="tracklab tracklab-2" data-match><span class="tl-tag tl-paid">유료</span> 운영진이 대신 골라주기</div>
+        <div class="tracklab tracklab-2" data-match><span class="tl-tag tl-paid">신청서</span> 운영진이 연결해주기</div>
         <div class="track" data-match>
-          <h3 class="track-h">조건 맞는 사람만 만나고 싶다면,<br><em>1:1 맞춤 매칭</em></h3>
+          <h3 class="track-h">직접 구하기 번거롭다면,<br><em>미팅·과팅·소개팅 신청</em></h3>
           <ol class="track-steps">
-            <li><b>이상형을 적어주세요</b><span>학교·나이·MBTI·원하는 조건까지 받아요</span></li>
+            <li><b>신청서를 적어주세요</b><span>소개팅 / 2:2 / 3:3 / 4:4 중 고르고, 원하는 조건까지</span></li>
             <li><b>운영진이 직접 찾아드려요</b><span>단톡방과 기존 신청자 전체에서 골라요</span></li>
             <li><b>상대 프로필을 문자로 보내드려요</b><span>서로 좋다고 하시면 그때 연결해드려요</span></li>
           </ol>
-          <button class="btn btn-track" data-open-match>1:1 맞춤 매칭 신청하기 <span class="ta">→</span></button>
+          <button class="btn btn-track" data-open-match>미팅·과팅·소개팅 신청하기 <span class="ta">→</span></button>
           <p class="track-note">여학우 무료 · 남학우 8,000원부터 · <b>매칭 안 되면 전액 환불</b></p>
         </div>
       </section>
@@ -418,11 +421,11 @@ body::before{background:#fff;background-image:none}
           <details>
             <summary>미팅은 어떻게 참여하나요?</summary>
             <p>운영진이 단톡방에 <b>"3:3 ○○대 나가실 분!"</b> 처럼 올려요. 원하는 건에 <b>신청만 하시면</b> 돼요.</p>
-            <p>직접 구하고 싶으시면 방에 올리셔도 되고요.<span data-match> 조건 맞는 분만 골라서 연결받고 싶으시면 <b>1:1 맞춤 매칭</b>을 신청해주세요. (이쪽은 유료예요)</span></p>
+            <p>직접 구하고 싶으시면 방에 올리셔도 되고요.<span data-match> 직접 구하기 번거로우시면 <b>미팅·과팅·소개팅 신청서</b>를 써주세요. 운영진이 상대를 찾아 연결해드려요. (남학우만 참가비가 있어요)</span></p>
           </details>
           <details data-match>
-            <summary>1:1 맞춤 매칭은 뭔가요?</summary>
-            <p>단체 미팅 대신, <b>운영진이 프로필을 보고 조건 맞는 상대만 골라서 1:1로 연결</b>해드리는 서비스예요. 학교·나이·이상형을 보고 매칭해요.</p>
+            <summary>미팅·과팅·소개팅 신청은 뭔가요?</summary>
+            <p>단톡방에서 직접 구하는 대신, <b>신청서를 보고 운영진이 상대(팀)를 찾아 연결</b>해드려요. 소개팅은 1:1, 과팅·미팅은 2:2 · 3:3 · 4:4 팀 단위예요.</p>
             <p>· 1:1 소개팅 — 남 16,000원 / 여 무료<br>· 2:2 · 3:3 미팅 — 남 8,000원 / 여 무료</p>
             <p>매칭이 안 되면 전액 환불해드려요.</p>
           </details>
@@ -446,7 +449,7 @@ body::before{background:#fff;background-image:none}
       </section>
 
       <footer>
-        서울수도권 미팅방<br>
+        서울수도권 미팅과팅<br>
         문의는 단톡방 운영자에게 남겨주세요
       </footer>
     </div>
@@ -455,7 +458,7 @@ body::before{background:#fff;background-image:none}
 <!-- sticky -->
 <div class="sticky" id="sticky">
   <div class="sticky-in">
-    <button class="btn btn-ghost" id="matchBtn2" data-open-match data-match>1:1 매칭</button>
+    <button class="btn btn-ghost" id="matchBtn2" data-open-match data-match>매칭 신청</button>
     <button class="btn btn-primary" id="applyBtn2" data-open-form>단톡방 입장 신청</button>
   </div>
 </div>
@@ -670,7 +673,7 @@ const CONFIG = {
 
   // 1:1 매칭을 랜딩에 보여줄지. false 면 카드·유료 트랙·FAQ·스티키 버튼이 모두 사라지고
   // 순수 무료 단톡방 페이지가 된다. 매칭 신청은 숨은 주소 /#match 로만 열림 (승인 문자에 실어 보냄).
-  SHOW_MATCH : false,
+  SHOW_MATCH : true,
 
   // ── ① 단톡방 입장 신청 (구글폼 "✅ 전국 대학 미팅단톡 ✅") ──
   // 이 페이지의 신청서가 아래 구글폼으로 조용히 제출됩니다.
@@ -761,7 +764,7 @@ if (PAY.FEE > 0) {
   var acc = (CONFIG.INSTA_ACCOUNT || '').replace(/[@\s]/g, '');
   var who = acc
     ? '<a href="https://instagram.com/' + encodeURIComponent(acc) + '" target="_blank" rel="noopener">@' + acc + '</a>'
-    : '<b>미팅방 운영 계정</b>';
+    : '<b>미팅과팅 운영 계정</b>';
   var html = '📷 신청해주시면 ' + who + '에서 <b>팔로우 요청</b>을 드려요.';
   ['followTip', 'followTip2'].forEach(function (id) {
     var el = $(id);
